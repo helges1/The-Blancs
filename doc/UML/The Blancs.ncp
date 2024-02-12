@@ -7,42 +7,208 @@
       <Entity type="Class">
         <Name>Main</Name>
         <Access>Public</Access>
-        <Location left="668" top="99" />
+        <Location left="724" top="609" />
+        <Size width="162" height="86" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GameModel</Name>
+        <Access>Public</Access>
+        <Location left="446" top="411" />
+        <Size width="162" height="120" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public Ship getShip()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Ship</Name>
+        <Access>Public</Access>
+        <Location left="167" top="390" />
+        <Size width="162" height="116" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private double orientation</Member>
+        <Member type="Method">public double getPosition()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ShipController</Name>
+        <Access>Public</Access>
+        <Location left="678" top="239" />
+        <Size width="162" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void moveShip()</Member>
+        <Member type="Method">public void rotateShip()</Member>
+        <Member type="Method">public void shoot()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GameView</Name>
+        <Access>Public</Access>
+        <Location left="1039" top="411" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">public Game game</Member>
-        <Member type="Method">public void newMethod()</Member>
+        <Member type="Method">public void drawGame()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>EventBus</Name>
+        <Access>Public</Access>
+        <Location left="545" top="809" />
+        <Size width="226" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private List&lt;EventHandler&gt; handlers</Member>
+        <Member type="Method">public void register(EventHandler handler)</Member>
+        <Member type="Method">public void post(Event event)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Interface">
-        <Name>Playable</Name>
+        <Name>EventHandler</Name>
         <Access>Public</Access>
-        <Location left="128" top="84" />
+        <Location left="910" top="944" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">public void run()</Member>
+        <Member type="Method">void handle(Event event)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>Event</Name>
+        <Access>Public</Access>
+        <Location left="594" top="1162" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
       </Entity>
       <Entity type="Class">
-        <Name>Game</Name>
+        <Name>ShipView</Name>
         <Access>Public</Access>
-        <Location left="426" top="138" />
-        <Size width="162" height="216" />
-        <Collapsed>True</Collapsed>
+        <Location left="1039" top="268" />
+        <Size width="162" height="106" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void drawShip()</Member>
         <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Model</Text>
+        <Location left="201" top="530" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>View</Text>
+        <Location left="1235" top="352" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Controller</Text>
+        <Location left="678" top="129" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Events</Text>
+        <Location left="798" top="807" />
+        <Size width="160" height="75" />
       </Entity>
     </Entities>
     <Relationships>
-      <Relationship type="Dependency" first="2" second="1">
+      <Relationship type="Association" first="1" second="2">
         <Label>
         </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
       </Relationship>
-      <Relationship type="Association" first="0" second="2">
+      <Relationship type="Association" first="1" second="3">
         <Label>
         </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>636</X>
+          <Y>467</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1014</X>
+          <Y>462</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>633</X>
+          <Y>394</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="8" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1014</X>
+          <Y>294</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1226</X>
+          <Y>463</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1226</X>
+          <Y>330</Y>
+        </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
