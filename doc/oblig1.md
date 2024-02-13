@@ -16,21 +16,6 @@ Git: Det er opprettet en Gitlab gruppe, men ikke på the blancs som en gruppe, m
 ### Kort om gruppefordelinger: 
 Temaet har ikke enda bestemt roller per dags dato. Vi har også laget trello som vi skal bruke underveis. link til trello: 
 
-### konsept av spillet
-
-* Spillfiguren skal kunne styres med musen og piltastene 
-* 2D spill:
-*
-*
-*
-
-### prosses for teamet 
-
-
-### Oversikt over forvent produkt
-
-
-### Oppsummering 
 
 
 ## Oppgave A2: Konsept
