@@ -1,3 +1,27 @@
+# INF112 Prosject - *Blancs Game (Working Title)*
+
+* Team: *The Blancs* (Gruppe X): *Stian Bekkeheien, Lasse Holt, Balder Benjamin Weidenhiller Hopp-Haugstvedt, Sebastian Helgesen, Michal Zborowski*
+
+* Lenker:
+[GitLab](https://git.app.uib.no/Michal.Zborowski/the-blancs)
+[Trello](https://trello.com/b/tr1xRmAG/the-blancs)
+
+## Om spillet
+*"Romskipet Blancs sitter fast i en annen galakse. Skyt din vei hjem."*
+
+
+## Kjøring 
+
+
+## Kjente feil
+
+
+## Credits
+https://opengameart.org/content/modular-ships
+https://opengameart.org/content/lasers-and-beams
+https://opengameart.org/content/explosion-set-1-m484-games
+
+
 # INF112 libGDX + Maven template 
 Simple skeleton with [libGDX](https://libgdx.com/). 
 
