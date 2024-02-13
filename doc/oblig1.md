@@ -8,7 +8,8 @@ Medlemmer: Michal, Stian, Lasse, Balder og Sebastian
 
 Trello: https://trello.com/invite/b/tr1xRmAG/ATTI346cf3dd7098f5c2c75c88b418352b7812169306/the-blancs
 
-Bakgrunnen til teammedlemmene: 
+**Bakgrunnen til teammedlemmene:**
+- Alle har erfaring med Java fra før av ved ulike INF emner fra UiB.
 
 
 Git: Det er opprettet en Gitlab gruppe, men ikke på the blancs som en gruppe, men på michal som har lagt til alle andre teammedelemene og gruppeledere. 

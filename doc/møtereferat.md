@@ -1,6 +1,6 @@
-møtereferat The Blancs
+# møtereferat The Blancs
 
-6.Februar
+## 6.Februar
 
 Michal, Stian, Lasse, Balder og Sebastian til stede.
 
@@ -11,3 +11,12 @@ Vi har også laget git gruppe, trello prosjekt til boards og nclass til å lage 
 
 Neste gang skal vi gå dypere inn på spillets funksjoner og ta flere avgjørelser rundt hva som inngår i spillet.
 Vi skal også finne en prosjekt metodikk neste gang, og delegere roller.
+
+## 13.Februar
+
+Oppmøte: Michal, Stian, Lasse, Balder og Sebastian til stede.
+
+Vi har gjort oblig1, og fordelt hvem som har svart på de ulike oppgavene i oblig1 del A. 
+Balder har startet å se på hvordan LibGDX fungerer, og ser på hvordan vi kan løse oppgaven med å bruke rammeverket.
+
+Neste steg blir og fordele programmeringsoppgaver og lage en plan for hvordan vi skal jobbe videre med prosjektet.
