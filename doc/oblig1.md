@@ -30,6 +30,24 @@ Aspekter som skal være med i spillet:
 - Spillet skal ha en enkel bakgrunnshistorie
 - Spillet skal ha enkle spillmekanikker
 
+## Oppgave A3: Velg og tilpass en prosess for teamet
+# Prosjektets Arbeidsstruktur
+
+## Ukentlige Møter
+Vi samles hver tirsdag kl. 10:15 for å koordinere vårt arbeid. Disse møtene er essensielle for å sikre at alle er oppdaterte og for å identifisere eventuelle utfordringer vi står overfor. Vi vil vurdere vår fremgang og legge en slagplan for den kommende uken, slik at vi er sikre på at alle vet hva de skal fokusere på.
+
+## Kommunikasjon utenfor Møtene
+Vår Discord-gruppe er vårt kommunikasjonssentrum utenfor de faste møtene. Den er åpen hele tiden for spørsmål, ideutveksling, og hurtig problemhåndtering. Det er viktig at vi opprettholder en åpen og aktiv linje for dialog slik at ingen føler seg isolert eller blokkert i sitt arbeid.
+
+## Oppgavehåndtering med Kanban
+Med vår Kanban-tavle på Trello har vi et klart bilde av hvilke oppgaver som må gjøres, hvilke som er i gang, og hvilke som er fullførte. Å ha oppgavene våre synlige og organiserte på denne måten forenkler oppfølging og gjør det enklere å se hvor vi trenger å legge inn en ekstra innsats.
+
+## Deling og Lagring av Ressurser
+Alle prosjektdokumenter, inkludert kode og diagrammer, deles og lagres på GitLab. Dette sentraliserte systemet sikrer at alle har tilgang til de nyeste ressursene og støtter et sømløst samarbeid. Ved å bruke GitLab kan vi enkelt spore endringer, gjennomgå hverandres arbeid, og opprettholde en høy standard på koden vår.
+
+Vårt mål er å skape et åpent, strukturert og produktivt miljø hvor alle kan bidra og føle at deres arbeid er verdsatt. Ved å bruke disse metodene og verktøyene, legger vi grunnlaget for et vellykket prosjekt.
+
+
 ## Oppgave A3: Få oversikt over forventet produkt
 
 Overordnet mål for applikasjonen: 
