@@ -1,4 +1,18 @@
 # Rapport – innlevering 1
-**Team:** *Teamnavn* – *medlemmer*...
+
+oppgave A0 - A5 
+
+Teamnavn: The Blancs  
+
+Medlemmer: Michal, Stian, Lasse, Balder og Sebastian
+
+Bakgrunnen til teammedlemmene: 
+
+
+Git: Det er opprettet en Gitlab gruppe, men ikke på the blancs som en gruppe, men på michal som har lagt til alle andre teammedelemene og gruppeledere. 
+
+### Kort om gruppefordelinger: Temaet har ikke enda bestemt roller per dags dato. Vi har også laget trello som vi skal bruke underveis. link til trello: 
+
+
 
 
