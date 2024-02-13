@@ -33,5 +33,14 @@ Temaet har ikke enda bestemt roller per dags dato. Vi har også laget trello som
 ### Oppsummering 
 
 
+## Oppgave A2: Konsept
+Ideen til spillet er å lage et spill som er liknende Sinistar.
+Spillet skal inneholde en spillfigur som skal kunne styres med musen og piltastene. Spillet skal være i 2D og ha en enkel grafikk. Spillet skal ha en enkel bakgrunnshistorie og enkle spillmekanikker. 
+Spillet skal være i 2D og ha en enkel grafikk. Spillet skal ha en enkel bakgrunnshistorie og enkle spillmekanikker.
 
-
+Aspekter som skal være med i spillet:
+- Spillfiguren skal kunne styres med musen og piltastene
+- Spillet skal være i 2D
+- Spillet skal ha en enkel grafikk
+- Spillet skal ha en enkel bakgrunnshistorie
+- Spillet skal ha enkle spillmekanikker
