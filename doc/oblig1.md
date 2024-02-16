@@ -102,6 +102,6 @@ Så langt i prosjektet har vi kommet med idee over hva vi ønsker å lage, og vi
 **Forbedringspunkter:**
 - Gruppen kan bli flinkere med å fordele arbeidsoppgaver.
 - Gruppen kan bli flinkere med å holde kommunikasjonen oppe utenfor de faste møtene.
-- Sørge for at folk for spesifike arbeidsoppgaver, og at de blir gjort i tide.
+- Sørge for at folk får spesifike arbeidsoppgaver, og at de blir gjort i tide.
 
 Vurdering i hvordan vi traff på oppgaven vil komme på et senere tidspunkt.
