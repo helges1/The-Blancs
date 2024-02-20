@@ -20,3 +20,6 @@ Vi har gjort oblig1, og fordelt hvem som har svart på de ulike oppgavene i obli
 Balder har startet å se på hvordan LibGDX fungerer, og ser på hvordan vi kan løse oppgaven med å bruke rammeverket.
 
 Neste steg blir og fordele programmeringsoppgaver og lage en plan for hvordan vi skal jobbe videre med prosjektet.
+
+## 20.Februar 
+
