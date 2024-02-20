@@ -23,3 +23,7 @@ Neste steg blir og fordele programmeringsoppgaver og lage en plan for hvordan vi
 
 ## 20.Februar 
 
+Oppmøte: Michal, Lasse og Balder tilstede. Sebastian og Stian syk. 
+
+Vi har begynnt å fordele arbeidsoppgaver på trello, og kommet igang med implementasjon av funksjoner til spillet. Lasse har fått romskipet til å kunne bevege seg på skjermen, Michal holder på med å se på startscreen og Balder ser på flytting av input fra gamescreen til controller. 
+Planen videre blir å få gjort ferdig en startscreen, lage tester på det vi implementerer, se på hvordan romskipet kan rotere seg med musen, implementere en laser til romskipet og få inn fiender på brettet som romskipet kan skyte mot.  
