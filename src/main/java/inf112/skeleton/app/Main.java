@@ -3,7 +3,7 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-public class Main {
+//public class Main {
 //    public static void main(String[] args) {
 //        Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 //        cfg.setTitle("hello-world");
@@ -11,4 +11,15 @@ public class Main {
 //
 //        new Lwjgl3Application(new HelloWorld(), cfg);
 //    }
+//}
+
+
+import com.badlogic.gdx.Game;
+import view.Homescreen;
+
+public class Main extends Game {
+    @Override
+    public void create() {
+        setScreen(new Homescreen());
+    }
 }
