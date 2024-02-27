@@ -3,24 +3,23 @@ package view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import controller.ShipController;
-import model.Ship;
+import model.GameModel;
 
 public class GameScreen implements Screen {
 	
 	private SpriteBatch batch;
-	private Ship ship;
+	private GameModel gameModel;
 	private ShipController shipController;
 	
 	//private Ship shipTexture;
 	
 	public GameScreen() {
 		batch = new SpriteBatch();
-		ship = new Ship(new Texture("pictures/playerShip.png"));
-		shipController = new ShipController(ship);
+		gameModel = new GameModel();
+		shipController = new ShipController(gameModel.getShip());
 		Gdx.input.setInputProcessor(shipController); // Set the shipController as the input processor
 	}
 
@@ -38,7 +37,7 @@ public class GameScreen implements Screen {
 		shipController.update(Gdx.graphics.getDeltaTime());
 		batch.begin();
 		
-		ship.draw(batch);
+		gameModel.getShip().draw(batch);
 		
 		batch.end();
 	}
