@@ -3,9 +3,6 @@ package controller;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
-
-// lala
-
 import model.Ship;
 
 public class ShipController implements InputProcessor {
@@ -15,6 +12,7 @@ public class ShipController implements InputProcessor {
     public ShipController(Ship ship) {
         this.ship = ship;
     }
+
 
     // Update the ship's movement based on the keys pressed
     public void update(float deltaTime) {
@@ -102,7 +100,8 @@ public class ShipController implements InputProcessor {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
+        // dont do anything
+        return false;
     }
 
     @Override
@@ -110,8 +109,8 @@ public class ShipController implements InputProcessor {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'scrolled'");
     }
-    
-        
+
+
 
 
 
