@@ -32,4 +32,4 @@ Planen videre blir å få gjort ferdig en startscreen, lage tester på det vi im
 ## 27.Februar
 Oppmøte: Michal, Lasse, Balder Sebastian og Stian tilstede
 
-Vi har implementert videre på spillet. Sebastian har fikset skip som kan rotere med musen. Lasse rydder opp i kode og flytter 
+Vi har implementert videre på spillet. Sebastian har fikset skip som kan rotere med musen. Lasse rydder opp i kode og flytter lesing av input fra GameScreen til Controller. Balder jobber videre med venn-diagram. Stian har funnet filer til spillgrafikk.
