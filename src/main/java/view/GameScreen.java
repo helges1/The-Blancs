@@ -19,7 +19,7 @@ public class GameScreen implements Screen {
 	
 	public GameScreen() {
 		batch = new SpriteBatch();
-		ship = new Ship(new Texture("pictures/playerShip3_green.png"));
+		ship = new Ship(new Texture("pictures/playerShip.png"));
 		shipController = new ShipController(ship);
 		Gdx.input.setInputProcessor(shipController); // Set the shipController as the input processor
 	}
