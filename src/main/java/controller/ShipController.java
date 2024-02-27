@@ -12,8 +12,7 @@ public class ShipController implements InputProcessor {
     public ShipController(Ship ship) {
         this.ship = ship;
     }
-
-
+    
     // Update the ship's movement based on the keys pressed
     public void update(float deltaTime) {
         if (upPressed) {
@@ -34,17 +33,21 @@ public class ShipController implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.UP:
-                upPressed = true;
-                break;
+                case Input.Keys.W:
+                    upPressed = true;
+                    break;
             case Input.Keys.DOWN:
-                downPressed = true;
-                break;
+                case Input.Keys.S:
+                    downPressed = true;
+                    break;
             case Input.Keys.LEFT:
-                leftPressed = true;
-                break;
+                case Input.Keys.A:
+                    leftPressed = true;
+                    break;
             case Input.Keys.RIGHT:
-                rightPressed = true;
-                break;
+                case Input.Keys.D:
+                    rightPressed = true;
+                    break;
         }
         return true;
     }
@@ -52,62 +55,68 @@ public class ShipController implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.UP:
-                upPressed = false;
-                break;
+                case Input.Keys.W:
+                    upPressed = false;
+                    break;
             case Input.Keys.DOWN:
-                downPressed = false;
-                break;
+                case Input.Keys.S:
+                    downPressed = false;
+                    break;
             case Input.Keys.LEFT:
-                leftPressed = false;
-                break;
+                case Input.Keys.A:
+                    leftPressed = false;
+                    break;
             case Input.Keys.RIGHT:
-                rightPressed = false;
-                break;
+                case Input.Keys.D:
+                    rightPressed = false;
+                    break;
         }
         return true;
     }
 
+
+    // Sebastian: Endret alle til return false for å unngå å få feilmeldinger.
+
     @Override
     public boolean keyTyped(char character) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'touchDown'");
+        return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'touchUp'");
+        return false;
     }
 
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'touchCancelled'");
+        return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'touchDragged'");
+        return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        // TODO Auto-generated method stub
-        // dont do anything
-        return false;
+        ship.rotateShip();
+        return true;
     }
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'scrolled'");
+        return false;
     }
 
 
