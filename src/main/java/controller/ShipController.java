@@ -27,6 +27,9 @@ public class ShipController implements InputProcessor {
         if (rightPressed) {
             ship.moveRight(deltaTime);
         }
+
+        // Rotate the ship to face the mouse cursor continuously
+        ship.rotateShip();
     }
 
     @Override
@@ -49,6 +52,8 @@ public class ShipController implements InputProcessor {
                     rightPressed = true;
                     break;
         }
+
+
         return true;
     }
     @Override
@@ -73,7 +78,7 @@ public class ShipController implements InputProcessor {
         }
         return true;
     }
-    
+
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         ship.rotateShip();
