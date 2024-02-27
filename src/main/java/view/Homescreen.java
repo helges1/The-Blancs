@@ -3,30 +3,38 @@ package view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.audio.*;
+import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 
 public class Homescreen implements Screen {
-    private OrthographicCamera camera;
+    
+    private SpriteBatch batch;
+    private Texture img;
+
+    private static final int WIDTH = 300;
+    private static final int HEIGHT = 80;
+    
 
     public Homescreen() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+     /*    batch = new SpriteBatch();
+        img = new Texture("homescreen.png"); */
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //batch.begin();
-		//batch.draw(img, 0, 0);
-		//batch.end();
-
-        camera.update();
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        batch.draw(img, 0, 0);
+        batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
+
     }
 
     @Override
@@ -47,7 +55,7 @@ public class Homescreen implements Screen {
 
     @Override
     public void dispose() {
-        //batch.dispose();
+        
     }
 }
 
