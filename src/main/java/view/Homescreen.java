@@ -14,8 +14,10 @@ public class Homescreen implements Screen {
     private SpriteBatch batch;
     private Texture img;
 
-    private static final int WIDTH = 300;
+/*     private static final int WIDTH = 300;
     private static final int HEIGHT = 80;
+    private static final int EXIT_BUTTON_Y = 100;
+    private static final int PLAY_BUTTON_Y = 200; */
     
 
     public Homescreen() {
