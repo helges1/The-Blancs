@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.badlogic.gdx.utils.viewport.*;
+
 import controller.ShipController;
 import model.GameModel;
 
@@ -13,11 +15,13 @@ public class GameScreen implements Screen {
 	private SpriteBatch batch;
 	private GameModel gameModel;
 	private ShipController shipController;
-	
+	private FitViewport viewport;
+
 	
 	//private Ship shipTexture;
 	
 	public GameScreen() {
+		viewport = new FitViewport(800, 600);
 		batch = new SpriteBatch();
 		gameModel = new GameModel();
 		shipController = new ShipController(gameModel.getShip());
@@ -30,12 +34,16 @@ public class GameScreen implements Screen {
 		
 	}
 
+
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1); // Set the clear color to black
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
 
 		shipController.update(Gdx.graphics.getDeltaTime());
+
+		batch.setProjectionMatrix(viewport.getCamera().combined);
 		batch.begin();
 		
 		gameModel.getShip().draw(batch);
@@ -47,7 +55,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		viewport.update(width, height, true);
 		
 	}
 
@@ -74,5 +82,7 @@ public class GameScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }
