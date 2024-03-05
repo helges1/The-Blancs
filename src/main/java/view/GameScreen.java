@@ -3,6 +3,7 @@ package view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import controller.ShipController;
@@ -13,6 +14,7 @@ public class GameScreen implements Screen {
 	private SpriteBatch batch;
 	private GameModel gameModel;
 	private ShipController shipController;
+	private Texture background;
 	
 	
 	//private Ship shipTexture;
@@ -22,6 +24,7 @@ public class GameScreen implements Screen {
 		gameModel = new GameModel();
 		shipController = new ShipController(gameModel.getShip());
 		Gdx.input.setInputProcessor(shipController); // Set the shipController as the input processor
+		background = new Texture("pictures/background.png");
 	}
 
 	@Override
@@ -38,6 +41,8 @@ public class GameScreen implements Screen {
 		shipController.update(Gdx.graphics.getDeltaTime());
 		batch.begin();
 		
+		// Draw the background and the ship
+		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		gameModel.getShip().draw(batch);
 		
 		
@@ -71,7 +76,8 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		background.dispose();
+		batch.dispose();
 		
 	}
 
