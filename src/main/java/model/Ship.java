@@ -47,6 +47,14 @@ public class Ship extends Sprite {
         setRotation(angle - 90);
     }
 
+    public Laser shootLaser() {
+        // Calculate the starting position of the laser to be at the top center of the ship
+        Vector2 startPosition = new Vector2(getX() + getWidth() / 2, getY() + getHeight());
+        // Create a new Laser instance with the specified texture and starting position
+        return new Laser(new Texture("pictures/laser.png"), startPosition);
+    }
+
+
 
 
 }
