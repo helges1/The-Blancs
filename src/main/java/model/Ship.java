@@ -15,21 +15,36 @@ public class Ship extends Sprite {
     }
 
     public void moveUp(float deltaTime) {
-        this.translateY(speed * deltaTime);
+        float newY = getY() + speed * deltaTime;
+        if (newY + getHeight() > Gdx.graphics.getHeight()) { // Check upper bound
+            newY = Gdx.graphics.getHeight() - getHeight();
+        }
+        setPosition(getX(), newY);
     }
-
+    
     public void moveDown(float deltaTime) {
-        this.translateY(-speed * deltaTime);
+        float newY = getY() - speed * deltaTime;
+        if (newY < 0) { // Check lower bound
+            newY = 0;
+        }
+        setPosition(getX(), newY);
     }
-
+    
     public void moveLeft(float deltaTime) {
-        this.translateX(-speed * deltaTime);
+        float newX = getX() - speed * deltaTime;
+        if (newX < 0) { // Check left bound
+            newX = 0;
+        }
+        setPosition(newX, getY());
     }
-
+    
     public void moveRight(float deltaTime) {
-        this.translateX(speed * deltaTime);
+        float newX = getX() + speed * deltaTime;
+        if (newX + getWidth() > Gdx.graphics.getWidth()) { // Check right bound
+            newX = Gdx.graphics.getWidth() - getWidth();
+        }
+        setPosition(newX, getY());
     }
-
     // TODO: Implement better resize handling
     // check out LibGDX's Viewport it can help with this i think - Seb
     public void rotateShip() {
@@ -46,6 +61,14 @@ public class Ship extends Sprite {
         // Set the ship's rotation to face towards the cursor
         setRotation(angle - 90);
     }
+
+    public Laser shootLaser() {
+        // Calculate the starting position of the laser to be at the top center of the ship
+        Vector2 startPosition = new Vector2(getX() + getWidth() / 2, getY() + getHeight());
+        // Create a new Laser instance with the specified texture and starting position
+        return new Laser(new Texture("pictures/laser.png"), startPosition);
+    }
+
 
 
 
