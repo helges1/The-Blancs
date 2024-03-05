@@ -15,21 +15,36 @@ public class Ship extends Sprite {
     }
 
     public void moveUp(float deltaTime) {
-        this.translateY(speed * deltaTime);
+        float newY = getY() + speed * deltaTime;
+        if (newY + getHeight() > Gdx.graphics.getHeight()) { // Check upper bound
+            newY = Gdx.graphics.getHeight() - getHeight();
+        }
+        setPosition(getX(), newY);
     }
-
+    
     public void moveDown(float deltaTime) {
-        this.translateY(-speed * deltaTime);
+        float newY = getY() - speed * deltaTime;
+        if (newY < 0) { // Check lower bound
+            newY = 0;
+        }
+        setPosition(getX(), newY);
     }
-
+    
     public void moveLeft(float deltaTime) {
-        this.translateX(-speed * deltaTime);
+        float newX = getX() - speed * deltaTime;
+        if (newX < 0) { // Check left bound
+            newX = 0;
+        }
+        setPosition(newX, getY());
     }
-
+    
     public void moveRight(float deltaTime) {
-        this.translateX(speed * deltaTime);
+        float newX = getX() + speed * deltaTime;
+        if (newX + getWidth() > Gdx.graphics.getWidth()) { // Check right bound
+            newX = Gdx.graphics.getWidth() - getWidth();
+        }
+        setPosition(newX, getY());
     }
-
     // TODO: Implement better resize handling
     // check out LibGDX's Viewport it can help with this i think - Seb
     public void rotateShip() {
