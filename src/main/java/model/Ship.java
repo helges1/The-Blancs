@@ -54,7 +54,7 @@ public class Ship extends Sprite {
     }
 
     public void rotateShip() {
-        Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+        Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.input.getY()); // Burde dette heller bli gitt som argument fra Controller?
         viewport.unproject(mousePosition); // Convert mouse coordinates to world coordinates
 
         Vector2 shipPosition = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
@@ -68,11 +68,18 @@ public class Ship extends Sprite {
     public void fireLaser() {
         // Assuming the Laser texture is loaded in GameModel or passed here directly
         Vector2 position = new Vector2(getX() + getWidth() / 2 - 5, getY() + getHeight()); // Adjust starting position
+//        Vector2 position = getNosePositionOfShip(); where the laser should appear is based on the ships rotation
+        
         float angle = getRotation();
 
         // Use the gameModel's laser texture and speed
-        Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle);
+        Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle); // Kanskje dette burde være en metode i GameModel?
         gameModel.addLaser(laser);
+    }
+    
+    private Vector2 getNosePositionOfShip() {
+    	//TODO: implement
+    	return null;
     }
 
 
