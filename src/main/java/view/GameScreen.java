@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+import com.badlogic.gdx.utils.viewport.*;
+
 import controller.ShipController;
 import model.GameModel;
 import model.Laser;
@@ -23,6 +25,7 @@ public class GameScreen implements Screen {
 	private OrthographicCamera camera; // Camera for the viewport
 
 	public GameScreen() {
+		viewport = new FitViewport(800, 600);
 		batch = new SpriteBatch();
 		gameModel = new GameModel(); // Assuming GameModel doesn't need the viewport in its constructor
 		shipController = new ShipController(gameModel.getShip());
@@ -41,12 +44,16 @@ public class GameScreen implements Screen {
 		// Implementation remains the same
 	}
 
+
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		shipController.update(Gdx.graphics.getDeltaTime());
+
+		batch.setProjectionMatrix(viewport.getCamera().combined);
 		batch.begin();
 
 		camera.update(); // Update the camera
