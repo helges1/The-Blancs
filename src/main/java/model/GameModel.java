@@ -61,6 +61,6 @@ public class GameModel {
 
     // Method to return a default laser speed
     public float getLaserSpeed() {
-        return 700; // Example speed
+        return 600; // Example speed
     }
 }
