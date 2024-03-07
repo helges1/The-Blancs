@@ -1,21 +1,41 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public class Laser extends Sprite {
     private Vector2 velocity;
-    private float speed = 400; // Laser speed, adjust as needed
+    private static Sound laserSound; // Static to avoid reloading for each laser
 
-    public Laser(Texture texture, Vector2 startPosition) {
+    static {
+        // Load the laser sound statically so it's only loaded once
+        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
+    }
+
+    public Laser(Texture texture, Vector2 position, float speed, float angle) {
         super(texture);
-        setSize(20, 20); // Adjust size as needed
-        setPosition(startPosition.x - getWidth() / 2, startPosition.y); // Center the laser on the ship
-        velocity = new Vector2(0, speed); // Assumes laser moves upwards
+        setPosition(position.x, position.y);
+        setRotation(angle);
+        float radians = (float)Math.toRadians(angle);
+        velocity = new Vector2((float)Math.cos(radians) * speed, (float)Math.sin(radians) * speed);
+
+        // Play the laser sound when a laser is instantiated
+        laserSound.play();
     }
 
     public void update(float deltaTime) {
-        this.translateY(velocity.y * deltaTime);
+        setPosition(getX() + velocity.x * deltaTime, getY() + velocity.y * deltaTime);
+    }
+
+    public boolean isOffScreen(float worldHeight) {
+        return getY() > worldHeight;
+    }
+
+    public static void disposeSound() {
+        // Static method to dispose the sound resource when the game is exiting
+        laserSound.dispose();
     }
 }
