@@ -9,37 +9,32 @@ import model.Ship;
 public class ShipController implements InputProcessor {
     private Ship ship;
     private boolean upPressed, downPressed, leftPressed, rightPressed;
-    private boolean spacePressed;
+    private boolean spacePressed, mousePressed;
+    private boolean spaceJustPressed, mouseJustPressed; // New flags for tracking firing state
 
     public ShipController(Ship ship) {
         this.ship = ship;
     }
 
-    // Update the ship's movement based on the keys pressed
+    // Update the ship's movement and firing based on input
     public void update(float deltaTime) {
-        if (upPressed) {
-            ship.moveUp(deltaTime);
-        }
-        if (downPressed) {
-            ship.moveDown(deltaTime);
-        }
-        if (leftPressed) {
-            ship.moveLeft(deltaTime);
-        }
-        if (rightPressed) {
-            ship.moveRight(deltaTime);
-        }
+        // Movement updates
+        if (upPressed) ship.moveUp(deltaTime);
+        if (downPressed) ship.moveDown(deltaTime);
+        if (leftPressed) ship.moveLeft(deltaTime);
+        if (rightPressed) ship.moveRight(deltaTime);
 
-        // Rotate the ship to face the mouse cursor continuously
+        // Rotate the ship continuously to face the mouse cursor
         ship.rotateShip();
 
-        // If space is pressed, we shoot a laser
-        if (spacePressed) {
-            ship.fireLaser(); // This method needs to be implemented in the Ship class
+        // Firing logic updated to only fire once per press
+        if (spacePressed && !spaceJustPressed) {
+            ship.fireLaser();
+            spaceJustPressed = true; // Prevents further firing until key is released and pressed again
         }
-        // if left mouse button is pressed, we shoot a laser
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            ship.fireLaser(); // This method needs to be implemented in the Ship class
+        if (mousePressed && !mouseJustPressed) {
+            ship.fireLaser();
+            mouseJustPressed = true; // Prevents further firing until button is released and pressed again
         }
     }
 
@@ -48,22 +43,21 @@ public class ShipController implements InputProcessor {
         switch (keycode) {
             case Input.Keys.UP:
             case Input.Keys.W:
-                upPressed = true;
-                break;
+                upPressed = true; break;
             case Input.Keys.DOWN:
             case Input.Keys.S:
-                downPressed = true;
-                break;
+                downPressed = true; break;
             case Input.Keys.LEFT:
             case Input.Keys.A:
-                leftPressed = true;
-                break;
+                leftPressed = true; break;
             case Input.Keys.RIGHT:
             case Input.Keys.D:
-                rightPressed = true;
-                break;
+                rightPressed = true; break;
             case Input.Keys.SPACE:
-                spacePressed = true; // Set spacePressed to true when space is pressed
+                if (!spacePressed) {
+                    spacePressed = true;
+                    spaceJustPressed = false; // Allows firing on initial press
+                }
                 break;
         }
         return true;
@@ -74,25 +68,24 @@ public class ShipController implements InputProcessor {
         switch (keycode) {
             case Input.Keys.UP:
             case Input.Keys.W:
-                upPressed = false;
-                break;
+                upPressed = false; break;
             case Input.Keys.DOWN:
             case Input.Keys.S:
-                downPressed = false;
-                break;
+                downPressed = false; break;
             case Input.Keys.LEFT:
             case Input.Keys.A:
-                leftPressed = false;
-                break;
+                leftPressed = false; break;
             case Input.Keys.RIGHT:
             case Input.Keys.D:
-                rightPressed = false;
-                break;
-            case Input.Keys.SPACE:
-                spacePressed = false; // Set spacePressed to false when space is released
-                break;
+                rightPressed = false; break;
         }
+        if (keycode == Input.Keys.SPACE) {
+            spacePressed = false;
+            spaceJustPressed = false; // Resets firing state, allowing for another shot on next press
+        }
+
         return true;
+
     }
 
     @Override
@@ -109,12 +102,20 @@ public class ShipController implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        if (button == Input.Buttons.LEFT && !mousePressed) {
+            mousePressed = true;
+            mouseJustPressed = false; // Allows firing on initial click
+        }
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        if (button == Input.Buttons.LEFT) {
+            mousePressed = false;
+            mouseJustPressed = false; // Resets firing state, allowing for another shot on next click
+        }
+        return true;
     }
 
     @Override
