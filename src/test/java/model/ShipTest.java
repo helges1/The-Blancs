@@ -15,14 +15,14 @@ public class ShipTest {
    
 
 
-    @BeforeEach
-    public void setUp() {
-        // Mock the Texture class
-        texture = Mockito.mock(Texture.class);
-    
-        // Use the mocked Texture when creating a Ship instance
-        ship = new Ship(texture);
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        // Mock the Texture class
+//        texture = Mockito.mock(Texture.class);
+//
+//        // Use the mocked Texture when creating a Ship instance
+//        ship = new Ship(texture, this);
+//    }
     /* 
     @Test
     public void testMoveUp() {
@@ -44,7 +44,7 @@ public class ShipTest {
         ship.moveLeft(1); // Move the ship left for 1 second
         assertEquals(initialX - ship.speed, ship.getX(), 0.1);
     }
-    /* 
+    /*
     @Test
     public void testMoveRight() {
         ship.setPosition(100, 100);

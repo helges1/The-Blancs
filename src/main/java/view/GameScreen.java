@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import controller.ShipController;
 import model.GameModel;
+import model.Laser;
 import model.Ship;
 
 public class GameScreen implements Screen {
@@ -51,8 +52,16 @@ public class GameScreen implements Screen {
 		camera.update(); // Update the camera
 		batch.setProjectionMatrix(camera.combined); // Set the SpriteBatch to use the camera's view and projection matrices
 
-		batch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight()); // Use viewport's world width and height
+		// Draw the background
+		batch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+
+		// Draw the ship
 		gameModel.getShip().draw(batch);
+
+		// Draw each laser
+		for (Laser laser : gameModel.getLasers()) {
+			laser.draw(batch); // This will call the draw method of the Sprite class, which Laser extends
+		}
 
 		batch.end();
 	}

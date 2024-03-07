@@ -1,69 +1,66 @@
 package model;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameModel {
 
-    // Game Objectst
     private Ship playerShip;
-    private LinkedList<Projectile> playerLasers; // Linked list so that elements can be removed from the middel with little cost (*)
+    private ArrayList<Laser> lasers; // Player lasers
 
-    private LinkedList<Ship> enemyShips; // (*)
-    private LinkedList<Projectile> enemyLasers; // (*)
-
-    // World values
-    private final static float WORLD_WIDTH = 1080; // For example
+    // World values for boundaries or other purposes
+    private final static float WORLD_WIDTH = 1080;
     private final static float WORLD_HEIGHT = 720;
 
-    // Graphics
-    /* If all the graphics stuff is in the model it may be more modular, as we only have to make changes to this class and not the view.
-     * When we have all textures, we can create a texture atlas to import, instead of importing them all individually
-     * The following Texture-variables should then be changed to TextureRegions
-     * */
-//    private final TextureAtlas textureAtlas;
-    private Texture playerShipTextrue;
-    private Texture playerLaserTexture;
-
-    private Texture enemyShipTextrue;
-    private Texture enemyLaserTextrue;
-
-    // When we find a backgournd
-//    private Texture backGroundTexture;
+    // Textures for game entities
+    private Texture playerShipTexture;
+    private Texture laserTexture; // Added missing laserTexture declaration
 
     public GameModel(){
-        this.playerShip = new Ship(new Texture("pictures/playerShip.png"));
-        // Initiate Textures and enemyShips and stuff...
+        // Load textures
+        playerShipTexture = new Texture("pictures/playerShip.png");
+        laserTexture = new Texture("pictures/Laser.png");
+
+        // Initialize player
+        playerShip = new Ship(playerShipTexture, this); // Updated to pass this GameModel instance
+        lasers = new ArrayList<>();
     }
 
-    /**
-     * This method should update the model based on the <code>deltaTime</code>.
-     *
-     * @param deltaTime a float representing the amount of time passed since the last time the render-emthod
-     * was called from the GameScreen.
-     */
     public void updateModel(float deltaTime) {
-        //TODO: Implement
+        // Update player ship
+        playerShip.update(deltaTime);
+
+        // Update all lasers
+        Iterator<Laser> laserIterator = lasers.iterator();
+        while(laserIterator.hasNext()) {
+            Laser laser = laserIterator.next();
+            laser.update(deltaTime);
+            if (laser.isOffScreen(WORLD_HEIGHT)) {
+                laserIterator.remove(); // Remove off-screen lasers
+            }
+        }
     }
 
     public Ship getShip(){
         return playerShip;
     }
 
-    public Iterator<Projectile> getPlayerLasers() {
-        return playerLasers.listIterator();
+    public ArrayList<Laser> getLasers() {
+        return lasers;
     }
 
-    public Iterator<Ship> getEnemyShips() {
-        return enemyShips.listIterator();
+    public void addLaser(Laser laser) {
+        lasers.add(laser); // Method to add a laser to the list
     }
 
-    public Iterator<Projectile> getEnemyLasers() {
-        return enemyLasers.listIterator();
+    // Method to get laser texture
+    public Texture getLaserTexture() {
+        return laserTexture;
     }
 
+    // Method to return a default laser speed
+    public float getLaserSpeed() {
+        return 300; // Example speed
+    }
 }

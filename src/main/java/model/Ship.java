@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Ship extends Sprite {
-    float speed = 200; // Example speed
+    float speed = 200;
     private Viewport viewport; // Reference to the viewport
+    private GameModel gameModel; // Reference to the gameModel
 
-    public Ship(Texture texture) {
+    public Ship(Texture texture, GameModel gameModel) {
         super(texture);
-        this.viewport = viewport; // Store the viewport reference
+        this.gameModel = gameModel; // Store the gameModel reference
+        // Store the viewport reference
         setSize(40, 40); // Set the size of the ship
         setPosition(500, 500); // Set the initial position of the ship
         setOriginCenter(); // Set origin to center for rotation
@@ -63,8 +65,23 @@ public class Ship extends Sprite {
         setRotation(angle - 90);
     }
 
+    public void fireLaser() {
+        // Assuming the Laser texture is loaded in GameModel or passed here directly
+        Vector2 position = new Vector2(getX() + getWidth() / 2 - 5, getY() + getHeight()); // Adjust starting position
+        float angle = getRotation();
+
+        // Use the gameModel's laser texture and speed
+        Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle);
+        gameModel.addLaser(laser);
+    }
+
+
     public void setViewport(FitViewport viewport) {
         this.viewport = viewport;
 
+    }
+
+
+    public void update(float deltaTime) {
     }
 }
