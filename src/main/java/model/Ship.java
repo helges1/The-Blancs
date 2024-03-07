@@ -78,8 +78,8 @@ public class Ship extends Sprite {
         float rotatedOffsetX = laserCenterOffsetX * MathUtils.cos(radians) - laserCenterOffsetY * MathUtils.sin(radians);
         float rotatedOffsetY = laserCenterOffsetX * MathUtils.sin(radians) + laserCenterOffsetY * MathUtils.cos(radians);
 
-        float noseX = getX() + rotatedOffsetX ;
-        float noseY = getY() + rotatedOffsetY - 6 ;
+        float noseX = getX() + rotatedOffsetX + 2;
+        float noseY = getY() + rotatedOffsetY - 6;
 
         return new Vector2(noseX, noseY);
     }
