@@ -86,10 +86,11 @@ public class Ship extends Sprite {
 
     public void fireLaser() {
         Vector2 position = getNosePositionOfShip();
-        float angle = getRotation();
+        float angle = getRotation(); 
         Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle);
         gameModel.addLaser(laser);
     }
+
 
     public void setViewport(FitViewport viewport) {
         this.viewport = viewport;

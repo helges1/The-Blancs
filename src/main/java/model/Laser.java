@@ -11,7 +11,6 @@ public class Laser extends Sprite {
     private static Sound laserSound; // Static to avoid reloading for each laser
 
     static {
-        // Load the laser sound statically so it's only loaded once
         laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
     }
 
@@ -19,7 +18,7 @@ public class Laser extends Sprite {
         super(texture);
         setPosition(position.x, position.y);
         setRotation(angle);
-        float radians = (float)Math.toRadians(angle);
+        float radians = (float)Math.toRadians(angle - 270); // gjerne fiks opp i vinklene. prøvde å få til en løsning som virket bare
         velocity = new Vector2((float)Math.cos(radians) * speed, (float)Math.sin(radians) * speed);
 
         // Play the laser sound when a laser is instantiated
