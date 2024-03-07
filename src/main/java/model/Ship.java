@@ -3,6 +3,7 @@ package model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -65,21 +66,34 @@ public class Ship extends Sprite {
         setRotation(angle - 90);
     }
 
-    public void fireLaser() {
-        // Assuming the Laser texture is loaded in GameModel or passed here directly
-        Vector2 position = new Vector2(getX() + getWidth() / 2 - 5, getY() + getHeight()); // Adjust starting position
-//        Vector2 position = getNosePositionOfShip(); where the laser should appear is based on the ships rotation
-        
-        float angle = getRotation();
-
-        // Use the gameModel's laser texture and speed
-        Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle); // Kanskje dette burde være en metode i GameModel?
-        gameModel.addLaser(laser);
-    }
-    
+    // verdiene kan endres om det ønskes bedre plassering av laser
     private Vector2 getNosePositionOfShip() {
-    	//TODO: implement
-    	return null;
+        float shipRotation = getRotation();
+
+        float radians = (float)Math.toRadians(shipRotation);
+
+        float laserCenterOffsetX = getWidth() * 0f;
+        float laserCenterOffsetY = getHeight() * 1.2f ;
+
+        float rotatedOffsetX = laserCenterOffsetX * MathUtils.cos(radians) - laserCenterOffsetY * MathUtils.sin(radians);
+        float rotatedOffsetY = laserCenterOffsetX * MathUtils.sin(radians) + laserCenterOffsetY * MathUtils.cos(radians);
+
+        float noseX = getX() + rotatedOffsetX ;
+        float noseY = getY() + rotatedOffsetY - 6 ;
+
+        return new Vector2(noseX, noseY);
+    }
+
+
+
+
+
+
+    public void fireLaser() {
+        Vector2 position = getNosePositionOfShip();
+        float angle = getRotation();
+        Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle);
+        gameModel.addLaser(laser);
     }
 
 

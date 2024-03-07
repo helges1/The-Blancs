@@ -62,13 +62,16 @@ public class GameScreen implements Screen {
 		// Draw the background
 		batch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-		// Draw the ship
-		gameModel.getShip().draw(batch);
 
 		// Draw each laser
 		for (Laser laser : gameModel.getLasers()) {
-			laser.draw(batch); // This will call the draw method of the Sprite class, which Laser extends
+			laser.draw(batch);
 		}
+
+		// Draw the ship
+		gameModel.getShip().draw(batch);
+
+
 
 		batch.end();
 	}
