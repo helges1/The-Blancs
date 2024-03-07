@@ -56,7 +56,7 @@ public class Ship extends Sprite {
 
     public void rotateShip() {
         Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.input.getY()); // Burde dette heller bli gitt som argument fra Controller?
-        viewport.unproject(mousePosition); // Convert mouse coordinates to world coordinates
+        viewport.unproject(mousePosition);
 
         Vector2 shipPosition = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
         Vector2 direction = mousePosition.sub(shipPosition);
@@ -84,18 +84,12 @@ public class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
-
-
-
-
-
     public void fireLaser() {
         Vector2 position = getNosePositionOfShip();
         float angle = getRotation();
         Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle);
         gameModel.addLaser(laser);
     }
-
 
     public void setViewport(FitViewport viewport) {
         this.viewport = viewport;
