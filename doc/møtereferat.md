@@ -34,4 +34,7 @@ Oppmøte: Michal, Lasse, Balder Sebastian og Stian tilstede
 
 Vi har implementert videre på spillet. Sebastian har fikset skip som kan rotere med musen. Lasse rydder opp i kode og flytter lesing av input fra GameScreen til Controller. Balder jobber videre med venn-diagram. Stian har funnet filer til spillgrafikk. 
 
+## 5.Mars
+Oppmøte: Michal, Lasse og Sebastian tilstede 
 
+Vi jobbet videre med å implementere kode til spillet. Det vi gjorde var å løse bugs/feil i koden og forbedre den. Michal begynte på viewport og Lasse lagde i tilleg noen tester. 
