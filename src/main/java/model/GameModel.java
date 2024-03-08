@@ -1,13 +1,19 @@
 package model;
 
 import com.badlogic.gdx.graphics.Texture;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GameModel {
 
+	// Player
     private Ship playerShip;
-    private ArrayList<Laser> lasers; // Player lasers
+    private List<Laser> playerLasers; // Player lasers
+    
+    // Enemies
+    private List<Ship> enemyShips;
+    private List<Laser> enemyLasers;
 
     // World values for boundaries or other purposes
     private final static float WORLD_WIDTH = 1080;
@@ -28,7 +34,10 @@ public class GameModel {
 
         // Initialize player
         playerShip = new Ship(playerShipTexture, this); // Updated to pass this GameModel instance
-        lasers = new ArrayList<>();
+        playerLasers = new LinkedList<>(); // Bør være LinkedList, for da kan man fjerne elementer fra midten av listen uten større kost
+        // Initialize enemies
+        enemyShips = new LinkedList<>();
+        enemyLasers = new LinkedList<>();
     }
 
     public void updateModel(float deltaTime) {
@@ -36,7 +45,7 @@ public class GameModel {
         playerShip.update(deltaTime);
 
         // Update all lasers
-        Iterator<Laser> laserIterator = lasers.iterator();
+        Iterator<Laser> laserIterator = playerLasers.iterator();
         while(laserIterator.hasNext()) {
             Laser laser = laserIterator.next();
             laser.update(deltaTime);
@@ -50,12 +59,12 @@ public class GameModel {
         return playerShip;
     }
 
-    public ArrayList<Laser> getLasers() {
-        return lasers;
+    public List<Laser> getLasers() {
+        return playerLasers;
     }
 
     public void addLaser(Laser laser) {
-        lasers.add(laser); // Method to add a laser to the list
+        playerLasers.add(laser); // Method to add a laser to the list
     }
 
     // Method to get laser texture
