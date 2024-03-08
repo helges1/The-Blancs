@@ -32,6 +32,8 @@ Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva
 
 Michal: leverte ikke mye i disse ukene fordi jeg hadde eksamen.
 
+Balder: har vært opptatt med obliger og jobb siste tiden, men har prøvd å komme med innspill underveis, og skal få gjort mer videre.
+
 # Referat fra møtene siden forrige leveranse
 
 Du finner en oversikt i filen møtereferat.md og datoene på disse er: 
