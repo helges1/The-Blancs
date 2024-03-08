@@ -45,9 +45,9 @@ Du finner en oversikt i filen møtereferat.md og datoene på disse er:
 # Forbedringer fra retrospektivet 
 
 Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
-Bedre kontroll på git 
-Tydeligere på hva man gjør gjennom bruk av trello
-Sette frister innad på når ulike oppgaver skal være ferdig
+- Bedre kontroll på git 
+- Tydeligere på hva man gjør gjennom bruk av trello
+- Sette frister innad på når ulike oppgaver skal være ferdig
 
 ### Krav og spesifikasjon 
 
