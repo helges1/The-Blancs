@@ -54,12 +54,12 @@ public class Ship extends Sprite {
         setPosition(newX, getY());
     }
 
-    public void rotateShip() {
-        Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.input.getY()); // Burde dette heller bli gitt som argument fra Controller?
-        viewport.unproject(mousePosition);
+    public void rotateShip(Vector2 rotateTowards) {
+        // Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.input.getY()); // Burde dette heller bli gitt som argument fra Controller?
+        viewport.unproject(rotateTowards);
 
         Vector2 shipPosition = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
-        Vector2 direction = mousePosition.sub(shipPosition);
+        Vector2 direction = rotateTowards.sub(shipPosition);
         float angle = direction.angleDeg();
 
         setOriginCenter();
