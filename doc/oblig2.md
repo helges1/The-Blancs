@@ -28,6 +28,7 @@ Kommunikasjonen i gruppen fungerer bra (se første avsnitt i prosjektrapport for
 
 Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
 
+Vi har kommet greit i gang med oppgaven, og begynner å få en felles forståelse for hvordan vi ønsker at spillet skal se ut. Sånn sett er vi alle på samme bølgelengde. Vi kan derimot bli enda tydligere i fordeling av arbeidsoppgaver, og sette friser innad på når vi føler at ulike arbeidsoppgaver bør være ferdig. Et annen forbedringspotensiale er at vi må få bedre kontroll på git, og kommunisere bedre på dette. Det er blitt litt rot bla. fordi det noen ganger pushes på main branchen og andre ganger på developer branchen. For å forbedre dette må vi bare være bedre på kommunikasjon når vi skal pushe, og ha en felles enighet hva på slags branch vi skal bruke til hvilke tid. Et siste forbedringspotensiale er å ha det mer ryddig på trello, ved å legge til kommentarer på arbeidsoppgaver man holder på med. Slik at andre medlemmer vet hva du har fått gjort,og evt sliter med/trenger hjelp til. 
 # Commit/innlevering bidrag i kodebasen
 
 Michal: leverte ikke mye i disse ukene fordi jeg hadde eksamen.
@@ -42,6 +43,9 @@ Du finner en oversikt i filen møtereferat.md og datoene på disse er:
 # Forbedringer fra retrospektivet 
 
 Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
+Bedre kontroll på git 
+Tydeligere på hva man gjør gjennom bruk av trello
+Sette frister innad på når ulike oppgaver skal være ferdig
 
 ### Krav og spesifikasjon 
 
