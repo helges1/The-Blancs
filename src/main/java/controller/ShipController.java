@@ -3,6 +3,7 @@ package controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 
 import model.Ship;
 
@@ -25,7 +26,7 @@ public class ShipController implements InputProcessor {
         if (rightPressed) ship.moveRight(deltaTime);
 
         // Rotate the ship continuously to face the mouse cursor
-        ship.rotateShip();
+        ship.rotateShip(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 
         // Firing logic updated to only fire once per press
         if (spacePressed && !spaceJustPressed) {
@@ -90,7 +91,7 @@ public class ShipController implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        ship.rotateShip();
+        ship.rotateShip(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
         return true;
     }
 
