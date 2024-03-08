@@ -15,12 +15,16 @@ public class GameModel {
 
     // Textures for game entities
     private Texture playerShipTexture;
-    private Texture laserTexture; // Added missing laserTexture declaration
+    private Texture playerLaserTexture; // Added missing laserTexture declaration
+	private Texture enemyShipTexture;
+	private Texture enemyLaserTexture;
 
     public GameModel(){
         // Load textures
         playerShipTexture = new Texture("pictures/playerShip.png");
-        laserTexture = new Texture("pictures/Laser.png");
+        playerLaserTexture = new Texture("pictures/playerLaser.png");
+        enemyShipTexture = new Texture("pictures/enemyShip.png");
+        enemyLaserTexture = new Texture("pictures/enemyLaser.png");
 
         // Initialize player
         playerShip = new Ship(playerShipTexture, this); // Updated to pass this GameModel instance
@@ -56,7 +60,7 @@ public class GameModel {
 
     // Method to get laser texture
     public Texture getLaserTexture() {
-        return laserTexture;
+        return playerLaserTexture;
     }
 
     // Method to return a default laser speed
