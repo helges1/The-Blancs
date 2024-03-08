@@ -20,13 +20,13 @@ Rollene i temaet fungerer bra med at vi spør hverandre når vi er på gruppetim
 
 Det er for tidlig å nevne noen erfaringer enten team-messig eller mtp prosjektmetodikk.
 
-gruppedynamikken er bra og vi har ingen uenigheter. Vi hjelper hverandre eller hjelper hverandre med å forbedre koden. 
+gruppedynamikken er bra og vi har ingen uenigheter eller møt på noen utfordringer.
 
-Kommunikasjonen i gruppen fungerer bra (se første avsnitt i prosjektrapport for mer informasjon). 
+Kommunikasjonen i gruppen fungerer bra (se første avsnitt i prosjektrapport for mer informasjon). Vi har en fysisk gruppemøte på tirsdag hvor vi snakker om hva vi bør gjøre videre og foreslår nye oppgaver vi kan gjøre. Utenom de fysiske møtene bruker vi discord og trello for å kommunisere med hverandre.  
 
-# retrospektiv
+# Retrospektiv
 
-Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
+Det vi har klart til nå er å sette opp trello hvor vi skriver ned det vi har gjort eller kommer til å gjøre. Det vi har også klart er å begynne å gjøre MVP sånn vi kommer videre med utvikling av spillet. Til nå har vi også ikke hatt hingringer som har prosjektet til nå. På møtene har også alle hatt mulighet for forbedringer og dokumentasjonen er tilstrekelig og tilgjengelig på trello. 
 
 # Commit/innlevering bidrag i kodebasen
 
@@ -42,6 +42,14 @@ Du finner en oversikt i filen møtereferat.md og datoene på disse er:
 # Forbedringer fra retrospektivet 
 
 Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
+
+1. Lage mer spesifikse mål vi skal arbeide mot
+
+2. Beskrive litt mer hvor vi jobber med i koden sånn at vi ikke får error når vi git push eller pull. 
+
+3. Kanskje ha litt mer tydelig arbeidsoppgaver og roller. 
+
+
 
 ### Krav og spesifikasjon 
 

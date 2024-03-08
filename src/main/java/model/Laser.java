@@ -16,6 +16,7 @@ public class Laser extends Sprite {
 
     public Laser(Texture texture, Vector2 position, float speed, float angle) {
         super(texture);
+        setSize(15, 15);
         setPosition(position.x, position.y);
         setRotation(angle);
         float radians = (float)Math.toRadians(angle - 270); // gjerne fiks opp i vinklene. prøvde å få til en løsning som virket bare

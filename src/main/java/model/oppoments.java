@@ -12,7 +12,7 @@ public class oppoments extends Sprite{
 
     public void Opponent(Texture texture, GameModel gameModel) {
 
-        super(texture);
+      //  super(texture);
         this.gameModel = gameModel; // Store the gameModel reference
         velocity = new Vector2(0, 0); // Initialize the velocity to (0, 0)
         setSize(40, 40); // Set the size of the opponent
