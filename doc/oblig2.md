@@ -35,6 +35,8 @@ Michal: leverte ikke mye i disse ukene fordi jeg hadde eksamen.
 
 Balder: har vært opptatt med obliger og jobb siste tiden, men har prøvd å komme med innspill underveis, og skal få gjort mer videre.
 
+Sebastian: Jobbet med viewport og resize, rotasjon av skip og laser.
+
 # Referat fra møtene siden forrige leveranse
 
 Du finner en oversikt i filen møtereferat.md og datoene på disse er: 
@@ -43,11 +45,9 @@ Du finner en oversikt i filen møtereferat.md og datoene på disse er:
 # Forbedringer fra retrospektivet 
 
 Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
-- Bedre kontroll på git 
-
-- Tydeligere på hva man gjør gjennom bruk av trello
-
-- Sette frister innad på når ulike oppgaver skal være ferdig
+Bedre kontroll på git 
+Tydeligere på hva man gjør gjennom bruk av trello
+Sette frister innad på når ulike oppgaver skal være ferdig
 
 ### Krav og spesifikasjon 
 
