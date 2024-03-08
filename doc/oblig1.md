@@ -4,6 +4,8 @@ oppgave A0 - A5
 
 Teamnavn: The Blancs
 
+Gruppe 2 
+
 Medlemmer: Michal, Stian, Lasse, Balder og Sebastian
 
 Trello: https://trello.com/invite/b/tr1xRmAG/ATTI346cf3dd7098f5c2c75c88b418352b7812169306/the-blancs
