@@ -18,6 +18,10 @@ public class GameModel {
     // World values for boundaries or other purposes
     private final static float WORLD_WIDTH = 1080;
     private final static float WORLD_HEIGHT = 720;
+    
+    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5000; // 5000 ms = 5 s.
+    private float timeSinceEnemySpawned;
+    private final static int MAX_ENEMIES = 5;
 
     // Textures for game entities
     private Texture playerShipTexture;
@@ -38,11 +42,21 @@ public class GameModel {
         // Initialize enemies
         enemyShips = new LinkedList<>();
         enemyLasers = new LinkedList<>();
+        timeSinceEnemySpawned = 0;
     }
 
     public void updateModel(float deltaTime) {
+    	timeSinceEnemySpawned += deltaTime;
+    	// Update enemy ships
+    	if (timeSinceEnemySpawned >= TIME_BETWEEN_ENEMY_SPAWNS &&
+    			enemyShips.size() <= MAX_ENEMIES) {
+    		spawnEnemyShip();
+    		timeSinceEnemySpawned = 0;
+    	}
+    	fireEnemyLasers(deltaTime);
+    	
         // Update player ship
-        playerShip.update(deltaTime);
+        playerShip.update(deltaTime); 
 
         // Update all lasers
         Iterator<Laser> laserIterator = playerLasers.iterator();
@@ -55,7 +69,19 @@ public class GameModel {
         }
     }
 
-    public Ship getShip(){
+    private void fireEnemyLasers(float deltaTime) {
+		//TODO: for each enemyShip, fire laser if it's time for it to shoot
+    	for (Ship ship : enemyShips) {
+    		ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden. 
+    		                  // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
+    	}
+	}
+
+	private void spawnEnemyShip() {
+		//TODO: spawn a new enemy ship
+	}
+
+	public Ship getShip(){
         return playerShip;
     }
 
