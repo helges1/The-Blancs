@@ -1,6 +1,8 @@
 package model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,10 +33,10 @@ public class GameModel {
 
     public GameModel(){
         // Load textures
-        playerShipTexture = new Texture("pictures/playerShip.png");
-        playerLaserTexture = new Texture("pictures/playerLaser.png");
-        enemyShipTexture = new Texture("pictures/enemyShip.png");
-        enemyLaserTexture = new Texture("pictures/enemyLaser.png");
+        playerShipTexture = new Texture("the-blancs/src/main/resources/pictures/playerShip.png");
+        playerLaserTexture = new Texture("the-blancs/src/main/resources/pictures/playerLaser.png");
+        enemyShipTexture = new Texture("the-blancs/src/main/resources/pictures/enemyShip.png");
+        enemyLaserTexture = new Texture("the-blancs/src/main/resources/pictures/enemyLaser.png");
 
         // Initialize player
         playerShip = new Ship(playerShipTexture, this); // Updated to pass this GameModel instance
@@ -77,9 +79,30 @@ public class GameModel {
     	}
 	}
 
-	private void spawnEnemyShip() {
-		//TODO: spawn a new enemy ship
-	}
+    private void spawnEnemyShip() {
+
+        // Define boundaries for enemy ship spawn, spawns along the bounderies of the game world
+        float boundaryOffset = 40; 
+        float minX = boundaryOffset; 
+        float maxX = WORLD_WIDTH - enemyShipTexture.getWidth() - boundaryOffset; 
+        float minY = WORLD_HEIGHT / 2 + boundaryOffset; 
+        float maxY = WORLD_HEIGHT - enemyShipTexture.getHeight() - boundaryOffset; 
+
+        // Ensure minX and minY are not negative after applying offset
+        minX = Math.max(minX, 0);
+        minY = Math.max(minY, WORLD_HEIGHT / 2);
+
+        // Generate random x and y positions within adjusted bounds
+        float enemyShipX = MathUtils.random(minX, maxX);
+        float enemyShipY = MathUtils.random(minY, maxY);
+
+        // Creating the enemy ship
+        Ship enemyShip = new Ship(enemyShipTexture, this, enemyShipX, enemyShipY); 
+
+        // Adding the enemy ship to the list
+        enemyShips.add(enemyShip);
+    }
+
 
 	public Ship getShip(){
         return playerShip;

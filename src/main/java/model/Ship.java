@@ -22,6 +22,16 @@ public class Ship extends Sprite {
         setOriginCenter(); // Set origin to center for rotation
     }
 
+    // Constructor with position for enemyships
+    public Ship(Texture texture, GameModel gameModel, float x, float y) {
+        super(texture);
+        this.gameModel = gameModel; // Store the gameModel reference
+        // Store the viewport reference
+        setSize(40, 40); // Set the size of the ship
+        setPosition(x, y); // Set the initial position of the ship
+    }
+
+    
     public void moveUp(float deltaTime) {
         float newY = getY() + speed * deltaTime;
         if (newY + getHeight() > viewport.getWorldHeight()) { // Check upper bound against viewport's world height
