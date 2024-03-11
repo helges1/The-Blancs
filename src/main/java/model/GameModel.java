@@ -54,6 +54,7 @@ public class GameModel {
     			enemyShips.size() <= MAX_ENEMIES) {
     		spawnEnemyShip();
     		timeSinceEnemySpawned = 0;
+            System.out.println("Enemy spawned");
     	}
     	fireEnemyLasers(deltaTime);
     	
@@ -69,6 +70,7 @@ public class GameModel {
                 laserIterator.remove(); // Remove off-screen lasers
             }
         }
+
     }
 
     private void fireEnemyLasers(float deltaTime) {
@@ -80,6 +82,10 @@ public class GameModel {
 	}
 
     private void spawnEnemyShip() {
+
+        // Planen er å lage egen klasse for enemyShip, som utvider Ship.
+        // Da må denne metoden endres til å passe det.
+        
 
         // Define boundaries for enemy ship spawn, spawns along the bounderies of the game world
         float boundaryOffset = 40; 
@@ -103,6 +109,9 @@ public class GameModel {
         enemyShips.add(enemyShip);
     }
 
+    public List<Ship> getEnemyShips() {
+        return enemyShips;
+    }
 
 	public Ship getShip(){
         return playerShip;

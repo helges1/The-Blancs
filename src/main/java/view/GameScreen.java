@@ -69,10 +69,14 @@ public class GameScreen implements Screen {
 			laser.draw(batch);
 		}
 
+		// Draw each enemy ship
+		for (Ship enemyShip : gameModel.getEnemyShips()) {
+			enemyShip.update(Gdx.graphics.getDeltaTime()); // Update the enemy ship's position
+			enemyShip.draw(batch);
+		}
+
 		// Draw the ship
 		gameModel.getShip().draw(batch);
-
-
 
 		batch.end();
 	}
