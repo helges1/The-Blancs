@@ -116,7 +116,7 @@ public class GameModel {
         return playerShip;
     }
 
-    public List<Laser> getLasers() {
+    public List<Laser> getPlayerLasers() {
         return playerLasers;
     }
 

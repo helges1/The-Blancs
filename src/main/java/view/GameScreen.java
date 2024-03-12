@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 
 
 		// Draw each laser
-		for (Laser laser : gameModel.getLasers()) {
+		for (Laser laser : gameModel.getPlayerLasers()) {
 			laser.update(delta); // Update the laser's position
 			laser.draw(batch);
 		}
