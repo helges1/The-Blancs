@@ -9,27 +9,27 @@ import java.util.List;
 
 public class GameModel {
 
-	// Player
+    // Player
     private Ship playerShip;
     private List<Laser> playerLasers; // Player lasers
-    
+
     // Enemies
     private List<Ship> enemyShips;
     private List<Laser> enemyLasers;
 
     // World values for boundaries or other purposes
-    private final static float WORLD_WIDTH = 1080;
-    private final static float WORLD_HEIGHT = 720;
-    
-    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5000; // 5000 ms = 5 s.
+    private final static float WORLD_WIDTH = 800;
+    private final static float WORLD_HEIGHT = 600;
+
+    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5; // 5000 ms = 5 s.
     private float timeSinceEnemySpawned;
     private final static int MAX_ENEMIES = 5;
 
     // Textures for game entities
     private Texture playerShipTexture;
     private Texture playerLaserTexture; // Added missing laserTexture declaration
-	private Texture enemyShipTexture;
-	private Texture enemyLaserTexture;
+    private Texture enemyShipTexture;
+    private Texture enemyLaserTexture;
 
     public GameModel(){
         // Load textures
@@ -48,18 +48,17 @@ public class GameModel {
     }
 
     public void updateModel(float deltaTime) {
-    	timeSinceEnemySpawned += deltaTime;
-    	// Update enemy ships
-    	if (timeSinceEnemySpawned >= TIME_BETWEEN_ENEMY_SPAWNS &&
-    			enemyShips.size() <= MAX_ENEMIES) {
-    		spawnEnemyShip();
-    		timeSinceEnemySpawned = 0;
+        timeSinceEnemySpawned += deltaTime;
+
+
+        if (timeSinceEnemySpawned >= TIME_BETWEEN_ENEMY_SPAWNS &&
+                enemyShips.size() <= MAX_ENEMIES) {
+            spawnEnemyShip();
+            timeSinceEnemySpawned = 0;
             System.out.println("Enemy spawned");
-    	}
-    	fireEnemyLasers(deltaTime);
-    	
-        // Update player ship
-        playerShip.update(deltaTime); 
+        }
+        fireEnemyLasers(deltaTime);
+
 
         // Update all lasers
         Iterator<Laser> laserIterator = playerLasers.iterator();
@@ -74,25 +73,25 @@ public class GameModel {
     }
 
     private void fireEnemyLasers(float deltaTime) {
-		//TODO: for each enemyShip, fire laser if it's time for it to shoot
-    	for (Ship ship : enemyShips) {
-    		ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden. 
-    		                  // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
-    	}
-	}
+        //TODO: for each enemyShip, fire laser if it's time for it to shoot
+        if (deltaTime % 1 == 0) {
+            for (Ship ship : enemyShips) {
+                ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden.
+                // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
+            }
+            System.out.println("Enemy fired");
+        }
+
+    }
 
     private void spawnEnemyShip() {
 
-        // Planen er å lage egen klasse for enemyShip, som utvider Ship.
-        // Da må denne metoden endres til å passe det.
-        
-
         // Define boundaries for enemy ship spawn, spawns along the bounderies of the game world
-        float boundaryOffset = 40; 
-        float minX = boundaryOffset; 
-        float maxX = WORLD_WIDTH - enemyShipTexture.getWidth() - boundaryOffset; 
-        float minY = WORLD_HEIGHT / 2 + boundaryOffset; 
-        float maxY = WORLD_HEIGHT - enemyShipTexture.getHeight() - boundaryOffset; 
+        float boundaryOffset = 40;
+        float minX = boundaryOffset;
+        float maxX = WORLD_WIDTH - enemyShipTexture.getWidth() - boundaryOffset;
+        float minY = WORLD_HEIGHT / 2 + boundaryOffset;
+        float maxY = WORLD_HEIGHT - enemyShipTexture.getHeight() - boundaryOffset;
 
         // Ensure minX and minY are not negative after applying offset
         minX = Math.max(minX, 0);
@@ -103,7 +102,7 @@ public class GameModel {
         float enemyShipY = MathUtils.random(minY, maxY);
 
         // Creating the enemy ship
-        Ship enemyShip = new Ship(enemyShipTexture, this, enemyShipX, enemyShipY); 
+        Ship enemyShip = new Ship(enemyShipTexture, this, enemyShipX, enemyShipY);
 
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);
@@ -113,7 +112,7 @@ public class GameModel {
         return enemyShips;
     }
 
-	public Ship getShip(){
+    public Ship getShip(){
         return playerShip;
     }
 
