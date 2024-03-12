@@ -18,8 +18,8 @@ public class GameModel {
     private List<Laser> enemyLasers;
 
     // World values for boundaries or other purposes
-    private final static float WORLD_WIDTH = 800;
-    private final static float WORLD_HEIGHT = 600;
+    public final static float WORLD_WIDTH = 800;
+    public final static float WORLD_HEIGHT = 600;
 
     private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5; // 5000 ms = 5 s.
     private float timeSinceEnemySpawned;

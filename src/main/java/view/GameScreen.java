@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
 	private OrthographicCamera camera; // Camera for the viewport
 
 	public GameScreen() {
-		viewport = new FitViewport(800, 600);
+		viewport = new FitViewport(GameModel.WORLD_WIDTH, GameModel.WORLD_HEIGHT);
 		batch = new SpriteBatch();
 		gameModel = new GameModel(); // Assuming GameModel doesn't need the viewport in its constructor
 		shipController = new ShipController(gameModel.getShip());
@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 		background = new Texture("pictures/background.png");
 
 		camera = new OrthographicCamera(); // Initialize the camera
-		viewport = new FitViewport(800, 600, camera); // Initialize the viewport with desired world width and height
+		viewport = new FitViewport(GameModel.WORLD_WIDTH, GameModel.WORLD_HEIGHT, camera); // Initialize the viewport with desired world width and height
 
 		// If Ship needs the viewport, set it here after creation
 		gameModel.getShip().setViewport(viewport); // You would need to add a setViewport method to your Ship class

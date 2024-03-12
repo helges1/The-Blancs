@@ -18,7 +18,7 @@ public class Ship extends Sprite {
         this.gameModel = gameModel; // Store the gameModel reference
         // Store the viewport reference
         setSize(40, 40); // Set the size of the ship
-        setPosition(500, 500); // Set the initial position of the ship
+        setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
         setOriginCenter(); // Set origin to center for rotation
     }
 
