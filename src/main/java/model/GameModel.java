@@ -18,10 +18,10 @@ public class GameModel {
     private List<Laser> enemyLasers;
 
     // World values for boundaries or other purposes
-    private final static float WORLD_WIDTH = 800;
-    private final static float WORLD_HEIGHT = 600;
+    private final static float WORLD_WIDTH = 1080;
+    private final static float WORLD_HEIGHT = 720;
     
-    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5; // 5000 ms = 5 s.
+    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5000; // 5000 ms = 5 s.
     private float timeSinceEnemySpawned;
     private final static int MAX_ENEMIES = 5;
 
@@ -49,8 +49,7 @@ public class GameModel {
 
     public void updateModel(float deltaTime) {
     	timeSinceEnemySpawned += deltaTime;
-
-
+    	// Update enemy ships
     	if (timeSinceEnemySpawned >= TIME_BETWEEN_ENEMY_SPAWNS &&
     			enemyShips.size() <= MAX_ENEMIES) {
     		spawnEnemyShip();
@@ -59,6 +58,8 @@ public class GameModel {
     	}
     	fireEnemyLasers(deltaTime);
     	
+        // Update player ship
+        playerShip.update(deltaTime); 
 
         // Update all lasers
         Iterator<Laser> laserIterator = playerLasers.iterator();
@@ -74,17 +75,17 @@ public class GameModel {
 
     private void fireEnemyLasers(float deltaTime) {
 		//TODO: for each enemyShip, fire laser if it's time for it to shoot
-        if (deltaTime % 1 == 0) {
-            for (Ship ship : enemyShips) {
-                ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden. 
-                                  // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
-            }
-            System.out.println("Enemy fired");
-        }
-
+    	for (Ship ship : enemyShips) {
+    		ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden. 
+    		                  // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
+    	}
 	}
 
     private void spawnEnemyShip() {
+
+        // Planen er å lage egen klasse for enemyShip, som utvider Ship.
+        // Da må denne metoden endres til å passe det.
+        
 
         // Define boundaries for enemy ship spawn, spawns along the bounderies of the game world
         float boundaryOffset = 40; 
