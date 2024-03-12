@@ -33,10 +33,10 @@ public class GameModel {
 
     public GameModel(){
         // Load textures
-        playerShipTexture = new Texture("the-blancs/src/main/resources/pictures/playerShip.png");
-        playerLaserTexture = new Texture("the-blancs/src/main/resources/pictures/playerLaser.png");
-        enemyShipTexture = new Texture("the-blancs/src/main/resources/pictures/enemyShip.png");
-        enemyLaserTexture = new Texture("the-blancs/src/main/resources/pictures/enemyLaser.png");
+        playerShipTexture = new Texture("pictures/playerShip.png");
+        playerLaserTexture = new Texture("pictures/playerLaser.png");
+        enemyShipTexture = new Texture("pictures/enemyShip.png");
+        enemyLaserTexture = new Texture("pictures/enemyLaser.png");
 
         // Initialize player
         playerShip = new Ship(playerShipTexture, this); // Updated to pass this GameModel instance
