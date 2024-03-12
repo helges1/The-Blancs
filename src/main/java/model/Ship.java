@@ -31,7 +31,7 @@ public class Ship extends Sprite {
         setPosition(x, y); // Set the initial position of the ship
     }
 
-    
+
     public void moveUp(float deltaTime) {
         float newY = getY() + speed * deltaTime;
         if (newY + getHeight() > viewport.getWorldHeight()) { // Check upper bound against viewport's world height
@@ -107,7 +107,4 @@ public class Ship extends Sprite {
 
     }
 
-
-    public void update(float deltaTime) {
-    }
 }
