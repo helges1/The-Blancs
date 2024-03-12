@@ -1,6 +1,8 @@
 package model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,10 +18,10 @@ public class GameModel {
     private List<Laser> enemyLasers;
 
     // World values for boundaries or other purposes
-    private final static float WORLD_WIDTH = 1080;
-    private final static float WORLD_HEIGHT = 720;
+    private final static float WORLD_WIDTH = 800;
+    private final static float WORLD_HEIGHT = 600;
     
-    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5000; // 5000 ms = 5 s.
+    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5; // 5000 ms = 5 s.
     private float timeSinceEnemySpawned;
     private final static int MAX_ENEMIES = 5;
 
@@ -47,16 +49,16 @@ public class GameModel {
 
     public void updateModel(float deltaTime) {
     	timeSinceEnemySpawned += deltaTime;
-    	// Update enemy ships
+
+
     	if (timeSinceEnemySpawned >= TIME_BETWEEN_ENEMY_SPAWNS &&
     			enemyShips.size() <= MAX_ENEMIES) {
     		spawnEnemyShip();
     		timeSinceEnemySpawned = 0;
+            System.out.println("Enemy spawned");
     	}
     	fireEnemyLasers(deltaTime);
     	
-        // Update player ship
-        playerShip.update(deltaTime); 
 
         // Update all lasers
         Iterator<Laser> laserIterator = playerLasers.iterator();
@@ -67,19 +69,48 @@ public class GameModel {
                 laserIterator.remove(); // Remove off-screen lasers
             }
         }
+
     }
 
     private void fireEnemyLasers(float deltaTime) {
 		//TODO: for each enemyShip, fire laser if it's time for it to shoot
-    	for (Ship ship : enemyShips) {
-    		ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden. 
-    		                  // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
-    	}
+        if (deltaTime % 1 == 0) {
+            for (Ship ship : enemyShips) {
+                ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden. 
+                                  // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
+            }
+            System.out.println("Enemy fired");
+        }
+
 	}
 
-	private void spawnEnemyShip() {
-		//TODO: spawn a new enemy ship
-	}
+    private void spawnEnemyShip() {
+
+        // Define boundaries for enemy ship spawn, spawns along the bounderies of the game world
+        float boundaryOffset = 40; 
+        float minX = boundaryOffset; 
+        float maxX = WORLD_WIDTH - enemyShipTexture.getWidth() - boundaryOffset; 
+        float minY = WORLD_HEIGHT / 2 + boundaryOffset; 
+        float maxY = WORLD_HEIGHT - enemyShipTexture.getHeight() - boundaryOffset; 
+
+        // Ensure minX and minY are not negative after applying offset
+        minX = Math.max(minX, 0);
+        minY = Math.max(minY, WORLD_HEIGHT / 2);
+
+        // Generate random x and y positions within adjusted bounds
+        float enemyShipX = MathUtils.random(minX, maxX);
+        float enemyShipY = MathUtils.random(minY, maxY);
+
+        // Creating the enemy ship
+        Ship enemyShip = new Ship(enemyShipTexture, this, enemyShipX, enemyShipY); 
+
+        // Adding the enemy ship to the list
+        enemyShips.add(enemyShip);
+    }
+
+    public List<Ship> getEnemyShips() {
+        return enemyShips;
+    }
 
 	public Ship getShip(){
         return playerShip;

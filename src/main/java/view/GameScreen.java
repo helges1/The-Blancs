@@ -48,10 +48,11 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		gameModel.updateModel(delta); // Update the game model
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		shipController.update(Gdx.graphics.getDeltaTime());
+		shipController.update(delta);
 
 		batch.setProjectionMatrix(viewport.getCamera().combined);
 		batch.begin();
@@ -65,14 +66,17 @@ public class GameScreen implements Screen {
 
 		// Draw each laser
 		for (Laser laser : gameModel.getLasers()) {
-			laser.update(Gdx.graphics.getDeltaTime()); // Update the laser's position
+			laser.update(delta); // Update the laser's position
 			laser.draw(batch);
+		}
+
+		// Draw each enemy ship
+		for (Ship enemyShip : gameModel.getEnemyShips()) {
+			enemyShip.draw(batch);
 		}
 
 		// Draw the ship
 		gameModel.getShip().draw(batch);
-
-
 
 		batch.end();
 	}
