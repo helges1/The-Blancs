@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
 		viewport = new FitViewport(GameModel.WORLD_WIDTH, GameModel.WORLD_HEIGHT);
 		batch = new SpriteBatch();
 		gameModel = new GameModel(); // Assuming GameModel doesn't need the viewport in its constructor
-		shipController = new ShipController(gameModel.getShip());
+		shipController = new ShipController(gameModel);
 		Gdx.input.setInputProcessor(shipController);
 		background = new Texture("pictures/background.png");
 

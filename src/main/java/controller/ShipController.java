@@ -5,16 +5,19 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
+import model.GameModel;
 import model.Ship;
 
 public class ShipController implements InputProcessor {
+	private GameModel model;
     private Ship ship;
     private boolean upPressed, downPressed, leftPressed, rightPressed;
     private boolean spacePressed, mousePressed;
     private boolean spaceJustPressed, mouseJustPressed; // New flags for tracking firing state
 
-    public ShipController(Ship ship) {
-        this.ship = ship;
+    public ShipController(GameModel model) {
+    	this.model = model;
+        this.ship = model.getShip();
     }
 
     // Update the ship's movement and firing based on input
@@ -30,11 +33,11 @@ public class ShipController implements InputProcessor {
 
         // Firing logic updated to only fire once per press
         if (spacePressed && !spaceJustPressed) {
-            ship.fireLaser();
+            model.firePlayerLaser();
             spaceJustPressed = true; // Prevents further firing until key is released and pressed again
         }
         if (mousePressed && !mouseJustPressed) {
-            ship.fireLaser();
+            model.firePlayerLaser();
             mouseJustPressed = true; // Prevents further firing until button is released and pressed again
         }
     }

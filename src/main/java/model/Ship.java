@@ -94,11 +94,11 @@ public class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
-    public void fireLaser() {
+    public Laser fireLaser(Texture laserTexture, float laserSpeed) {
         Vector2 position = getNosePositionOfShip();
         float angle = getRotation(); 
-        Laser laser = new Laser(gameModel.getLaserTexture(), position, gameModel.getLaserSpeed(), angle);
-        gameModel.addLaser(laser);
+        Laser laser = new Laser(laserTexture, position, laserSpeed, angle);
+        return laser;
     }
 
 
