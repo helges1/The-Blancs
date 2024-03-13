@@ -11,11 +11,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Ship extends Sprite {
     float speed = 200;
     private Viewport viewport; // Reference to the viewport
-    private GameModel gameModel; // Reference to the gameModel
+    // private GameModel gameModel; // Reference to the gameModel
 
-    public Ship(Texture texture, GameModel gameModel) {
+    public Ship(Texture texture) {
         super(texture);
-        this.gameModel = gameModel; // Store the gameModel reference
+        // this.gameModel = gameModel; // Store the gameModel reference
         // Store the viewport reference
         setSize(40, 40); // Set the size of the ship
         setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
@@ -25,7 +25,7 @@ public class Ship extends Sprite {
     // Constructor with position for enemyships
     public Ship(Texture texture, GameModel gameModel, float x, float y) {
         super(texture);
-        this.gameModel = gameModel; // Store the gameModel reference
+        // this.gameModel = gameModel; // Store the gameModel reference
         // Store the viewport reference
         setSize(40, 40); // Set the size of the ship
         setPosition(x, y); // Set the initial position of the ship
