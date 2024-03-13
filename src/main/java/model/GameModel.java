@@ -12,10 +12,12 @@ public class GameModel {
     // Player
     private Ship playerShip;
     private List<Laser> playerLasers; // Player lasers
+    private float playerLaserSpeed;
 
     // Enemies
     private List<Ship> enemyShips;
     private List<Laser> enemyLasers;
+    private float enemyLaserSpeed;
 
     // World values for boundaries or other purposes
     public final static float WORLD_WIDTH = 800;
@@ -41,9 +43,11 @@ public class GameModel {
         // Initialize player
         playerShip = new Ship(playerShipTexture, this); // Updated to pass this GameModel instance
         playerLasers = new LinkedList<>(); // Bør være LinkedList, for da kan man fjerne elementer fra midten av listen uten større kost
+        playerLaserSpeed = 600;
         // Initialize enemies
         enemyShips = new LinkedList<>();
         enemyLasers = new LinkedList<>();
+        enemyLaserSpeed = 450; // Eksempelspeed
         timeSinceEnemySpawned = 0;
     }
 
@@ -71,13 +75,17 @@ public class GameModel {
         }
 
     }
+    
+    public void firePlayerLaser() {
+		Laser laser = playerShip.fireLaser(playerLaserTexture, playerLaserSpeed);
+		playerLasers.add(laser);
+	}
 
     private void fireEnemyLasers(float deltaTime) {
         //TODO: for each enemyShip, fire laser if it's time for it to shoot
         if (deltaTime % 1 == 0) {
             for (Ship ship : enemyShips) {
-                ship.fireLaser(); // Må legge til funksjonalitet slik at de ikke skyter hele tiden.
-                // Bør ha egen klasse for playerShip og enemyShip som utvider Ship.
+                enemyLasers.add(ship.fireLaser(enemyLaserTexture, enemyLaserSpeed));
             }
             System.out.println("Enemy fired");
         }
@@ -133,4 +141,6 @@ public class GameModel {
     public float getLaserSpeed() {
         return 600; // Example speed
     }
+
+	
 }
