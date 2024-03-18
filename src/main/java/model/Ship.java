@@ -12,10 +12,13 @@ public class Ship extends Sprite {
 	
     private final float speed; //200
     
+    private float laserSpeed;
     private final float laserFireRate;
     private float timeSinceLaserFired;
     
     private Viewport viewport; // Reference to the viewport
+
+	
 
 	
     // private GameModel gameModel; // Reference to the gameModel
@@ -28,7 +31,7 @@ public class Ship extends Sprite {
 //        setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
 //        setOriginCenter(); // Set origin to center for rotation
     	
-    	this(texture, GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2, 40, 40, 200, 0.5f, null);
+    	this(texture, GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2, 40, 40, 200, 600, 0.5f, null);
     }
 
     // Constructor with position for enemyships
@@ -39,7 +42,7 @@ public class Ship extends Sprite {
 //        setSize(40, 40); // Set the size of the ship
 //        setPosition(x, y); // Set the initial position of the ship
     	
-    	this(texture, x, y, 40, 40, 200, 0, null);
+    	this(texture, x, y, 40, 40, 200, 600, 0, null);
     }
     
     /**
@@ -51,15 +54,17 @@ public class Ship extends Sprite {
      * @param width a float rep. the width of the ship. 
      * @param height a float rep. the height of the ship.
      * @param speed a float rep. the speed of the ship.
+     * @param laserSpeed a float rep. the speed of the laser.
      * @param fireRate a flaot rep. the rate at which the ship can fire lasers.
      * @param viewport a FitViewport. The Viewport that should see the ship (? how viewport works??)
      */
     public Ship(Texture texture, float x, float y, float width, float height,
-    		float speed, float fireRate,
+    		float speed, float laserSpeed, float fireRate,
     		FitViewport viewport) {
     	
     	super(texture);
     	this.speed = speed;
+    	this.laserSpeed = laserSpeed;
     	this.laserFireRate = fireRate;
     	this.timeSinceLaserFired = fireRate;
     	setSize(width, height);
@@ -136,7 +141,7 @@ public class Ship extends Sprite {
     	if (timeSinceLaserFired >= laserFireRate) {
     		Vector2 position = getNosePositionOfShip();
             float angle = getRotation(); 
-            laser = new Laser(laserTexture, position, laserSpeed, angle);
+            laser = new Laser(laserTexture, position, this.laserSpeed, angle);
             timeSinceLaserFired = 0;
     	}
         return laser;

@@ -64,7 +64,7 @@ public class GameModel {
             timeSinceEnemySpawned = 0;
             System.out.println("Enemy spawned");
         }
-        fireEnemyLasers(deltaTime);
+        fireEnemyLasers();
 
 
         // Update all lasers
@@ -85,16 +85,18 @@ public class GameModel {
 			playerLasers.add(laser);
 	}
 
-    private void fireEnemyLasers(float deltaTime) {
+    private void fireEnemyLasers() {
         //TODO: for each enemyShip, fire laser if it's time for it to shoot
-        if (deltaTime % 1 == 0) {
-            for (Ship ship : enemyShips) {
-                enemyLasers.add(ship.fireLaser(enemyLaserTexture, enemyLaserSpeed));
-            }
-            System.out.println("Enemy fired");
+        for (Ship ship : enemyShips) {
+        	Laser laser = ship.fireLaser(enemyLaserTexture, enemyLaserSpeed);
+        	if (laser != null) {
+        		enemyLasers.add(laser);
+        		System.out.println("Enemy fired");
+        	}
         }
-
+        
     }
+
 
     private void spawnEnemyShip() {
 
@@ -114,7 +116,8 @@ public class GameModel {
         float enemyShipY = MathUtils.random(minY, maxY);
 
         // Creating the enemy ship
-        Ship enemyShip = new Ship(enemyShipTexture, this, enemyShipX, enemyShipY);
+        Ship enemyShip = new Ship(enemyShipTexture, enemyShipX, enemyShipY, 40, 40,
+        		100, 400, 2.3f, null);
 
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);
