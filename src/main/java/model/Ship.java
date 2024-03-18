@@ -9,26 +9,59 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Ship extends Sprite {
-    float speed = 200;
+	
+    private final float speed; //200
+    private final float laserFireRate;
+    
     private Viewport viewport; // Reference to the viewport
+	
     // private GameModel gameModel; // Reference to the gameModel
 
     public Ship(Texture texture) {
-        super(texture);
-        // this.gameModel = gameModel; // Store the gameModel reference
-        // Store the viewport reference
-        setSize(40, 40); // Set the size of the ship
-        setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
-        setOriginCenter(); // Set origin to center for rotation
+//        super(texture);
+//        // this.gameModel = gameModel; // Store the gameModel reference
+//        // Store the viewport reference
+//        setSize(40, 40); // Set the size of the ship
+//        setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
+//        setOriginCenter(); // Set origin to center for rotation
+    	
+    	this(texture, GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2, 40, 40, 200, 0, null);
     }
 
     // Constructor with position for enemyships
     public Ship(Texture texture, GameModel gameModel, float x, float y) {
-        super(texture);
-        // this.gameModel = gameModel; // Store the gameModel reference
-        // Store the viewport reference
-        setSize(40, 40); // Set the size of the ship
-        setPosition(x, y); // Set the initial position of the ship
+//        super(texture);
+//        // this.gameModel = gameModel; // Store the gameModel reference
+//        // Store the viewport reference
+//        setSize(40, 40); // Set the size of the ship
+//        setPosition(x, y); // Set the initial position of the ship
+    	
+    	this(texture, x, y, 40, 40, 200, 0, null);
+    }
+    
+    /**
+     * A very general construcot for the Ship calss. EveryThing about the ship must be given as arguments.
+     * 
+     * @param texture the texture of the ship
+     * @param x a float rep. x-position of the ship.
+     * @param y a float rep. the y-position of the ship.
+     * @param width a float rep. the width of the ship. 
+     * @param height a float rep. the height of the ship.
+     * @param speed a float rep. the speed of the ship.
+     * @param fireRate a flaot rep. the rate at which the ship can fire lasers.
+     * @param viewport a FitViewport. The Viewport that should see the ship (? how viewport works??)
+     */
+    public Ship(Texture texture, float x, float y, float width, float height,
+    		float speed, float fireRate,
+    		FitViewport viewport) {
+    	
+    	super(texture);
+    	this.speed = speed;
+    	this.laserFireRate = fireRate;
+    	setSize(width, height);
+    	setPosition(x, y);
+    	this.setViewport(viewport);
+    	setOriginCenter();
     }
 
     

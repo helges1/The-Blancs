@@ -41,7 +41,7 @@ public class GameModel {
         enemyLaserTexture = new Texture("pictures/enemyLaser.png");
 
         // Initialize player
-        playerShip = new Ship(playerShipTexture, this); // Updated to pass this GameModel instance
+        playerShip = new Ship(playerShipTexture); // Updated to pass this GameModel instance
         playerLasers = new LinkedList<>(); // Bør være LinkedList, for da kan man fjerne elementer fra midten av listen uten større kost
         playerLaserSpeed = 600;
         // Initialize enemies
