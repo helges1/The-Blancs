@@ -53,7 +53,10 @@ public class GameModel {
 
     public void updateModel(float deltaTime) {
         timeSinceEnemySpawned += deltaTime;
-
+        
+        playerShip.update(deltaTime);
+        for (Ship ship : enemyShips)
+        	ship.update(deltaTime);
 
         if (timeSinceEnemySpawned >= TIME_BETWEEN_ENEMY_SPAWNS &&
                 enemyShips.size() <= MAX_ENEMIES) {
@@ -78,7 +81,8 @@ public class GameModel {
     
     public void firePlayerLaser() {
 		Laser laser = playerShip.fireLaser(playerLaserTexture, playerLaserSpeed);
-		playerLasers.add(laser);
+		if (laser != null) 
+			playerLasers.add(laser);
 	}
 
     private void fireEnemyLasers(float deltaTime) {
