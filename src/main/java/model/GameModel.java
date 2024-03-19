@@ -2,8 +2,10 @@ package model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,7 +38,10 @@ public class GameModel {
     private Texture enemyShipTexture;
     private Texture enemyLaserTexture;
 
-    public GameModel(){
+    // Viewport
+    private FitViewport viewport;
+
+    public GameModel(OrthographicCamera camera){
 //        // Load textures
 //        playerShipTexture = new Texture("pictures/playerShip.png");
 //        playerLaserTexture = new Texture("pictures/playerLaser.png");
@@ -56,7 +61,7 @@ public class GameModel {
 	    this(new Texture("pictures/playerShip.png"), new Texture("pictures/playerLaser.png"),
 	    		new Texture("pictures/enemyShip.png"), new Texture("pictures/enemyLaser.png"),
 	    		Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3")),
-	    		600, 450, 5, 5);
+	    		600, 450, 5, 5, camera);
     }
     
     /**
@@ -76,7 +81,7 @@ public class GameModel {
     		Texture enemyShipTexture, Texture enemyLaserTexture,
     		Sound laserSound,
     		float playerLaserSpeed, float enemyLaserSpeed,
-    		float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen) {
+    		float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen, OrthographicCamera camera) {
     	
     	// Initialize textures
     	this.playerShipTexture = playerShipTexture;
@@ -98,6 +103,10 @@ public class GameModel {
     	this.timeBetweenEnemiesSpawn = timeBetweenEnemiesSpawn;
     	this.timeSinceEnemySpawned = 0;
     	this.maxEnemiesOnScreen = maxEnemiesOnScreen;
+
+
+        // Set the viewport
+        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
     }
 
     public void updateModel(float deltaTime) {
@@ -210,6 +219,10 @@ public class GameModel {
 
     public List<Laser> getPlayerLasers() {
         return playerLasers;
+    }
+
+    public FitViewport getViewport() {
+        return viewport;
     }
 
 	
