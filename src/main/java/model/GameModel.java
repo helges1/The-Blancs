@@ -135,8 +135,6 @@ public class GameModel {
                 }
             }
         }
-
-
     }
     
     public void firePlayerLaser() {
@@ -212,20 +210,6 @@ public class GameModel {
 
     public List<Laser> getPlayerLasers() {
         return playerLasers;
-    }
-
-    public void addLaser(Laser laser) {
-        playerLasers.add(laser); // Method to add a laser to the list
-    }
-
-    // Method to get laser texture
-    public Texture getLaserTexture() {
-        return playerLaserTexture;
-    }
-
-    // Method to return a default laser speed
-    public float getLaserSpeed() {
-        return 600; // Example speed
     }
 
 	
