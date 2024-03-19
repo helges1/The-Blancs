@@ -40,6 +40,9 @@ public class GameModel {
 
     // Viewport
     private FitViewport viewport;
+    
+    // Keep track of destroyed enemy ships
+    private int destroyedEnemyShipsCount = 0;
 
     public GameModel(OrthographicCamera camera){
 //        // Load textures
@@ -139,6 +142,7 @@ public class GameModel {
                     if (checkCollision(laser, enemyShip)) {
                         enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
                         laserIterator.remove(); // Remove the laser after hitting the ship
+                        destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
                         break; // Break to avoid ConcurrentModificationException
                     }
                 }
@@ -202,6 +206,13 @@ public class GameModel {
             }
         }
 
+    }
+
+    public int getDestroyedEnemyShipsCount() {
+        return destroyedEnemyShipsCount;
+    }
+    public void resetDestroyedEnemyShipsCount() {
+        destroyedEnemyShipsCount = 0;
     }
 
 
