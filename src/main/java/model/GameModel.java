@@ -107,7 +107,7 @@ public class GameModel {
         	ship.update(deltaTime);
 
         if (timeSinceEnemySpawned >= timeBetweenEnemiesSpawn &&
-                enemyShips.size() <= maxEnemiesOnScreen) {
+                enemyShips.size() < maxEnemiesOnScreen) {
             spawnEnemyShip();
             timeSinceEnemySpawned = 0;
             System.out.println("Enemy spawned");
