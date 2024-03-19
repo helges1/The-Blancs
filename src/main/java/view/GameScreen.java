@@ -77,6 +77,7 @@ public class GameScreen implements Screen {
 
 		// Draw the ship
 		gameModel.getShip().draw(batch);
+		gameModel.update();
 
 		batch.end();
 	}

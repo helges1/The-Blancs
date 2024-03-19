@@ -123,6 +123,18 @@ public class GameModel {
         enemyShips.add(enemyShip);
     }
 
+    public void update() {
+        for (Iterator<Ship> iterator = getEnemyShips().iterator(); iterator.hasNext();) {
+            Ship enemyShip = iterator.next();
+
+            if (enemyShip.getBoundingRectangle().overlaps(getShip().getBoundingRectangle())) {
+                iterator.remove();
+            }
+        }
+
+    }
+
+
     public List<Ship> getEnemyShips() {
         return enemyShips;
     }

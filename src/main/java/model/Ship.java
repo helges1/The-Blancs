@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Ship extends Sprite {
 	
-    private final float speed; //200
+    public final float speed; //200
     
     private float laserSpeed;
     private final float laserFireRate;
