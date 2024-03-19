@@ -43,3 +43,8 @@ Vi jobbet videre med å implementere kode til spillet. Det vi gjorde var å løs
 Oppmøte: Michal, Lasse, Balder, Stian og Sebastian tilstede
 
 Jobbet med å få Git til å være Git til å oppføre seg någelude greit. Michal har jobbet med homescreen, Stian jobbet med enemy ships, Balder endret på fireLaser, Lasse jobbet med tester og Sebastian prøvde å fikse opp i Git.
+
+## 19. Mars
+Oppmøte: Michal, Lasse, Balder, Stian og Sebastian tilstede
+
+Sett på tester og pusset litt på modellen,samt jobbet med flere funksjoner i spillet. Fikk enemies til å forsvinne når de blir truffet av laser, og jobbet på rotasjon av enemies.
