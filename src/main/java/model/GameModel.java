@@ -23,9 +23,9 @@ public class GameModel {
     public final static float WORLD_WIDTH = 800;
     public final static float WORLD_HEIGHT = 600;
 
-    private final static float TIME_BETWEEN_ENEMY_SPAWNS = 5; // 5000 ms = 5 s.
+    private final float timeBetweenEnemiesSpawn;
     private float timeSinceEnemySpawned;
-    private final static int MAX_ENEMIES = 5;
+    private final int maxEnemiesOnScreen;
 
     // Textures for game entities
     private Texture playerShipTexture;
@@ -34,21 +34,63 @@ public class GameModel {
     private Texture enemyLaserTexture;
 
     public GameModel(){
-        // Load textures
-        playerShipTexture = new Texture("pictures/playerShip.png");
-        playerLaserTexture = new Texture("pictures/playerLaser.png");
-        enemyShipTexture = new Texture("pictures/enemyShip.png");
-        enemyLaserTexture = new Texture("pictures/enemyLaser.png");
-
-        // Initialize player
-        playerShip = new Ship(playerShipTexture); // Updated to pass this GameModel instance
-        playerLasers = new LinkedList<>(); // Bør være LinkedList, for da kan man fjerne elementer fra midten av listen uten større kost
-        playerLaserSpeed = 600;
-        // Initialize enemies
-        enemyShips = new LinkedList<>();
-        enemyLasers = new LinkedList<>();
-        enemyLaserSpeed = 450; // Eksempelspeed
-        timeSinceEnemySpawned = 0;
+//        // Load textures
+//        playerShipTexture = new Texture("pictures/playerShip.png");
+//        playerLaserTexture = new Texture("pictures/playerLaser.png");
+//        enemyShipTexture = new Texture("pictures/enemyShip.png");
+//        enemyLaserTexture = new Texture("pictures/enemyLaser.png");
+//
+//        // Initialize player
+//        playerShip = new Ship(playerShipTexture); // Updated to pass this GameModel instance
+//        playerLasers = new LinkedList<>(); // Bør være LinkedList, for da kan man fjerne elementer fra midten av listen uten større kost
+//        playerLaserSpeed = 600;
+//        // Initialize enemies
+//        enemyShips = new LinkedList<>();
+//        enemyLasers = new LinkedList<>();
+//        enemyLaserSpeed = 450; // Eksempelspeed
+//        timeSinceEnemySpawned = 0;
+	    
+	    this(new Texture("pictures/playerShip.png"), new Texture("pictures/playerLaser.png"),
+	    		new Texture("pictures/enemyShip.png"), new Texture("pictures/enemyLaser.png"),
+	    		600, 450, 5, 5);
+    }
+    
+    /**
+     * A general constructor for the GameModel where everything is provided as arguments
+     * (except world sizes, for some reason)
+     * 
+     * @param playerShipTexture
+     * @param playerLaserTexture
+     * @param enemyShipTexture
+     * @param enemyLaserTexture
+     * @param playerLaserSpeed
+     * @param enemyLaserSpeed
+     * @param timeBetweenEnemiesSpawn
+     * @param maxEnemiesOnScreen
+     */
+    public GameModel(Texture playerShipTexture, Texture playerLaserTexture,
+    		Texture enemyShipTexture, Texture enemyLaserTexture,
+    		float playerLaserSpeed, float enemyLaserSpeed,
+    		float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen) {
+    	
+    	// Initialize textures
+    	this.playerShipTexture = playerShipTexture;
+    	this.playerLaserTexture = playerLaserTexture;
+    	this.enemyShipTexture = enemyShipTexture;
+    	this.enemyLaserTexture = enemyLaserTexture;
+    	
+    	// Initialize player
+    	playerShip = new Ship(this.playerShipTexture);
+    	playerLasers = new LinkedList<>();
+    	this.playerLaserSpeed = playerLaserSpeed;
+    	
+    	// Initialize enemies
+    	enemyShips = new LinkedList<>();
+    	enemyLasers = new LinkedList<>();
+    	this.enemyLaserSpeed = enemyLaserSpeed;
+    	this.timeBetweenEnemiesSpawn = timeBetweenEnemiesSpawn;
+    	this.timeSinceEnemySpawned = 0;
+    	this.maxEnemiesOnScreen = maxEnemiesOnScreen;
     }
 
     public void updateModel(float deltaTime) {
@@ -57,8 +99,8 @@ public class GameModel {
         for (Ship ship : enemyShips)
         	ship.update(deltaTime);
 
-        if (timeSinceEnemySpawned >= TIME_BETWEEN_ENEMY_SPAWNS &&
-                enemyShips.size() <= MAX_ENEMIES) {
+        if (timeSinceEnemySpawned >= timeBetweenEnemiesSpawn &&
+                enemyShips.size() <= maxEnemiesOnScreen) {
             spawnEnemyShip();
             timeSinceEnemySpawned = 0;
             System.out.println("Enemy spawned");
