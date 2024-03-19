@@ -20,6 +20,14 @@ public class EnemyShipController {
             Vector2 playerShipPos = new Vector2(playerShip.getX(), playerShip.getY());
             enemyShip.rotateShip(playerShipPos);
 
+            Vector2 toPlayer = new Vector2(
+                playerShip.getX() + playerShip.getWidth() / 2 - (enemyShip.getX() + enemyShip.getWidth() / 2), 
+                playerShip.getY() + playerShip.getHeight() / 2 - (enemyShip.getY() + enemyShip.getHeight() / 2)
+            );
+
+            // Distance from enemy to player
+            float distanceToPlayer = toPlayer.len();
+            
             // Very basic mvoement to move towards the player's ship keeping 100 pixels distance
             if (playerShip.getX() > enemyShip.getX() + 100) {
                 enemyShip.moveRight(deltaTime);
@@ -32,6 +40,8 @@ public class EnemyShipController {
             } else if (playerShip.getY() < enemyShip.getY() - 100){
                 enemyShip.moveDown(deltaTime);
             }
+
+
         }
     }
 }
