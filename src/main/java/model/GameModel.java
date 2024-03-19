@@ -53,7 +53,6 @@ public class GameModel {
 
     public void updateModel(float deltaTime) {
         timeSinceEnemySpawned += deltaTime;
-        
         playerShip.update(deltaTime);
         for (Ship ship : enemyShips)
         	ship.update(deltaTime);
@@ -67,15 +66,27 @@ public class GameModel {
         fireEnemyLasers();
 
 
-        // Update all lasers
+        // Update player lasers
         Iterator<Laser> laserIterator = playerLasers.iterator();
         while(laserIterator.hasNext()) {
             Laser laser = laserIterator.next();
             laser.update(deltaTime);
             if (laser.isOffScreen(WORLD_HEIGHT)) {
                 laserIterator.remove(); // Remove off-screen lasers
+            } else {
+                // Check for collisions with enemy ships
+                Iterator<Ship> enemyShipIterator = enemyShips.iterator();
+                while (enemyShipIterator.hasNext()) {
+                    Ship enemyShip = enemyShipIterator.next();
+                    if (checkCollision(laser, enemyShip)) {
+                        enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
+                        laserIterator.remove(); // Remove the laser after hitting the ship
+                        break; // Break to avoid ConcurrentModificationException
+                    }
+                }
             }
         }
+
 
     }
     
@@ -117,7 +128,7 @@ public class GameModel {
 
         // Creating the enemy ship
         Ship enemyShip = new Ship(enemyShipTexture, enemyShipX, enemyShipY, 40, 40,
-        		100, 400, 2.3f, null);
+        		100, enemyLaserSpeed, 2.3f, null);
 
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);
@@ -125,6 +136,10 @@ public class GameModel {
 
     public List<Ship> getEnemyShips() {
         return enemyShips;
+    }
+
+    public boolean checkCollision(Laser laser, Ship ship) {
+        return laser.getBoundingRectangle().overlaps(ship.getBoundingRectangle());
     }
 
     public Ship getShip(){
