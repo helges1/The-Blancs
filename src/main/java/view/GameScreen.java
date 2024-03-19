@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,6 +27,18 @@ public class GameScreen implements Screen {
 	private FitViewport viewport; // Add the viewport
 	private OrthographicCamera camera; // Camera for the viewport
 
+	private int score = 0;
+
+	// HUD 
+	BitmapFont font;
+	float hudVerticalMargin;
+	float hudLeftX;
+	float hudRightX;
+	float hudCentreX;
+	float hudRow1Y;
+	float hudRow2Y;
+	float hudSectionWidth;
+
 	public GameScreen() {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera(); // Initialize the camera
@@ -39,6 +52,16 @@ public class GameScreen implements Screen {
 
 		// If Ship needs the viewport, set it here after creation
 		gameModel.getShip().setViewport(viewport); // You would need to add a setViewport method to your Ship class
+
+		// HUD Initialization
+		font = new BitmapFont();
+		hudVerticalMargin = 10;
+		hudLeftX = 10;
+		hudRightX = viewport.getWorldWidth() - hudLeftX;
+		hudCentreX = viewport.getWorldWidth() / 2;
+		hudRow1Y = viewport.getWorldHeight() - hudVerticalMargin;
+		hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
+		hudSectionWidth = viewport.getWorldWidth() / 3;
 	}
 
 	@Override
@@ -46,8 +69,15 @@ public class GameScreen implements Screen {
 		// Implementation remains the same
 	}
 
-
-
+	private void drawHUD() {
+		// Draw the score on the left
+		font.draw(batch, "Score: " + score, hudLeftX, hudRow1Y);
+    
+		// Assuming health to be 100
+		String healthText = "Health: " + 100;
+		font.draw(batch, healthText, hudLeftX, hudRow2Y);
+	}
+	
 	@Override
 	public void render(float delta) {
 		gameModel.updateModel(delta); // Update the game model
@@ -82,6 +112,9 @@ public class GameScreen implements Screen {
 		// Draw the ship
 		gameModel.getShip().draw(batch);
 		gameModel.update();
+
+		// Draw the HUD
+		drawHUD();
 
 		batch.end();
 	}
