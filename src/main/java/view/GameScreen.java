@@ -81,6 +81,9 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		gameModel.updateModel(delta); // Update the game model
+		score += gameModel.getDestroyedEnemyShipsCount() * 10; // Updates the score based on the destroyed enemy ships
+		gameModel.resetDestroyedEnemyShipsCount(); // Reset the destroyed enemy ships count
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
