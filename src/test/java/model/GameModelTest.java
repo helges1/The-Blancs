@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 public class GameModelTest {
@@ -20,11 +21,12 @@ public class GameModelTest {
 		Texture enemyShipTexture = mock(Texture.class);
 		Texture enemyLaserTexture = mock(Texture.class);
 		Sound laserSound = mock(Sound.class);
+		OrthographicCamera camera = new OrthographicCamera();
 		
 		model = new GameModel(playerShipTexture, playerLaserTexture,
 				enemyShipTexture, enemyLaserTexture,
 				laserSound,
-				600, 450, 5, 5);
+				600, 450, 5, 5, camera);
 	}
 	
 	@Test

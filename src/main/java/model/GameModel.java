@@ -20,7 +20,7 @@ public class GameModel {
     private static Sound laserSound; // Static to avoid reloading for each laser
 
     // Enemies
-    private List<Ship> enemyShips;
+    private LinkedList<Ship> enemyShips;
     private List<Laser> enemyLasers;
     private float enemyLaserSpeed;
 
@@ -187,7 +187,7 @@ public class GameModel {
 
         // Creating the enemy ship
         Ship enemyShip = new Ship(enemyShipTexture, enemyShipX, enemyShipY, 40, 40,
-        		100, enemyLaserSpeed, 2.3f, null);
+        		100, enemyLaserSpeed, 2.3f, viewport);
 
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);
@@ -205,7 +205,7 @@ public class GameModel {
     }
 
 
-    public List<Ship> getEnemyShips() {
+    public LinkedList<Ship> getEnemyShips() {
         return enemyShips;
     }
 

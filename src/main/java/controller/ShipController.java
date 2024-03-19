@@ -29,8 +29,9 @@ public class ShipController implements InputProcessor {
         if (rightPressed) ship.moveRight(deltaTime);
 
         // Rotate the ship continuously to face the mouse cursor
-        ship.rotateShip(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-
+        Vector2 rotateTowards = model.getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+        ship.rotateShip(rotateTowards);
+        
         // Firing logic updated to only fire once per press
         if (spacePressed && !spaceJustPressed) {
             model.firePlayerLaser();
@@ -94,7 +95,8 @@ public class ShipController implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        ship.rotateShip(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+        Vector2 rotateTowards = model.getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+        ship.rotateShip(rotateTowards);
         return true;
     }
 

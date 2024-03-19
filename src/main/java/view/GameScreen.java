@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import com.badlogic.gdx.utils.viewport.*;
 
+import controller.EnemyShipController;
 import controller.ShipController;
 import model.GameModel;
 import model.Laser;
@@ -20,6 +21,7 @@ public class GameScreen implements Screen {
 	private SpriteBatch batch;
 	private GameModel gameModel;
 	private ShipController shipController;
+	private EnemyShipController enemyShipController;
 	private Texture background;
 	private FitViewport viewport; // Add the viewport
 	private OrthographicCamera camera; // Camera for the viewport
@@ -29,6 +31,7 @@ public class GameScreen implements Screen {
 		camera = new OrthographicCamera(); // Initialize the camera
 		gameModel = new GameModel(camera); // Assuming GameModel doesn't need the viewport in its constructor
 		shipController = new ShipController(gameModel);
+		enemyShipController = new EnemyShipController(gameModel.getEnemyShips(), gameModel.getShip());
 		Gdx.input.setInputProcessor(shipController);
 		background = new Texture("pictures/background.png");
 
@@ -52,6 +55,8 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		shipController.update(delta);
+		enemyShipController.update(delta);
+
 
 		batch.setProjectionMatrix(viewport.getCamera().combined);
 		batch.begin();
