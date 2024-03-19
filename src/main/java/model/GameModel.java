@@ -1,5 +1,7 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -13,6 +15,7 @@ public class GameModel {
     private Ship playerShip;
     private List<Laser> playerLasers; // Player lasers
     private float playerLaserSpeed;
+    private static Sound laserSound; // Static to avoid reloading for each laser
 
     // Enemies
     private List<Ship> enemyShips;
@@ -52,6 +55,7 @@ public class GameModel {
 	    
 	    this(new Texture("pictures/playerShip.png"), new Texture("pictures/playerLaser.png"),
 	    		new Texture("pictures/enemyShip.png"), new Texture("pictures/enemyLaser.png"),
+	    		Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3")),
 	    		600, 450, 5, 5);
     }
     
@@ -70,6 +74,7 @@ public class GameModel {
      */
     public GameModel(Texture playerShipTexture, Texture playerLaserTexture,
     		Texture enemyShipTexture, Texture enemyLaserTexture,
+    		Sound laserSound,
     		float playerLaserSpeed, float enemyLaserSpeed,
     		float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen) {
     	
@@ -78,6 +83,8 @@ public class GameModel {
     	this.playerLaserTexture = playerLaserTexture;
     	this.enemyShipTexture = enemyShipTexture;
     	this.enemyLaserTexture = enemyLaserTexture;
+    	
+    	this.laserSound = laserSound;
     	
     	// Initialize player
     	playerShip = new Ship(this.playerShipTexture);
@@ -134,8 +141,10 @@ public class GameModel {
     
     public void firePlayerLaser() {
 		Laser laser = playerShip.fireLaser(playerLaserTexture, playerLaserSpeed);
-		if (laser != null) 
+		if (laser != null) {
 			playerLasers.add(laser);
+			laserSound.play();
+		}
 	}
 
     private void fireEnemyLasers() {
@@ -144,6 +153,7 @@ public class GameModel {
         	Laser laser = ship.fireLaser(enemyLaserTexture, enemyLaserSpeed);
         	if (laser != null) {
         		enemyLasers.add(laser);
+        		laserSound.play();
         		System.out.println("Enemy fired");
         	}
         }

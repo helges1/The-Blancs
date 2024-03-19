@@ -8,11 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Laser extends Sprite {
     private Vector2 velocity;
-    private static Sound laserSound; // Static to avoid reloading for each laser
-
-    static {
-        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
-    }
+//    private static Sound laserSound; // Static to avoid reloading for each laser
+//
+//    static {
+//        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
+//    }
 
     public Laser(Texture texture, Vector2 position, float speed, float angle) {
         super(texture);
@@ -23,7 +23,7 @@ public class Laser extends Sprite {
         velocity = new Vector2((float)Math.cos(radians) * speed, (float)Math.sin(radians) * speed);
 
         // Play the laser sound when a laser is instantiated
-        laserSound.play();
+//        laserSound.play();
     }
 
     public void update(float deltaTime) {
@@ -36,6 +36,6 @@ public class Laser extends Sprite {
 
     public static void disposeSound() {
         // Static method to dispose the sound resource when the game is exiting
-        laserSound.dispose();
+//        laserSound.dispose();
     }
 }
