@@ -2,10 +2,12 @@ package view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -38,6 +40,10 @@ public class GameScreen implements Screen {
 	float hudRow1Y;
 	float hudRow2Y;
 	float hudSectionWidth;
+    
+	// ShapeRenderer for drawing health bar
+	private ShapeRenderer shapeRenderer;
+
 
 	public GameScreen() {
 		batch = new SpriteBatch();
@@ -47,7 +53,7 @@ public class GameScreen implements Screen {
 		enemyShipController = new EnemyShipController(gameModel.getEnemyShips(), gameModel.getShip());
 		Gdx.input.setInputProcessor(shipController);
 		background = new Texture("pictures/background.png");
-
+        shapeRenderer = new ShapeRenderer();
 		viewport = gameModel.getViewport(); // Initialize the viewport with desired world width and height
 
 		// If Ship needs the viewport, set it here after creation
@@ -70,12 +76,43 @@ public class GameScreen implements Screen {
 	}
 
 	private void drawHUD() {
+		batch.begin();
 		// Draw the score on the left
 		font.draw(batch, "Score: " + score, hudLeftX, hudRow1Y);
     
 		// Assuming health to be 100
 		String healthText = "Health: " + 100;
+		// Calculate the position for the health bar based on the text size
+		float textWidth = font.getSpaceXadvance() * healthText.length();
+		float healthBarX = hudLeftX + textWidth + 30; // 20 pixels padding from text
+		float healthBarY = hudRow2Y - 11; // 11 pixels padding from text
+		
+		// Draw the health text
 		font.draw(batch, healthText, hudLeftX, hudRow2Y);
+		batch.end();
+		
+		// Draw the health bar
+		float healthPercentage = 100f / 100f; // Assuming health to always be 100 for now
+
+        Color healthBarColor = Color.GREEN; // Default to green
+        if (healthPercentage > 0.66f) {
+            healthBarColor = Color.GREEN;
+        } else if (healthPercentage > 0.33f) {
+            healthBarColor = Color.ORANGE;
+        } else {
+            healthBarColor = Color.RED;
+    }
+        // Set the projection matrix for the shape renderer
+        shapeRenderer.setProjectionMatrix(camera.combined);
+		// Begin the shape renderer
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		// Set the color for the health bar
+        shapeRenderer.setColor(healthBarColor);
+		// Draws the health bar with the calculated percentage
+        shapeRenderer.rect(healthBarX, healthBarY, 100 * healthPercentage, 10);
+        shapeRenderer.end();
+		
+
 	}
 	
 	@Override
@@ -115,11 +152,10 @@ public class GameScreen implements Screen {
 		// Draw the ship
 		gameModel.getShip().draw(batch);
 		gameModel.update();
+		batch.end();
 
 		// Draw the HUD
 		drawHUD();
-
-		batch.end();
 	}
 
 	@Override
@@ -146,5 +182,6 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		background.dispose();
 		batch.dispose();
+		shapeRenderer.dispose();
 	}
 }
