@@ -114,17 +114,39 @@ public class GameModel {
 
     public void updateModel(float deltaTime) {
         timeSinceEnemySpawned += deltaTime;
+
+        // Update playerShip
         playerShip.update(deltaTime);
+
+        // Update enemyShips
         for (Ship ship : enemyShips)
         	ship.update(deltaTime);
 
+        // Spawn new enemy ships
         if (timeSinceEnemySpawned >= timeBetweenEnemiesSpawn &&
                 enemyShips.size() < maxEnemiesOnScreen) {
             spawnEnemyShip();
             timeSinceEnemySpawned = 0;
-            System.out.println("Enemy spawned");
         }
-        fireEnemyLasers();
+
+        // Update enemies lasers
+        Iterator<Laser> enemyLaserIterator = enemyLasers.iterator();
+        while(enemyLaserIterator.hasNext()) {
+            Laser laser = enemyLaserIterator.next();
+            laser.update(deltaTime);
+            if (laser.isOffScreen(WORLD_HEIGHT)) {
+                enemyLaserIterator.remove(); // Remove off-screen lasers
+            } else {
+                // Check for collisions with player ship
+                if (checkCollision(laser, playerShip)) {
+                    enemyLaserIterator.remove(); // Remove the laser after hitting the ship
+                    playerShip.takeDamage(5); // Reduce player health
+                    if (playerShip.isDestroyed()) {
+                        // Game over
+                    }
+                }
+            }
+        }
 
 
         // Update player lasers
@@ -158,18 +180,26 @@ public class GameModel {
 		}
 	}
 
-    private void fireEnemyLasers() {
+    private void fireEnemiesLasers() {
         //TODO: for each enemyShip, fire laser if it's time for it to shoot
         for (Ship ship : enemyShips) {
         	Laser laser = ship.fireLaser(enemyLaserTexture, enemyLaserSpeed);
         	if (laser != null) {
         		enemyLasers.add(laser);
         		laserSound.play();
-        		System.out.println("Enemy fired");
         	}
         }
-        
     }
+
+    // Method to fire a laser from a single enemy
+    public void fireEnemyLaser(Ship enemyShip) {
+        Laser laser = enemyShip.fireLaser(enemyLaserTexture, enemyLaserSpeed);
+        if (laser != null) {
+            enemyLasers.add(laser);
+            laserSound.play();
+        }
+    }
+
 
 
     private void spawnEnemyShip() {
@@ -191,7 +221,7 @@ public class GameModel {
 
         // Creating the enemy ship
         Ship enemyShip = new Ship(enemyShipTexture, enemyShipX, enemyShipY, 40, 40,
-        		100, enemyLaserSpeed, 2.3f, viewport);
+        		50, enemyLaserSpeed, 2.3f, 10, viewport);
 
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);
@@ -234,6 +264,10 @@ public class GameModel {
 
     public FitViewport getViewport() {
         return viewport;
+    }
+
+    public List<Laser> getEnemyLasers() {
+        return enemyLasers;
     }
 
 	

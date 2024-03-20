@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
 		camera = new OrthographicCamera(); // Initialize the camera
 		gameModel = new GameModel(camera); // Assuming GameModel doesn't need the viewport in its constructor
 		shipController = new ShipController(gameModel);
-		enemyShipController = new EnemyShipController(gameModel.getEnemyShips(), gameModel.getShip());
+		enemyShipController = new EnemyShipController(gameModel);
 		Gdx.input.setInputProcessor(shipController);
 		background = new Texture("pictures/background.png");
         shapeRenderer = new ShapeRenderer();
@@ -81,7 +81,7 @@ public class GameScreen implements Screen {
 		font.draw(batch, "Score: " + score, hudLeftX, hudRow1Y);
     
 		// Assuming health to be 100
-		String healthText = "Health: " + 100;
+		String healthText = "Health: " + (int) gameModel.getShip().getHealth();
 		// Calculate the position for the health bar based on the text size
 		float textWidth = font.getSpaceXadvance() * healthText.length();
 		float healthBarX = hudLeftX + textWidth + 30; // 20 pixels padding from text
@@ -92,7 +92,7 @@ public class GameScreen implements Screen {
 		batch.end();
 		
 		// Draw the health bar
-		float healthPercentage = 100f / 100f; // Assuming health to always be 100 for now
+		float healthPercentage = gameModel.getShip().getHealth() / 100f; // Assuming health to always be 100 for now
 
         Color healthBarColor = Color.GREEN; // Default to green
         if (healthPercentage > 0.66f) {
@@ -138,8 +138,14 @@ public class GameScreen implements Screen {
 		batch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
 
-		// Draw each laser
+		// Draw each laser fired by the player
 		for (Laser laser : gameModel.getPlayerLasers()) {
+			laser.update(delta); // Update the laser's position
+			laser.draw(batch);
+		}
+
+		// Draw each laser fired by the enemies
+		for (Laser laser : gameModel.getEnemyLasers()) {
 			laser.update(delta); // Update the laser's position
 			laser.draw(batch);
 		}

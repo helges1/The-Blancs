@@ -15,6 +15,7 @@ public class Ship extends Sprite {
     private float laserSpeed;
     private final float laserFireRate;
     private float timeSinceLaserFired;
+    private float health;
     
     private Viewport viewport; // Reference to the viewport
 
@@ -23,6 +24,7 @@ public class Ship extends Sprite {
 	
     // private GameModel gameModel; // Reference to the gameModel
 
+    // Constructor for playerShip
     public Ship(Texture texture) {
 //        super(texture);
 //        // this.gameModel = gameModel; // Store the gameModel reference
@@ -31,18 +33,18 @@ public class Ship extends Sprite {
 //        setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
 //        setOriginCenter(); // Set origin to center for rotation
     	
-    	this(texture, GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2, 40, 40, 200, 600, 0.5f, null);
+    	this(texture, GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2, 40, 40, 200, 600, 0.5f, 100, null);
     }
 
     // Constructor with position for enemyships
-    public Ship(Texture texture, GameModel gameModel, float x, float y) {
+    public Ship(Texture texture, GameModel gameModel, float x, float y, float health) {
 //        super(texture);
 //        // this.gameModel = gameModel; // Store the gameModel reference
 //        // Store the viewport reference
 //        setSize(40, 40); // Set the size of the ship
 //        setPosition(x, y); // Set the initial position of the ship
     	
-    	this(texture, x, y, 40, 40, 200, 600, 0, null);
+    	this(texture, x, y, 40, 40, 200, 600, 0, health, null);
     }
     
     /**
@@ -59,7 +61,7 @@ public class Ship extends Sprite {
      * @param viewport a FitViewport. The Viewport that should see the ship (? how viewport works??)
      */
     public Ship(Texture texture, float x, float y, float width, float height,
-    		float speed, float laserSpeed, float fireRate,
+    		float speed, float laserSpeed, float fireRate, float health,
     		FitViewport viewport) {
     	
     	super(texture);
@@ -67,10 +69,12 @@ public class Ship extends Sprite {
     	this.laserSpeed = laserSpeed;
     	this.laserFireRate = fireRate;
     	this.timeSinceLaserFired = fireRate;
+        this.health = health;
     	setSize(width, height);
     	setPosition(x, y);
     	this.setViewport(viewport);
     	setOriginCenter();
+
     }
 
     
@@ -153,8 +157,21 @@ public class Ship extends Sprite {
 
     }
 
+    public boolean isDestroyed() {
+        return health <= 0;
+    }
+
 
     public void update(float deltaTime) {
     	this.timeSinceLaserFired += deltaTime;
     }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public void takeDamage(float damage) {
+        health -= damage;
+    }
+
 }
