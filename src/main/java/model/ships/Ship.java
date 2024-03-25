@@ -1,4 +1,4 @@
-package model;
+package model.ships;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,14 +8,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class Ship extends Sprite {
+import model.GameModel;
+import model.Laser;
+
+public abstract class Ship extends Sprite {
 	
     public final float speed; //200
     
-    private float laserSpeed;
-    private final float laserFireRate;
-    private float timeSinceLaserFired;
     private float health;
+    
+    //private final Texture laserTexture;
+    
+    // Laser-stuff
+    // final float laserFireRate;
+    float timeSinceLaserFired;
+    
     
     private Viewport viewport; // Reference to the viewport
 
@@ -25,27 +32,27 @@ public class Ship extends Sprite {
     // private GameModel gameModel; // Reference to the gameModel
 
     // Constructor for playerShip
-    public Ship(Texture texture) {
-//        super(texture);
-//        // this.gameModel = gameModel; // Store the gameModel reference
-//        // Store the viewport reference
-//        setSize(40, 40); // Set the size of the ship
-//        setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
-//        setOriginCenter(); // Set origin to center for rotation
-    	
-    	this(texture, GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2, 40, 40, 200, 600, 0.5f, 100, null);
-    }
-
-    // Constructor with position for enemyships
-    public Ship(Texture texture, GameModel gameModel, float x, float y, float health) {
-//        super(texture);
-//        // this.gameModel = gameModel; // Store the gameModel reference
-//        // Store the viewport reference
-//        setSize(40, 40); // Set the size of the ship
-//        setPosition(x, y); // Set the initial position of the ship
-    	
-    	this(texture, x, y, 40, 40, 200, 600, 0, health, null);
-    }
+//    public Ship(Texture texture) {
+////        super(texture);
+////        // this.gameModel = gameModel; // Store the gameModel reference
+////        // Store the viewport reference
+////        setSize(40, 40); // Set the size of the ship
+////        setPosition(GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2); // Set the initial position of the ship
+////        setOriginCenter(); // Set origin to center for rotation
+//    	
+//    	this(texture, GameModel.WORLD_WIDTH/2, GameModel.WORLD_HEIGHT/2, 40, 40, 200, null, 600, 0.5f, 100, null);
+//    }
+//
+//    // Constructor with position for enemyships
+//    public Ship(Texture texture, GameModel gameModel, float x, float y, float health) {
+////        super(texture);
+////        // this.gameModel = gameModel; // Store the gameModel reference
+////        // Store the viewport reference
+////        setSize(40, 40); // Set the size of the ship
+////        setPosition(x, y); // Set the initial position of the ship
+//    	
+//    	this(texture, x, y, 40, 40, 200, null,  600, 0, health, null);
+//    }
     
     /**
      * A very general construcot for the Ship calss. EveryThing about the ship must be given as arguments.
@@ -60,15 +67,15 @@ public class Ship extends Sprite {
      * @param fireRate a flaot rep. the rate at which the ship can fire lasers.
      * @param viewport a FitViewport. The Viewport that should see the ship (? how viewport works??)
      */
-    public Ship(Texture texture, float x, float y, float width, float height,
-    		float speed, float laserSpeed, float fireRate, float health,
-    		FitViewport viewport) {
+    Ship(Texture texture, float x, float y, float width, float height, float speed, 
+    		float health, FitViewport viewport) {
     	
     	super(texture);
     	this.speed = speed;
-    	this.laserSpeed = laserSpeed;
-    	this.laserFireRate = fireRate;
-    	this.timeSinceLaserFired = fireRate;
+//    	this.laserTexture = laserTexture;
+//    	this.laserSpeed = laserSpeed;
+//    	this.laserFireRate = fireRate;
+    	this.timeSinceLaserFired = 0;
         this.health = health;
     	setSize(width, height);
     	setPosition(x, y);
@@ -123,7 +130,7 @@ public class Ship extends Sprite {
     }
 
     // verdiene kan endres om det ønskes bedre plassering av laser
-    private Vector2 getNosePositionOfShip() {
+    Vector2 getNosePositionOfShip() {
         float shipRotation = getRotation();
 
         float radians = (float)Math.toRadians(shipRotation);
@@ -140,16 +147,17 @@ public class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
-    public Laser fireLaser(Texture laserTexture, float laserSpeed) {
-    	Laser laser = null;
-    	if (timeSinceLaserFired >= laserFireRate) {
-    		Vector2 position = getNosePositionOfShip();
-            float angle = getRotation(); 
-            laser = new Laser(laserTexture, position, this.laserSpeed, angle);
-            timeSinceLaserFired = 0;
-    	}
-        return laser;
-    }
+    abstract public Laser fireLaser(); 
+//    {
+//    	Laser laser = null;
+//    	if (timeSinceLaserFired >= laserFireRate) {
+//    		Vector2 position = getNosePositionOfShip();
+//            float angle = getRotation(); 
+//            laser = new Laser(laserTexture, position, laserSpeed, angle);
+//            timeSinceLaserFired = 0;
+//    	}
+//        return laser;
+//    }
 
 
     public void setViewport(FitViewport viewport) {

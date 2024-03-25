@@ -1,7 +1,8 @@
 package controller;
 
 import model.GameModel;
-import model.Ship;
+import model.ships.Ship;
+
 import com.badlogic.gdx.Input;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import static org.mockito.Mockito.*;
 
 public class ShipControllerTest {
 
-    private ShipController shipController;
+    private PlayerShipController shipController;
     private GameModel model;
     private Ship ship;
 
@@ -19,7 +20,7 @@ public class ShipControllerTest {
         ship = mock(Ship.class);
         model = mock(GameModel.class);
         // Initialize ShipController with the mocked Ship
-        shipController = new ShipController(model);
+        shipController = new PlayerShipController(model);
     }
 
     @Test

@@ -14,16 +14,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.*;
 
 import controller.EnemyShipController;
-import controller.ShipController;
+import controller.PlayerShipController;
 import model.GameModel;
 import model.Laser;
-import model.Ship;
+import model.ships.Ship;
 
 public class GameScreen implements Screen {
 
 	private SpriteBatch batch;
 	private GameModel gameModel;
-	private ShipController shipController;
+	private PlayerShipController playerShipController;
 	private EnemyShipController enemyShipController;
 	private Texture background;
 	private FitViewport viewport; // Add the viewport
@@ -45,19 +45,24 @@ public class GameScreen implements Screen {
 	private ShapeRenderer shapeRenderer;
 
 
-	public GameScreen() {
-		batch = new SpriteBatch();
-		camera = new OrthographicCamera(); // Initialize the camera
-		gameModel = new GameModel(camera); // Assuming GameModel doesn't need the viewport in its constructor
-		shipController = new ShipController(gameModel);
-		enemyShipController = new EnemyShipController(gameModel);
-		Gdx.input.setInputProcessor(shipController);
+	public GameScreen(GameModel model, PlayerShipController playerShipController, EnemyShipController enemyShipController,
+			SpriteBatch batch, OrthographicCamera camera, FitViewport viewport) {
+		
+		this.batch = batch;
+		this.camera = camera;
+		gameModel = model;
+		
+		this.playerShipController = playerShipController;
+		
+		this.enemyShipController = enemyShipController;
+		
+		
 		background = new Texture("pictures/background.png");
         shapeRenderer = new ShapeRenderer();
-		viewport = gameModel.getViewport(); // Initialize the viewport with desired world width and height
+		this.viewport = viewport;
 
 		// If Ship needs the viewport, set it here after creation
-		gameModel.getShip().setViewport(viewport); // You would need to add a setViewport method to your Ship class
+		//gameModel.getShip().setViewport(viewport); // You would need to add a setViewport method to your Ship class
 
 		// HUD Initialization
 		font = new BitmapFont();
@@ -124,7 +129,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		shipController.update(delta);
+		playerShipController.update(delta);
 		enemyShipController.update(delta);
 
 

@@ -6,16 +6,16 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameModel;
-import model.Ship;
+import model.ships.Ship;
 
-public class ShipController implements InputProcessor {
+public class PlayerShipController implements InputProcessor {
 	private GameModel model;
     private Ship ship;
     private boolean upPressed, downPressed, leftPressed, rightPressed;
     private boolean spacePressed, mousePressed;
     private boolean spaceJustPressed, mouseJustPressed; // New flags for tracking firing state
 
-    public ShipController(GameModel model) {
+    public PlayerShipController(GameModel model) {
     	this.model = model;
         this.ship = model.getShip();
     }

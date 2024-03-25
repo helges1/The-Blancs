@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameModel;
-import model.Ship;
+import model.ships.Ship;
 public class EnemyShipController {
     private LinkedList<Ship> enemyShips;
     private Ship playerShip;

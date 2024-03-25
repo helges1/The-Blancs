@@ -1,6 +1,9 @@
 package model;
 
 import com.badlogic.gdx.graphics.Texture;
+
+import model.ships.Ship;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
