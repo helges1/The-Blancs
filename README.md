@@ -21,6 +21,7 @@ https://opengameart.org/content/modular-ships
 https://opengameart.org/content/lasers-and-beams
 https://opengameart.org/content/explosion-set-1-m484-games
 https://opengameart.org/content/spaceship-bullet
+https://opengameart.org/content/shield-effect
 
 
 # INF112 libGDX + Maven template 

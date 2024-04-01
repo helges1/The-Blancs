@@ -27,6 +27,7 @@ public class GameScreen implements Screen {
 	private PlayerShipController playerShipController;
 	private EnemyShipController enemyShipController;
 	private Texture background;
+	private Texture shieldTexture;
 	private FitViewport viewport; // Add the viewport
 	private OrthographicCamera camera; // Camera for the viewport
 
@@ -62,6 +63,7 @@ public class GameScreen implements Screen {
 		
 		
 		background = new Texture("pictures/background.png");
+		shieldTexture = new Texture("pictures/shield.png");
         shapeRenderer = new ShapeRenderer();
 		this.viewport = viewport;
 
@@ -181,6 +183,11 @@ public class GameScreen implements Screen {
 		for (PowerUps powerUp : gameModel.getPowerUps()) {
 			powerUp.draw(batch);
 		}
+
+		// Draw the shield if it is activated
+		if (gameModel.getShip().isShieldActivated()) {
+            batch.draw(shieldTexture, gameModel.getShip().getX() - (gameModel.getShip().getWidth()/2), gameModel.getShip().getY() - (gameModel.getShip().getHeight()/2), gameModel.getShip().getWidth() * 2f, gameModel.getShip().getHeight() * 2f);
+        }
 
 		// Draw the ship
 		gameModel.getShip().draw(batch);

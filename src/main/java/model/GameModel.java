@@ -2,9 +2,6 @@ package model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -22,11 +19,8 @@ public class GameModel {
     private Ship playerShip;
     private List<Laser> playerLasers;
 
-    private final static Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3")); // Static to
-                                                                                                         // avoid
-                                                                                                         // reloading
-                                                                                                         // for each
-                                                                                                         // laser
+    // Static to avoid creating a new sound every time a laser is fired
+    private final static Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3")); 
 
     // Initialize enemy ships and lasers
     private LinkedList<Ship> enemyShips;

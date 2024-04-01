@@ -26,6 +26,10 @@ public abstract class Ship extends Sprite {
     
     private Viewport viewport; // Reference to the viewport
 
+    // Initialize parameters for shield
+    private boolean isShieldActivated = false;
+    private float shieldDuration = 20;
+
 	
 
 	
@@ -71,6 +75,7 @@ public abstract class Ship extends Sprite {
     		float health, FitViewport viewport) {
     	
     	super(texture);
+
     	this.speed = speed;
 //    	this.laserTexture = laserTexture;
 //    	this.laserSpeed = laserSpeed;
@@ -172,6 +177,12 @@ public abstract class Ship extends Sprite {
 
     public void update(float deltaTime) {
     	this.timeSinceLaserFired += deltaTime;
+        if (isShieldActivated) {
+            shieldDuration -= deltaTime;
+            if (shieldDuration <= 0) {
+                isShieldActivated = false;
+            }
+        }
     }
 
     public float getHealth() {
@@ -179,7 +190,9 @@ public abstract class Ship extends Sprite {
     }
 
     public void takeDamage(float damage) {
-        health -= damage;
+        if (!isShieldActivated) {
+            health -= damage;
+        }
     }
 
 
@@ -194,8 +207,15 @@ public abstract class Ship extends Sprite {
 
 
     public void activateShield() {
-        //TODO
+        isShieldActivated = true;
+        shieldDuration = 5;
     }
+
+    public boolean isShieldActivated() {
+        return isShieldActivated;
+    }
+
+
 
 
     public void activateBlast() {
