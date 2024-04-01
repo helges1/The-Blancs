@@ -29,6 +29,9 @@ public class GameScreen implements Screen {
 	private FitViewport viewport; // Add the viewport
 	private OrthographicCamera camera; // Camera for the viewport
 
+	private float backgroundOffset; // The Y-offset of the background
+    private final float backgroundScrollSpeed = 300;
+
 	private int score = 0;
 
 	// HUD 
@@ -73,6 +76,7 @@ public class GameScreen implements Screen {
 		hudRow1Y = viewport.getWorldHeight() - hudVerticalMargin;
 		hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
 		hudSectionWidth = viewport.getWorldWidth() / 3;
+		backgroundOffset = 0;
 	}
 
 	@Override
@@ -139,9 +143,21 @@ public class GameScreen implements Screen {
 		camera.update(); // Update the camera
 		batch.setProjectionMatrix(camera.combined); // Set the SpriteBatch to use the camera's view and projection matrices
 
-		// Draw the background
-		batch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+		// Scroll the background downwards by decreasing the offset
+		backgroundOffset -= backgroundScrollSpeed * delta;
+		if (backgroundOffset <= -background.getHeight()) {
+			backgroundOffset = 0;
+		}
 
+		// Draw the background twice to cover the entire screen and loop
+		float backgroundScale = viewport.getWorldWidth() / background.getWidth();
+		float backgroundScaledHeight = background.getHeight() * backgroundScale;
+
+
+		// Correct calculation for Y position to loop the background
+		float backgroundY = backgroundOffset * backgroundScale;
+		batch.draw(background, 0, backgroundY, viewport.getWorldWidth(), backgroundScaledHeight);
+		batch.draw(background, 0, backgroundY + backgroundScaledHeight, viewport.getWorldWidth(), backgroundScaledHeight);
 
 		// Draw each laser fired by the player
 		for (Laser laser : gameModel.getPlayerLasers()) {
