@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -26,12 +27,15 @@ public class GameModel {
     // Enemies
     private LinkedList<Ship> enemyShips;
     private List<Laser> enemyLasers;
+    private LinkedList<PowerUps> powerUps;
 //    private float enemyLaserSpeed;
 
     // World values for boundaries or other purposes
     public final static float WORLD_WIDTH = 800;
     public final static float WORLD_HEIGHT = 600;
 
+    private float timeSincePowerUpSpawned;
+    // Enemy spawn values
     private final float timeBetweenEnemiesSpawn;
     private float timeSinceEnemySpawned;
     private final int maxEnemiesOnScreen;
@@ -103,10 +107,12 @@ public class GameModel {
     	// Initialize enemies
     	enemyShips = new LinkedList<>();
     	enemyLasers = new LinkedList<>();
+        powerUps = new LinkedList<>();
 //    	this.enemyLaserSpeed = enemyLaserSpeed;
     	this.timeBetweenEnemiesSpawn = timeBetweenEnemiesSpawn;
     	this.timeSinceEnemySpawned = 0;
     	this.maxEnemiesOnScreen = maxEnemiesOnScreen;
+        this.timeSincePowerUpSpawned = 0;
 
 
         // Set the viewport
@@ -115,6 +121,8 @@ public class GameModel {
     }
 
     public void updateModel(float deltaTime) {
+        // Update timers
+        timeSincePowerUpSpawned += deltaTime;
         timeSinceEnemySpawned += deltaTime;
 
         // Update playerShip
@@ -123,6 +131,41 @@ public class GameModel {
         // Update enemyShips
         for (Ship ship : enemyShips)
         	ship.update(deltaTime);
+
+        // Spawn new power ups
+        if (timeSincePowerUpSpawned >= 10) {
+            spawnPowerUp();
+            timeSincePowerUpSpawned = 0;
+        }
+
+        // Update power ups
+        Iterator<PowerUps> powerUpIterator = powerUps.iterator();
+        while (powerUpIterator.hasNext()) {
+            PowerUps powerUp = powerUpIterator.next();
+            powerUp.update(deltaTime);
+            if (powerUp.isExpired()) {
+                powerUpIterator.remove(); // Remove expired power ups
+            } else {
+                // Check for collisions with player ship
+                if (playerShip.getBoundingRectangle().overlaps(powerUp.getBoundingRectangle())) {
+                    powerUpIterator.remove(); // Remove the power up after collecting
+                    switch (powerUp.getPowerUpType()) {
+                        case "life":
+                            playerShip.addLife();
+                            break;
+                        case "gun":
+                            playerShip.upgradeGun();
+                            break;
+                        case "shield":
+                            playerShip.activateShield();
+                            break;
+                        case "blast":
+                            playerShip.activateBlast();
+                            break;
+                    }
+                }
+            }
+        }
 
         // Spawn new enemy ships
         if (timeSinceEnemySpawned >= timeBetweenEnemiesSpawn &&
@@ -202,6 +245,22 @@ public class GameModel {
         }
     }
 
+    private void spawnPowerUp() {
+        // Randomly select a position for the power up
+        float powerUpX = MathUtils.random(0, WORLD_WIDTH - 20);
+        float powerUpY = MathUtils.random(0, WORLD_HEIGHT - 20);
+
+        // Randomly select a power up type
+        String[] powerUpTypes = {"life", "gun", "shield", "blast"};
+        String powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
+
+        // Creating the power up
+        PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
+
+        // Adding the power up to the list
+        powerUps.add(powerUp);
+
+    }
 
 
     private void spawnEnemyShip() {
@@ -270,6 +329,10 @@ public class GameModel {
 
     public List<Laser> getEnemyLasers() {
         return enemyLasers;
+    }
+
+    public LinkedList<PowerUps> getPowerUps() {
+        return powerUps;
     }
 
 	

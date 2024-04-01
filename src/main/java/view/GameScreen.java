@@ -17,6 +17,7 @@ import controller.EnemyShipController;
 import controller.PlayerShipController;
 import model.GameModel;
 import model.Laser;
+import model.PowerUps;
 import model.ships.Ship;
 
 public class GameScreen implements Screen {
@@ -174,6 +175,11 @@ public class GameScreen implements Screen {
 		// Draw each enemy ship
 		for (Ship enemyShip : gameModel.getEnemyShips()) {
 			enemyShip.draw(batch);
+		}
+
+		// Draw PowerUps
+		for (PowerUps powerUp : gameModel.getPowerUps()) {
+			powerUp.draw(batch);
 		}
 
 		// Draw the ship

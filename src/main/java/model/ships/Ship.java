@@ -182,4 +182,24 @@ public abstract class Ship extends Sprite {
         health -= damage;
     }
 
+
+    public void addLife() {
+        health += 20;
+    }
+
+
+    public void upgradeGun() {
+        //TODO
+    }
+
+
+    public void activateShield() {
+        //TODO
+    }
+
+
+    public void activateBlast() {
+        //TODO
+    }
+
 }
