@@ -3,6 +3,7 @@ package model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import model.ships.BasicEnemyShip;
@@ -20,7 +21,7 @@ public class GameModel {
     private List<Laser> playerLasers;
 
     // Static to avoid creating a new sound every time a laser is fired
-    private final static Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3")); 
+    private final static Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
 
     // Initialize enemy ships and lasers
     private LinkedList<Ship> enemyShips;
@@ -243,29 +244,73 @@ public class GameModel {
         powerUps.add(powerUp);
     }
 
-    // Method to spawn an enemy ship
     private void spawnEnemyShip() {
-        // Define boundaries for enemy ship spawn, spawns along the bounderies of the
-        // game world
-        float boundaryOffset = 40;
-        float minX = boundaryOffset;
-        float maxX = WORLD_WIDTH - BasicEnemyShip.basicEnemyShipTexture.getWidth() - boundaryOffset;
-        float minY = WORLD_HEIGHT / 2 + boundaryOffset;
-        float maxY = WORLD_HEIGHT - BasicEnemyShip.basicEnemyShipTexture.getHeight() - boundaryOffset;
+        // Define boundaries for enemy ship spawn
+        float minX = 0;
+        float maxX = WORLD_WIDTH - BasicEnemyShip.basicEnemyShipTexture.getWidth();
+        float minY = WORLD_HEIGHT / 2;
+        float maxY = WORLD_HEIGHT - BasicEnemyShip.basicEnemyShipTexture.getHeight();
 
-        // Ensure minX and minY are not negative after applying offset
-        minX = Math.max(minX, 0);
-        minY = Math.max(minY, WORLD_HEIGHT / 2);
+        // Calculate the bounding box for possible enemy ship positions
+        float minDistanceToPlayer = 150; // Minimum distance from player ship
+        float minDistanceToEnemy = 100; // Minimum distance from other enemy ships
+
+        float playerShipX = playerShip.getX();
+        float playerShipY = playerShip.getY();
+
+        for (Ship enemyShip : enemyShips) {
+            float distance = new Vector2(enemyShip.getX(), enemyShip.getY()).dst(playerShipX, playerShipY);
+            if (distance < minDistanceToEnemy) {
+                minDistanceToEnemy = distance;
+            }
+        }
+
+        minX = Math.max(minX, playerShipX - minDistanceToPlayer);
+        maxX = Math.min(maxX, playerShipX + minDistanceToPlayer);
+        minY = Math.max(minY, playerShipY - minDistanceToPlayer);
+        maxY = Math.min(maxY, playerShipY + minDistanceToPlayer);
 
         // Generate random x and y positions within adjusted bounds
-        float enemyShipX = MathUtils.random(minX, maxX);
-        float enemyShipY = MathUtils.random(minY, maxY);
+        float enemyShipX;
+        float enemyShipY;
+        do {
+            enemyShipX = MathUtils.random(minX, maxX);
+            enemyShipY = MathUtils.random(minY, maxY);
+        } while (!isValidEnemyShipPosition(enemyShipX, enemyShipY));
 
         // Creating the enemy ship
         Ship enemyShip = new BasicEnemyShip(enemyShipX, enemyShipY, viewport);
 
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);
+    }
+    
+
+    // Check if the generated position is valid
+    private boolean isValidEnemyShipPosition(float x, float y) {
+        float minDistanceToPlayer = 150; // Minimum distance from player ship
+        float minDistanceToEnemy = 100; // Minimum distance from other enemy ships
+
+        // Check distance from player ship
+        float playerShipX = playerShip.getX();
+        float playerShipY = playerShip.getY();
+        float distanceToPlayer = new Vector2(playerShipX, playerShipY).dst(x, y);
+        if (distanceToPlayer < minDistanceToPlayer) {
+            return false;
+        }
+
+        // Check distance from other enemy ships
+        for (Ship enemyShip : enemyShips) {
+            if (enemyShip.getX() == x && enemyShip.getY() == y) {
+                continue; // Skip comparison with itself
+            }
+            float distanceToEnemy = new Vector2(enemyShip.getX(), enemyShip.getY()).dst(x, y);
+            if (distanceToEnemy < minDistanceToEnemy) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void update() {
