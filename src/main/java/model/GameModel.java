@@ -209,18 +209,33 @@ public class GameModel {
         }
     }
 
-    // Method to fire a laser from the player
+    // Method to fire a laser from the player ship
     public void firePlayerLaser() {
-        Laser laser = playerShip.fireLaser();
-        if (laser != null) {
-            playerLasers.add(laser);
-            laserSound.play();
+        if (playerShip.isGunUpgraded()) {
+            // If the player ship's gun is upgraded, shoot bursts of lasers
+            int burstSize = 3; 
+            for (int i = 0; i < burstSize; i++) {
+                Laser laser = playerShip.fireLaser(playerLasers); // Pass playerLasers list
+                if (laser != null) {
+                    playerLasers.add(laser);
+                    laserSound.play();
+                }
+            }
+        } else {
+            // If the gun is not upgraded, fire a single laser
+            Laser laser = playerShip.fireLaser(playerLasers); 
+            if (laser != null) {
+                playerLasers.add(laser);
+                laserSound.play();
+            }
         }
     }
+    
+    
 
     // Method to fire a laser from a single enemy
     public void fireEnemyLaser(Ship enemyShip) {
-        Laser laser = enemyShip.fireLaser();
+        Laser laser = enemyShip.fireLaser(enemyLasers); 
         if (laser != null) {
             enemyLasers.add(laser);
             laserSound.play();
@@ -284,7 +299,7 @@ public class GameModel {
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);
     }
-    
+
 
     // Check if the generated position is valid
     private boolean isValidEnemyShipPosition(float x, float y) {

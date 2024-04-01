@@ -1,5 +1,7 @@
 package model.ships;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -26,9 +28,11 @@ public abstract class Ship extends Sprite {
     
     private Viewport viewport; // Reference to the viewport
 
-    // Initialize parameters for shield
+    // Initialize parameters for powerups
     private boolean isShieldActivated = false;
     private float shieldDuration = 20;
+    private boolean isGunUpgraded = false;
+    private float gunUpgradeDuration = 20;
 
 	
 
@@ -152,7 +156,7 @@ public abstract class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
-    abstract public Laser fireLaser(); 
+    abstract public Laser fireLaser(List<Laser> playerLasers);
 //    {
 //    	Laser laser = null;
 //    	if (timeSinceLaserFired >= laserFireRate) {
@@ -177,10 +181,18 @@ public abstract class Ship extends Sprite {
 
     public void update(float deltaTime) {
     	this.timeSinceLaserFired += deltaTime;
+        
         if (isShieldActivated) {
             shieldDuration -= deltaTime;
             if (shieldDuration <= 0) {
                 isShieldActivated = false;
+            }
+        }
+
+        if (isGunUpgraded) {
+            gunUpgradeDuration -= deltaTime;
+            if (gunUpgradeDuration <= 0) {
+                isGunUpgraded = false;
             }
         }
     }
@@ -200,11 +212,14 @@ public abstract class Ship extends Sprite {
         health += 20;
     }
 
-
+    // PowerUp methods
     public void upgradeGun() {
-        //TODO
+        isGunUpgraded = true;
     }
 
+    public boolean isGunUpgraded() {
+        return isGunUpgraded;
+    }
 
     public void activateShield() {
         isShieldActivated = true;
@@ -214,9 +229,6 @@ public abstract class Ship extends Sprite {
     public boolean isShieldActivated() {
         return isShieldActivated;
     }
-
-
-
 
     public void activateBlast() {
         //TODO
