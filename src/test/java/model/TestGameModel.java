@@ -9,28 +9,15 @@ import org.junit.jupiter.api.Test;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class GameModelTest {
+public class TestGameModel {
 	
-	GameModel model;
-	
-	@BeforeEach
-	public void setUp() {
-		Texture playerShipTexture = mock(Texture.class);
-		Texture playerLaserTexture = mock(Texture.class);
-		Texture enemyShipTexture = mock(Texture.class);
-		Texture enemyLaserTexture = mock(Texture.class);
-		Sound laserSound = mock(Sound.class);
-		OrthographicCamera camera = new OrthographicCamera();
-		
-		model = new GameModel(playerShipTexture, playerLaserTexture,
-				enemyShipTexture, enemyLaserTexture,
-				laserSound,
-				600, 450, 5, 5, camera);
-	}
+	private FitViewport viewport = mock(FitViewport.class); 
 	
 	@Test
 	public void firstEnemtSpawnsAfter5Seconds() {
+		GameModel model = new GameModel(viewport, 5, 1);
 		// No enemyShips when the model is created
 		assertEquals(0, model.getEnemyShips().size());
 		// One second passes
@@ -49,6 +36,8 @@ public class GameModelTest {
 	
 	@Test
 	public void noMoreThan5EnemiesSpawns() {
+		GameModel model = new GameModel(viewport, 5, 5);
+		
 		model.updateModel(5);
 		assertEquals(1, model.getEnemyShips().size());
 		model.updateModel(5);

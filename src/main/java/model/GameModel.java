@@ -2,6 +2,7 @@ package model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,10 +19,8 @@ public class GameModel {
 
     // Initialize player ship and lasers
     private Ship playerShip;
-    private List<Laser> playerLasers;
-
-    // Static to avoid creating a new sound every time a laser is fired
-    private final static Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
+    private List<Laser> playerLasers; // Player lasers
+    
 
     // Initialize enemy ships and lasers
     private LinkedList<Ship> enemyShips;
@@ -47,6 +46,15 @@ public class GameModel {
 
     // Keep track of destroyed enemy ships
     private int destroyedEnemyShipsCount = 0;
+    
+    // Graphics
+    private Texture playerShipTexture; 
+    private Texture playerLaserTexture; 
+    private Texture basicEnemyShipTexture; 
+    private Texture basicEnemyLaserTexture;
+    
+    // Sounds
+    private final Sound laserSound;
 
     /**
      * A general constructor for the GameModel where everything is provided as
@@ -62,10 +70,19 @@ public class GameModel {
      * @param timeBetweenEnemiesSpawn
      * @param maxEnemiesOnScreen
      */
-    public GameModel(FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen) {
+    public GameModel(Texture playerShipTexture, Texture playerLaserTexture,
+    		Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
+    		Sound laserSound, FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen) {
+    	
+    	// Initialize field variables
+    	this.playerShipTexture = playerShipTexture;
+    	this.playerLaserTexture = playerLaserTexture;
+    	this.basicEnemyShipTexture = basicEnemyShipTexture;
+    	this.basicEnemyLaserTexture = basicEnemyLaserTexture;
+    	this.laserSound = laserSound;
 
         // Initialize player
-        playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, viewport);
+        playerShip = new PlayerShip(playerShipTexture, playerLaserTexture, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, viewport);
         playerLasers = new LinkedList<>();
 
         // Initialize enemies
@@ -262,9 +279,9 @@ public class GameModel {
     private void spawnEnemyShip() {
         // Define boundaries for enemy ship spawn
         float minX = 0;
-        float maxX = WORLD_WIDTH - BasicEnemyShip.basicEnemyShipTexture.getWidth();
+        float maxX = WORLD_WIDTH - basicEnemyShipTexture.getWidth();
         float minY = WORLD_HEIGHT / 2;
-        float maxY = WORLD_HEIGHT - BasicEnemyShip.basicEnemyShipTexture.getHeight();
+        float maxY = WORLD_HEIGHT - basicEnemyShipTexture.getHeight();
 
         // Calculate the bounding box for possible enemy ship positions
         float minDistanceToPlayer = 150; // Minimum distance from player ship
@@ -294,7 +311,7 @@ public class GameModel {
         } while (!isValidEnemyShipPosition(enemyShipX, enemyShipY));
 
         // Creating the enemy ship
-        Ship enemyShip = new BasicEnemyShip(enemyShipX, enemyShipY, viewport);
+        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, enemyShipX, enemyShipY, viewport);
 
         // Adding the enemy ship to the list
         enemyShips.add(enemyShip);

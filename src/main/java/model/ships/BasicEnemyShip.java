@@ -13,8 +13,7 @@ public class BasicEnemyShip extends Ship {
 
     public static final Random random = new Random();
 
-    public static final Texture basicEnemyShipTexture = new Texture("pictures/enemyShip.png");
-    public static final Texture basicEnemyLaserTexture = new Texture("pictures/enemyLaser.png");
+    public final Texture basicEnemyLaserTexture;
 
     private static final float basicEnemyHealth = 10;
     private static final float basicEnemySpeed = 50;
@@ -32,10 +31,13 @@ public class BasicEnemyShip extends Ship {
      * @param y        float: the y position at which the ship should spawn.
      * @param viewport FitViewport: the viewport of the game.
      */
-    public BasicEnemyShip(float x, float y, FitViewport viewport) {
+    public BasicEnemyShip(Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
+    		float x, float y, FitViewport viewport) {
 
-        super(basicEnemyShipTexture, x, y, basicEnemyWidth, basicEnemyHeight, basicEnemySpeed, basicEnemyHealth,
-                viewport);
+        super(basicEnemyShipTexture, x, y, basicEnemyWidth, basicEnemyHeight,
+        		basicEnemySpeed, basicEnemyHealth, viewport);
+        
+        this.basicEnemyLaserTexture = basicEnemyLaserTexture;
     }
 
     @Override

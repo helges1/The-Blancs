@@ -10,8 +10,7 @@ import model.Laser;
 
 public class PlayerShip extends Ship {
 	
-	private static final Texture playerShipTexture = new Texture("pictures/playerShip.png");
-	private static final Texture playerLaserTexture = new Texture("pictures/playerLaser.png");
+	private final Texture playerLaserTexture;
 	
 	private static final float playerHealth = 100;
 	private static final float playerSpeed = 200;
@@ -21,10 +20,12 @@ public class PlayerShip extends Ship {
 	private static final float playerLaserSpeed = 600;
 	private static final float playerFireRate = 0.3f;
 
-	public PlayerShip(float x, float y, FitViewport viewport) {
+	public PlayerShip(Texture playerShipTexture, Texture playerLaserTexture, float x, float y, FitViewport viewport) {
 		
 		super(playerShipTexture, x, y, playerWhidth, playerHeight,
 				playerSpeed, playerHealth, viewport);
+		
+		this.playerLaserTexture = playerLaserTexture;
 	}
 
 	@Override
