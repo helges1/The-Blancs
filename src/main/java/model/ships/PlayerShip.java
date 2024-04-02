@@ -36,22 +36,15 @@ public class PlayerShip extends Ship {
 
 				// Shoot three lasers in a burst with spacing
 				Vector2 position = getNosePositionOfShip();
-				float angle = getRotation();
+				float angle = getRotation() - 5f;
 				float spacing = 50;
-	
+
 				for (int i = 0; i < 3; i++) {
-					float offsetX = 0;
-					float offsetY = spacing * (i - 1); 
-	
-					if (angle != 0) {
-						offsetX = spacing * (i - 1);
-						offsetY = 0;
-					}
-	
-					Vector2 laserPosition = new Vector2(position).add(offsetX, offsetY);
-					laser = new Laser(playerLaserTexture, laserPosition, playerLaserSpeed, angle);
+					angle += 5f;
+					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle);
 					playerLasers.add(laser);
 				}
+	
 			} else {
 				// Shoot a single laser
 				Vector2 position = getNosePositionOfShip();
