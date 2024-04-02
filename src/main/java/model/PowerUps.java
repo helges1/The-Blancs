@@ -9,23 +9,44 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class PowerUps extends Sprite{
 
+    public enum PowerUpType {
+        SHIELD(new Texture("pictures/powerup-shield.png")),
+        LIFE(new Texture("pictures/powerup-life.png")),
+        BLAST(new Texture("pictures/powerup-blast.png")),
+        GUN(new Texture("pictures/powerup-gun.png"));
+
+        private final Texture powerUpTexture;
+
+        PowerUpType(Texture powerUpTexture) {
+            this.powerUpTexture = powerUpTexture;
+        }
+
+        public Texture getPowerUpTexture() {
+            return powerUpTexture;
+        }
+
+    }
+
+
+
     private final float powerUpWidth = 100;
     private final float powerUpHeight = 100;
     private float powerUpDuration;
     private float xPos, yPos;
 
-    private String powerUpType;
     private Texture powerUpTexture;
     private boolean isCollected = false;
 
-    public PowerUps(float xPos, float yPos, String powerUpType, float powerUpDuration) {
+    PowerUpType powerUpType;
+
+    public PowerUps(float xPos, float yPos, PowerUpType powerUpType, float powerUpDuration) {
         this.powerUpType = powerUpType;
         this.powerUpDuration = powerUpDuration;
         this.xPos = xPos;
         this.yPos = yPos;
 
         try {
-            powerUpTexture = new Texture("pictures/powerup-" + powerUpType + ".png");
+            powerUpTexture = powerUpType.getPowerUpTexture();
             this.setTexture(powerUpTexture);
             this.setSize(powerUpWidth, powerUpHeight); // Set the sprite to a specific size
         } catch (Exception e) {
@@ -34,20 +55,8 @@ public class PowerUps extends Sprite{
     }
 
 
-    public float getxPos() {
-        return xPos;
-    }
-
-    public float getyPos() {
-        return yPos;
-    }
-
-    public String getPowerUpType() {
+    public PowerUpType getPowerUpType() {
         return powerUpType;
-    }
-
-    public float getPowerUpDuration() {
-        return powerUpDuration;
     }
 
     public Texture getPowerUpTexture() {

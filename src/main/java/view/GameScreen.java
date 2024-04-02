@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,6 +19,7 @@ import controller.PlayerShipController;
 import model.GameModel;
 import model.Laser;
 import model.PowerUps;
+import model.PowerUps.PowerUpType;
 import model.ships.Ship;
 
 public class GameScreen implements Screen {
@@ -113,7 +115,8 @@ public class GameScreen implements Screen {
             healthBarColor = Color.ORANGE;
         } else {
             healthBarColor = Color.RED;
-    }
+    	}
+
         // Set the projection matrix for the shape renderer
         shapeRenderer.setProjectionMatrix(camera.combined);
 		// Begin the shape renderer
@@ -123,8 +126,18 @@ public class GameScreen implements Screen {
 		// Draws the health bar with the calculated percentage
         shapeRenderer.rect(healthBarX, healthBarY, 100 * healthPercentage, 10);
         shapeRenderer.end();
-		
 
+		batch.begin();
+		// Draw the powerup timer on the right
+		if (gameModel.getShip().getActivePowerUp() != null) {
+			PowerUpType powerUpType = gameModel.getShip().getActivePowerUp();
+			Texture powerUpTexture = powerUpType.getPowerUpTexture();
+			batch.draw(powerUpTexture, hudRightX - powerUpTexture.getWidth(), hudRow1Y - powerUpTexture.getHeight());
+			String powerUpTimerText = String.valueOf((int)gameModel.getShip().getPowerUpTimer());
+			font.draw(batch, powerUpTimerText, hudRightX - font.getSpaceXadvance() * powerUpTimerText.length(), hudRow2Y);
+		}
+
+		batch.end();
 	}
 	
 	@Override

@@ -1,8 +1,7 @@
 package model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import model.ships.BasicEnemyShip;
 import model.ships.PlayerShip;
 import model.ships.Ship;
+import model.PowerUps.PowerUpType;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,12 +21,12 @@ public class GameModel {
 
     // Initialize player ship and lasers
     private Ship playerShip;
-    private List<Laser> playerLasers; // Player lasers
+    private LinkedList<Laser> playerLasers; // Player lasers
     
 
     // Initialize enemy ships and lasers
     private LinkedList<Ship> enemyShips;
-    private List<Laser> enemyLasers;
+    private LinkedList<Laser> enemyLasers;
 
     // Initialize power ups
     private LinkedList<PowerUps> powerUps;
@@ -218,16 +218,18 @@ public class GameModel {
     private void powerUpCollected(PowerUps powerUp) {
         powerUps.remove(powerUp); // Remove the power-up after collecting
         switch (powerUp.getPowerUpType()) {
-            case "life":
-                playerShip.addLife();
+            case LIFE:
+                playerShip.addHealth();
                 break;
-            case "gun":
+            case GUN:
                 playerShip.upgradeGun();
+                playerShip.setActivePowerUp(PowerUpType.GUN);
                 break;
-            case "shield":
+            case SHIELD:
                 playerShip.activateShield();
+                playerShip.setActivePowerUp(PowerUpType.SHIELD);
                 break;
-            case "blast":
+            case BLAST:
                 playerShip.activateBlast();
                 break;
         }
@@ -273,9 +275,10 @@ public class GameModel {
         float powerUpY = MathUtils.random(0, WORLD_HEIGHT - 20);
 
         // Randomly select a power up type
-        String[] powerUpTypes = { "life", "gun", "shield", "blast" };
-        String powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
-        
+        PowerUpType[] powerUpTypes = PowerUpType.values();
+
+        PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
+        powerUpType = PowerUpType.SHIELD;
         // Creating the power up
         PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
 

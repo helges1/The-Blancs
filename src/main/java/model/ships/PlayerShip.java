@@ -1,5 +1,7 @@
 package model.ships;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import model.Laser;
+import model.PowerUps.PowerUpType;
 
 public class PlayerShip extends Ship {
 	
@@ -21,6 +24,8 @@ public class PlayerShip extends Ship {
 	private static final float playerLaserSpeed = 400;
 	private static final float playerFireRate = 0.3f;
 
+
+
 	public PlayerShip(TextureRegion playerShipTexture, TextureRegion playerLaserTexture, float x, float y, FitViewport viewport) {
 		
 		super(playerShipTexture, x, y, playerWhidth, playerHeight,
@@ -33,7 +38,9 @@ public class PlayerShip extends Ship {
 	public Laser fireLaser(List<Laser> playerLasers) {
 		Laser laser = null;
 		if (timeSinceLaserFired >= playerFireRate) {
-			if (isGunUpgraded()) { // Check if the gun is upgraded
+			// ...
+
+			if (this.getActivePowerUp() == PowerUpType.GUN) { // Check if the gun is upgraded
 
 				// Shoot three lasers in a burst with spacing
 				Vector2 position = getNosePositionOfShip();
@@ -54,7 +61,7 @@ public class PlayerShip extends Ship {
 					position = new Vector2(getNosePositionOfShip()).add(offset);
 					
 					angle = getRotation(); 
-					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 30, 30);
+					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 20, 30);
 					playerLasers.add(laser);
 				}
 				
@@ -63,11 +70,12 @@ public class PlayerShip extends Ship {
 				// Shoot a single laser
 				Vector2 position = getNosePositionOfShip();
 				float angle = getRotation(); 
-				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 30, 30);
+				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 20, 30);
 				playerLasers.add(laser);
 			}
 			timeSinceLaserFired = 0;
 		}
 		return laser;
 	}
+
 }

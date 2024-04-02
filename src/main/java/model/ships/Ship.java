@@ -1,9 +1,9 @@
 package model.ships;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,14 +11,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import model.GameModel;
 import model.Laser;
+import model.PowerUps.PowerUpType;
 
 public abstract class Ship extends Sprite {
 	
     public final float speed; //200
     
     private float health;
+
+    // Powerups
+    private PowerUpType activePowerUp;
     
     //private final Texture laserTexture;
     
@@ -31,9 +34,8 @@ public abstract class Ship extends Sprite {
 
     // Initialize parameters for powerups
     private boolean isShieldActivated = false;
-    private float shieldDuration = 20;
     private boolean isGunUpgraded = false;
-    private float gunUpgradeDuration = 20;
+    private float powerUpDuration = 20;
 
 	
 
@@ -91,7 +93,6 @@ public abstract class Ship extends Sprite {
     	setPosition(x, y);
     	this.setViewport(viewport);
     	setOriginCenter();
-
     }
 
     
@@ -203,17 +204,17 @@ public abstract class Ship extends Sprite {
     public void update(float deltaTime) {
     	this.timeSinceLaserFired += deltaTime;
         
-        if (isShieldActivated) {
-            shieldDuration -= deltaTime;
-            if (shieldDuration <= 0) {
-                isShieldActivated = false;
-            }
-        }
-
-        if (isGunUpgraded) {
-            gunUpgradeDuration -= deltaTime;
-            if (gunUpgradeDuration <= 0) {
-                isGunUpgraded = false;
+        // PowerUp timer
+        if (activePowerUp != null) {
+            powerUpDuration -= deltaTime;
+            if (powerUpDuration <= 0) {
+                if (activePowerUp.equals(PowerUpType.SHIELD)) {
+                    isShieldActivated = false;
+                } else if (activePowerUp.equals(PowerUpType.GUN)) {
+                    isGunUpgraded = false;
+                }
+                activePowerUp = null;
+                powerUpDuration = 20;
             }
         }
     }
@@ -228,8 +229,7 @@ public abstract class Ship extends Sprite {
         }
     }
 
-
-    public void addLife() {
+    public void addHealth() {
         health += 20;
     }
 
@@ -244,7 +244,6 @@ public abstract class Ship extends Sprite {
 
     public void activateShield() {
         isShieldActivated = true;
-        shieldDuration = 5;
     }
 
     public boolean isShieldActivated() {
@@ -253,6 +252,18 @@ public abstract class Ship extends Sprite {
 
     public void activateBlast() {
         //TODO
+    }
+
+    public void setActivePowerUp(PowerUpType powerUp) {
+        activePowerUp = powerUp;
+    }
+
+    public PowerUpType getActivePowerUp() {
+        return activePowerUp;
+    }
+
+    public float getPowerUpTimer() {
+        return powerUpDuration;
     }
 
 }
