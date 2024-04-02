@@ -48,3 +48,8 @@ Jobbet med å få Git til å være Git til å oppføre seg någelude greit. Mich
 Oppmøte: Michal, Lasse, Balder, Stian og Sebastian tilstede
 
 Sett på tester og pusset litt på modellen,samt jobbet med flere funksjoner i spillet. Fikk enemies til å forsvinne når de blir truffet av laser, og jobbet på rotasjon av enemies.
+
+## 2. April
+Oppmøte Michal, Stian, Balder og Sebastian til stede 
+
+Har lagt in powerUps, fixet modell klasse og diskutert videre implementasjoner for å utbedre spillet. Er i gang med eksplosjon effekter også. Movement på playerShip er fikset. Diskutert flere nivåer av enemies. en basic enemy, en mer avansert og en 'boss'
