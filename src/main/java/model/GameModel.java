@@ -135,7 +135,7 @@ public class GameModel {
         }
 
         // Spawn new PowerUps
-        if (timeSincePowerUpSpawned >= 10) {
+        if (timeSincePowerUpSpawned >= 7) {
             spawnPowerUp();
             timeSincePowerUpSpawned = 0;
         }
@@ -279,7 +279,6 @@ public class GameModel {
         PowerUpType[] powerUpTypes = PowerUpType.values();
 
         PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
-        powerUpType = PowerUpType.BLAST;
         // Creating the power up
         PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
 
