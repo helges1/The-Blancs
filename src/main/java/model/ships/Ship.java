@@ -127,6 +127,26 @@ public abstract class Ship extends Sprite {
         setPosition(newX, getY());
     }
 
+    public void moveShip(Vector2 movementPosition) {
+        float newX = getX() + speed * movementPosition.x * Gdx.graphics.getDeltaTime();
+        float newY = getY() + speed * movementPosition.y * Gdx.graphics.getDeltaTime();
+
+        if (newX < 0) {
+            newX = 0;
+        } else if (newX + getWidth() > viewport.getWorldWidth()) {
+            newX = viewport.getWorldWidth() - getWidth();
+        }
+
+        if (newY < 0) {
+            newY = 0;
+        } else if (newY + getHeight() > viewport.getWorldHeight()) {
+            newY = viewport.getWorldHeight() - getHeight();
+        }
+
+        setPosition(newX, newY);
+    }
+
+
     public void rotateShip(Vector2 rotateTowards) {
         // Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.input.getY()); // Burde dette heller bli gitt som argument fra Controller?
         //viewport.unproject(rotateTowards); // Only needed for playerShip movement

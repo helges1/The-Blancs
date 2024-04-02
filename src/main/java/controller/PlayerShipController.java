@@ -22,12 +22,18 @@ public class PlayerShipController implements InputProcessor {
 
     // Update the ship's movement and firing based on input
     public void update(float deltaTime) {
+        Vector2 movementPosition = new Vector2(0, 0);
         // Movement updates
-        if (upPressed) ship.moveUp(deltaTime);
-        if (downPressed) ship.moveDown(deltaTime);
-        if (leftPressed) ship.moveLeft(deltaTime);
-        if (rightPressed) ship.moveRight(deltaTime);
+        if (upPressed) movementPosition.y += 1;
+        if (downPressed) movementPosition.y -= 1;
+        if (leftPressed) movementPosition.x -= 1;
+        if (rightPressed) movementPosition.x += 1;
 
+        // Normalize the movement vector to prevent faster diagonal movement
+        if (movementPosition.len() > 0) {
+            movementPosition.nor();
+            ship.moveShip(movementPosition);
+        }
         // Rotate the ship continuously to face the mouse cursor
         Vector2 rotateTowards = model.getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
         ship.rotateShip(rotateTowards);
