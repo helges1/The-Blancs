@@ -54,7 +54,7 @@ public class PlayerShip extends Ship {
 					position = new Vector2(getNosePositionOfShip()).add(offset);
 					
 					angle = getRotation(); 
-					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle);
+					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 30, 30);
 					playerLasers.add(laser);
 				}
 				
@@ -63,7 +63,7 @@ public class PlayerShip extends Ship {
 				// Shoot a single laser
 				Vector2 position = getNosePositionOfShip();
 				float angle = getRotation(); 
-				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle);
+				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 30, 30);
 				playerLasers.add(laser);
 			}
 			timeSinceLaserFired = 0;

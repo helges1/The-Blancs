@@ -9,25 +9,35 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Laser extends Sprite {
     private Vector2 velocity;
-    private float width = 30;
-    private float height = 30;
-//    private static Sound laserSound; // Static to avoid reloading for each laser
-//
-//    static {
-//        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
-//    }
+    // private static Sound laserSound; // Static to avoid reloading for each laser
+    //
+    // static {
+    // laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
+    // }
 
-public Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
-    super(texture);
-    setPosition(position.x, position.y);
-    setRotation(angle);
-    setSize(width, height);
+    public Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
+        super(texture);
+        setPosition(position.x, position.y);
+        setRotation(angle);
 
-    // Assuming the angle is correctly adjusted for your game's coordinate system,
-    // and 'speed' represents the constant speed you want for the laser.
-    float radians = (float)Math.toRadians(angle - 270); 
-    velocity = new Vector2((float)Math.cos(radians) * speed, (float)Math.sin(radians) * speed);
-}
+        // Assuming the angle is correctly adjusted for your game's coordinate system,
+        // and 'speed' represents the constant speed you want for the laser.
+        float radians = (float) Math.toRadians(angle - 270);
+        velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
+    }
+
+    // Alternative constructor to allow setting custom width and height
+    public Laser(TextureRegion texture, Vector2 position, float speed, float angle, float width, float height) {
+        super(texture);
+        setPosition(position.x, position.y);
+        setRotation(angle);
+        setSize(width, height);
+
+        // Assuming the angle is correctly adjusted for your game's coordinate system,
+        // and 'speed' represents the constant speed you want for the laser.
+        float radians = (float) Math.toRadians(angle - 270);
+        velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
+    }
 
     public void update(float deltaTime) {
         setPosition(getX() + velocity.x * deltaTime, getY() + velocity.y * deltaTime);
@@ -39,6 +49,6 @@ public Laser(TextureRegion texture, Vector2 position, float speed, float angle) 
 
     public static void disposeSound() {
         // Static method to dispose the sound resource when the game is exiting
-//        laserSound.dispose();
+        // laserSound.dispose();
     }
 }

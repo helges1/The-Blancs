@@ -22,7 +22,7 @@ public class BasicEnemyShip extends Ship {
     private static final float basicEnemyWidth = 40;
     private static final float basicEnemyHeight = 40;
 
-    private static final float basicEnemyLaserSpeed = 450;
+    private static final float basicEnemyLaserSpeed = 300;
     private static final float basicEnemyFireRate = 1;
 
     /**
