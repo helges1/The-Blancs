@@ -277,43 +277,34 @@ public class GameModel {
     }
 
     private void spawnEnemyShip() {
-        // Define boundaries for enemy ship spawn
-        float minX = 0;
-        float maxX = WORLD_WIDTH - basicEnemyShipTexture.getWidth();
-        float minY = WORLD_HEIGHT / 2;
-        float maxY = WORLD_HEIGHT - basicEnemyShipTexture.getHeight();
+        int randNum = MathUtils.random(0, 3);
 
-        // Calculate the bounding box for possible enemy ship positions
-        float minDistanceToPlayer = 150; // Minimum distance from player ship
-        float minDistanceToEnemy = 100; // Minimum distance from other enemy ships
+        float posX = 0;
+        float posY = 0;
 
-        float playerShipX = playerShip.getX();
-        float playerShipY = playerShip.getY();
-
-        for (Ship enemyShip : enemyShips) {
-            float distance = new Vector2(enemyShip.getX(), enemyShip.getY()).dst(playerShipX, playerShipY);
-            if (distance < minDistanceToEnemy) {
-                minDistanceToEnemy = distance;
-            }
+        switch (randNum) {
+            case 0:
+                posX = 0 - basicEnemyShipTexture.getWidth();
+                posY = MathUtils.random(0, WORLD_HEIGHT);
+                break;
+            case 1:
+                posX = WORLD_WIDTH + basicEnemyShipTexture.getWidth();
+                posY = MathUtils.random(0, WORLD_HEIGHT);
+                break;
+            case 2:
+                posX = MathUtils.random(0, WORLD_WIDTH);
+                posY = 0 - basicEnemyShipTexture.getHeight();
+                break;
+            case 3:
+                posX = MathUtils.random(0, WORLD_WIDTH);
+                posY = WORLD_HEIGHT + basicEnemyShipTexture.getHeight();
+                break;
+        
+            default:
+                break;
         }
 
-        minX = Math.max(minX, playerShipX - minDistanceToPlayer);
-        maxX = Math.min(maxX, playerShipX + minDistanceToPlayer);
-        minY = Math.max(minY, playerShipY - minDistanceToPlayer);
-        maxY = Math.min(maxY, playerShipY + minDistanceToPlayer);
-
-        // Generate random x and y positions within adjusted bounds
-        float enemyShipX;
-        float enemyShipY;
-        do {
-            enemyShipX = MathUtils.random(minX, maxX);
-            enemyShipY = MathUtils.random(minY, maxY);
-        } while (!isValidEnemyShipPosition(enemyShipX, enemyShipY));
-
-        // Creating the enemy ship
-        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, enemyShipX, enemyShipY, viewport);
-
-        // Adding the enemy ship to the list
+        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, posX, posY, viewport);
         enemyShips.add(enemyShip);
     }
 
