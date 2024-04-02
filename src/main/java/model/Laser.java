@@ -9,23 +9,25 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Laser extends Sprite {
     private Vector2 velocity;
+    private float width = 30;
+    private float height = 30;
 //    private static Sound laserSound; // Static to avoid reloading for each laser
 //
 //    static {
 //        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
 //    }
 
-    public Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
-        super(texture);
-        // setSize(15, 15);
-        setPosition(position.x, position.y);
-        setRotation(angle);
-        float radians = (float)Math.toRadians(angle - 270); // gjerne fiks opp i vinklene. prøvde å få til en løsning som virket bare
-        velocity = new Vector2((float)Math.cos(radians) * speed, (float)Math.sin(radians) * speed);
+public Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
+    super(texture);
+    setPosition(position.x, position.y);
+    setRotation(angle);
+    setSize(width, height);
 
-        // Play the laser sound when a laser is instantiated
-//        laserSound.play();
-    }
+    // Assuming the angle is correctly adjusted for your game's coordinate system,
+    // and 'speed' represents the constant speed you want for the laser.
+    float radians = (float)Math.toRadians(angle - 270); 
+    velocity = new Vector2((float)Math.cos(radians) * speed, (float)Math.sin(radians) * speed);
+}
 
     public void update(float deltaTime) {
         setPosition(getX() + velocity.x * deltaTime, getY() + velocity.y * deltaTime);

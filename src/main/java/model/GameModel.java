@@ -275,7 +275,7 @@ public class GameModel {
         // Randomly select a power up type
         String[] powerUpTypes = { "life", "gun", "shield", "blast" };
         String powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
-
+        
         // Creating the power up
         PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
 

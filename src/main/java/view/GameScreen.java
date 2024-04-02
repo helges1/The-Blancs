@@ -157,7 +157,6 @@ public class GameScreen implements Screen {
 		float backgroundScaledHeight = background.getHeight() * backgroundScale;
 
 
-		// Correct calculation for Y position to loop the background
 		float backgroundY = backgroundOffset * backgroundScale;
 		batch.draw(background, 0, backgroundY, viewport.getWorldWidth(), backgroundScaledHeight);
 		batch.draw(background, 0, backgroundY + backgroundScaledHeight, viewport.getWorldWidth(), backgroundScaledHeight);
