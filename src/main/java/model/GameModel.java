@@ -3,6 +3,8 @@ package model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -48,10 +50,12 @@ public class GameModel {
     private int destroyedEnemyShipsCount = 0;
     
     // Graphics
-    private Texture playerShipTexture; 
-    private Texture playerLaserTexture; 
-    private Texture basicEnemyShipTexture; 
-    private Texture basicEnemyLaserTexture;
+    private final TextureAtlas atlas;
+    
+    private TextureRegion playerShipTexture; 
+    private TextureRegion playerLaserTexture; 
+    private TextureRegion basicEnemyShipTexture; 
+    private TextureRegion basicEnemyLaserTexture;
     
     // Sounds
     private final Sound laserSound;
@@ -70,15 +74,18 @@ public class GameModel {
      * @param timeBetweenEnemiesSpawn
      * @param maxEnemiesOnScreen
      */
-    public GameModel(Texture playerShipTexture, Texture playerLaserTexture,
-    		Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
+    public GameModel(TextureAtlas atlas,
+//    		Texture playerShipTexture, Texture playerLaserTexture,
+//    		Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
     		Sound laserSound, FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen) {
     	
     	// Initialize field variables
-    	this.playerShipTexture = playerShipTexture;
-    	this.playerLaserTexture = playerLaserTexture;
-    	this.basicEnemyShipTexture = basicEnemyShipTexture;
-    	this.basicEnemyLaserTexture = basicEnemyLaserTexture;
+    	this.atlas = atlas;
+    	this.playerShipTexture = atlas.findRegion("playerShip");
+    	this.playerLaserTexture = atlas.findRegion("playerLaser");
+    	this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
+    	this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
+    	
     	this.laserSound = laserSound;
 
         // Initialize player
@@ -277,6 +284,7 @@ public class GameModel {
     }
 
     private void spawnEnemyShip() {
+    	Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, 0, 0, viewport);
         int randNum = MathUtils.random(0, 3);
 
         float posX = 0;
@@ -284,27 +292,29 @@ public class GameModel {
 
         switch (randNum) {
             case 0:
-                posX = 0 - basicEnemyShipTexture.getWidth();
+                posX = 0 - enemyShip.getWidth();
                 posY = MathUtils.random(0, WORLD_HEIGHT);
                 break;
             case 1:
-                posX = WORLD_WIDTH + basicEnemyShipTexture.getWidth();
+                posX = WORLD_WIDTH + enemyShip.getWidth();
                 posY = MathUtils.random(0, WORLD_HEIGHT);
                 break;
             case 2:
                 posX = MathUtils.random(0, WORLD_WIDTH);
-                posY = 0 - basicEnemyShipTexture.getHeight();
+                posY = 0 - enemyShip.getHeight();
                 break;
             case 3:
                 posX = MathUtils.random(0, WORLD_WIDTH);
-                posY = WORLD_HEIGHT + basicEnemyShipTexture.getHeight();
+                posY = WORLD_HEIGHT + enemyShip.getHeight();
                 break;
         
             default:
                 break;
         }
 
-        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, posX, posY, viewport);
+        
+        enemyShip.setX(posX);
+        enemyShip.setY(posY);
         enemyShips.add(enemyShip);
     }
 

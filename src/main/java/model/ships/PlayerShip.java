@@ -3,6 +3,7 @@ package model.ships;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -10,7 +11,7 @@ import model.Laser;
 
 public class PlayerShip extends Ship {
 	
-	private final Texture playerLaserTexture;
+	private final TextureRegion playerLaserTexture;
 	
 	private static final float playerHealth = 100;
 	private static final float playerSpeed = 200;
@@ -20,7 +21,7 @@ public class PlayerShip extends Ship {
 	private static final float playerLaserSpeed = 600;
 	private static final float playerFireRate = 0.3f;
 
-	public PlayerShip(Texture playerShipTexture, Texture playerLaserTexture, float x, float y, FitViewport viewport) {
+	public PlayerShip(TextureRegion playerShipTexture, TextureRegion playerLaserTexture, float x, float y, FitViewport viewport) {
 		
 		super(playerShipTexture, x, y, playerWhidth, playerHeight,
 				playerSpeed, playerHealth, viewport);

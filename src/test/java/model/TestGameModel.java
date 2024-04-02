@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class TestGameModel {
 	
-	private FitViewport viewport = mock(FitViewport.class); 
+	private FitViewport viewport = mock(FitViewport.class);
 	
 	@Test
 	public void firstEnemtSpawnsAfter5Seconds() {

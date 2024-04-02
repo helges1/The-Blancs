@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -13,7 +14,7 @@ public class BasicEnemyShip extends Ship {
 
     public static final Random random = new Random();
 
-    public final Texture basicEnemyLaserTexture;
+    public final TextureRegion basicEnemyLaserTexture;
 
     private static final float basicEnemyHealth = 10;
     private static final float basicEnemySpeed = 50;
@@ -31,7 +32,7 @@ public class BasicEnemyShip extends Ship {
      * @param y        float: the y position at which the ship should spawn.
      * @param viewport FitViewport: the viewport of the game.
      */
-    public BasicEnemyShip(Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
+    public BasicEnemyShip(TextureRegion basicEnemyShipTexture, TextureRegion basicEnemyLaserTexture,
     		float x, float y, FitViewport viewport) {
 
         super(basicEnemyShipTexture, x, y, basicEnemyWidth, basicEnemyHeight,

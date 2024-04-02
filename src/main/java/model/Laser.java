@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Laser extends Sprite {
@@ -14,7 +15,7 @@ public class Laser extends Sprite {
 //        laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
 //    }
 
-    public Laser(Texture texture, Vector2 position, float speed, float angle) {
+    public Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
         super(texture);
         // setSize(15, 15);
         setPosition(position.x, position.y);

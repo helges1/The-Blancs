@@ -5,6 +5,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -75,7 +76,7 @@ public abstract class Ship extends Sprite {
      * @param fireRate a flaot rep. the rate at which the ship can fire lasers.
      * @param viewport a FitViewport. The Viewport that should see the ship (? how viewport works??)
      */
-    Ship(Texture texture, float x, float y, float width, float height, float speed, 
+    Ship(TextureRegion texture, float x, float y, float width, float height, float speed, 
     		float health, FitViewport viewport) {
     	
     	super(texture);
