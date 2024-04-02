@@ -231,6 +231,7 @@ public class GameModel {
                 break;
             case BLAST:
                 playerShip.activateBlast();
+                playerShip.setActivePowerUp(PowerUpType.BLAST);
                 break;
         }
     }
@@ -278,7 +279,7 @@ public class GameModel {
         PowerUpType[] powerUpTypes = PowerUpType.values();
 
         PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
-        powerUpType = PowerUpType.SHIELD;
+        powerUpType = PowerUpType.BLAST;
         // Creating the power up
         PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
 
@@ -321,33 +322,6 @@ public class GameModel {
         enemyShips.add(enemyShip);
     }
 
-
-    // Check if the generated position is valid
-    private boolean isValidEnemyShipPosition(float x, float y) {
-        float minDistanceToPlayer = 150; // Minimum distance from player ship
-        float minDistanceToEnemy = 100; // Minimum distance from other enemy ships
-
-        // Check distance from player ship
-        float playerShipX = playerShip.getX();
-        float playerShipY = playerShip.getY();
-        float distanceToPlayer = new Vector2(playerShipX, playerShipY).dst(x, y);
-        if (distanceToPlayer < minDistanceToPlayer) {
-            return false;
-        }
-
-        // Check distance from other enemy ships
-        for (Ship enemyShip : enemyShips) {
-            if (enemyShip.getX() == x && enemyShip.getY() == y) {
-                continue; // Skip comparison with itself
-            }
-            float distanceToEnemy = new Vector2(enemyShip.getX(), enemyShip.getY()).dst(x, y);
-            if (distanceToEnemy < minDistanceToEnemy) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     public void update() {
         for (Iterator<Ship> iterator = getEnemyShips().iterator(); iterator.hasNext();) {

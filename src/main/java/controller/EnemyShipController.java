@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameModel;
+import model.PowerUps.PowerUpType;
 import model.ships.Ship;
 public class EnemyShipController {
     private LinkedList<Ship> enemyShips;
@@ -62,8 +63,37 @@ public class EnemyShipController {
                 enemyShip.moveDown(deltaTime);
             }
 
-
+            // If playerShip has Blast powerup
+            if (gameModel.getShip().getActivePowerUp() == PowerUpType.BLAST) {
+                // Apply blast effect to enemy ships
+                applyBlastEffect(enemyShip, distanceToPlayer);
+            }
         }
     }
+
+    private void applyBlastEffect(Ship enemyShip, float deltaTime) {
+
+        // Calculate the vector from the enemy ship to the player ship
+        Vector2 toPlayer = new Vector2(
+            playerShip.getX() + playerShip.getWidth() / 2 - (enemyShip.getX() + enemyShip.getWidth() / 2), 
+            playerShip.getY() + playerShip.getHeight() / 2 - (enemyShip.getY() + enemyShip.getHeight() / 2)
+        );
+        
+        // Distance from enemy to player
+        float distanceToPlayer = toPlayer.len();
+        float blastRadius = 200; // radius in which the blast affects enemy ships
+    
+        if (distanceToPlayer < blastRadius) {
+            // Make the ship spin
+            float spinSpeed = 1080; // degrees per second
+            enemyShip.rotate(spinSpeed * deltaTime);
+    
+            // Apply a force that pushes the ship away
+            Vector2 blastDirection = toPlayer.nor().scl(-1); // Invert direction, so it moves away from the player
+            float pushBackForce = 15; // Adjust this as needed
+            enemyShip.applyBlastForce(blastDirection.scl(pushBackForce));
+        }
+    }
+    
 }
 

@@ -37,8 +37,7 @@ public abstract class Ship extends Sprite {
     private boolean isGunUpgraded = false;
     private float powerUpDuration = 20;
 
-	
-
+    private Vector2 velocity = new Vector2(0, 0);
 	
     // private GameModel gameModel; // Reference to the gameModel
 
@@ -160,6 +159,10 @@ public abstract class Ship extends Sprite {
         setRotation(angle - 90);
     }
 
+    public void rotateShip(float angle) {
+        setRotation(angle);
+    }
+
     // verdiene kan endres om det ønskes bedre plassering av laser
     Vector2 getNosePositionOfShip() {
         float shipRotation = getRotation();
@@ -200,6 +203,10 @@ public abstract class Ship extends Sprite {
         return health <= 0;
     }
 
+    public void applyBlastForce(Vector2 force) {
+        this.velocity.add(force);
+    }
+
 
     public void update(float deltaTime) {
     	this.timeSinceLaserFired += deltaTime;
@@ -215,6 +222,21 @@ public abstract class Ship extends Sprite {
                 }
                 activePowerUp = null;
                 powerUpDuration = 20;
+            }
+        }
+
+        // This is for enemy ships when they get blasted
+        if (!velocity.isZero()) {
+            float newX = getX() + velocity.x * deltaTime;
+            float newY = getY() + velocity.y * deltaTime;
+            setPosition(newX, newY);
+
+            // Slow down the ship
+            velocity.scl(0.98f); // Slow down the ship by 2% each frame
+
+            // If velocity is very small, set it to zero
+            if (velocity.len2() < 0.01f) {
+                velocity.setZero();
             }
         }
     }
@@ -251,7 +273,8 @@ public abstract class Ship extends Sprite {
     }
 
     public void activateBlast() {
-        //TODO
+        // Implement blast powerup
+
     }
 
     public void setActivePowerUp(PowerUpType powerUp) {
