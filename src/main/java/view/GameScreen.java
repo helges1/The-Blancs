@@ -221,7 +221,7 @@ public class GameScreen implements Screen {
 		}
 
 		// Draw the shield if it is activated
-		if (gameModel.getShip().isShieldActivated()) {
+		if (gameModel.getShip().getActivePowerUp() == PowerUpType.SHIELD) {
 			batch.draw(shieldTexture, gameModel.getShip().getX() - (gameModel.getShip().getWidth() / 2),
 					gameModel.getShip().getY() - (gameModel.getShip().getHeight() / 2),
 					gameModel.getShip().getWidth() * 2f, gameModel.getShip().getHeight() * 2f);

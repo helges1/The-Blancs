@@ -234,6 +234,7 @@ public class GameModel {
                 playerShip.setActivePowerUp(PowerUpType.BLAST);
                 break;
         }
+        playerShip.resetPowerUpTimer();
     }
 
     // Method to fire a laser from the player ship

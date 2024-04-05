@@ -289,4 +289,8 @@ public abstract class Ship extends Sprite {
         return powerUpDuration;
     }
 
+    public void resetPowerUpTimer() {
+        powerUpDuration = 20;
+    }
+
 }
