@@ -20,6 +20,7 @@ import controller.PlayerShipController;
 import model.GameModel;
 import model.Laser;
 import model.PowerUps;
+import model.ScoreManager;
 import model.PowerUps.PowerUpType;
 import model.ships.Ship;
 
@@ -41,7 +42,7 @@ public class GameScreen implements Screen {
 	private TextureRegion[] blastFrames; // Array to hold the blast frames
 	private float animationTime = 0; // Time since the animation started
 
-	private int score = 0;
+	private int currentScore = 0;
 
 	// HUD
 	BitmapFont font;
@@ -51,6 +52,7 @@ public class GameScreen implements Screen {
 	float hudCentreX;
 	float hudRow1Y;
 	float hudRow2Y;
+	float hudRow3Y;
 	float hudSectionWidth;
 
 	// ShapeRenderer for drawing health bar
@@ -103,29 +105,36 @@ public class GameScreen implements Screen {
 		hudCentreX = viewport.getWorldWidth() / 2;
 		hudRow1Y = viewport.getWorldHeight() - hudVerticalMargin;
 		hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
+		hudRow3Y = hudRow2Y - hudVerticalMargin - font.getCapHeight();
 		hudSectionWidth = viewport.getWorldWidth() / 3;
 		backgroundOffset = 0;
 	}
 
 	@Override
 	public void show() {
-		// Implementation remains the same
+		ScoreManager.loadHighScore();
 	}
 
 	private void drawHUD() {
 		batch.begin();
-		// Draw the score on the left
-		font.draw(batch, "Score: " + score, hudLeftX, hudRow1Y);
+	    
+		// Draws high score in its orginal posistion
+		int highScore = ScoreManager.getHighScore();
+		font.draw(batch, "High Score: " + highScore, hudLeftX, hudRow1Y);
+	
+		// Draw the current score in its original position
+		String scoreText = "Score: " + currentScore;
+		font.draw(batch, scoreText, hudLeftX, hudRow2Y);
 
 		// Assuming health to be 100
 		String healthText = "Health: " + (int) gameModel.getShip().getHealth();
 		// Calculate the position for the health bar based on the text size
 		float textWidth = font.getSpaceXadvance() * healthText.length();
-		float healthBarX = hudLeftX + textWidth + 30; // 20 pixels padding from text
-		float healthBarY = hudRow2Y - 11; // 11 pixels padding from text
+		float healthBarX = hudLeftX + textWidth + 30; // 30 pixels padding from text
+		float healthBarY = hudRow3Y - 11; // 11 pixels padding from text
 
 		// Draw the health text
-		font.draw(batch, healthText, hudLeftX, hudRow2Y);
+		font.draw(batch, healthText, hudLeftX, hudRow3Y);
 		batch.end();
 
 		// Draw the health bar
@@ -167,8 +176,12 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		gameModel.updateModel(delta); // Update the game model
-		score += gameModel.getDestroyedEnemyShipsCount() * 10; // Updates the score based on the destroyed enemy ships
+		currentScore += gameModel.getDestroyedEnemyShipsCount() * 10; // Updates the score based on the destroyed enemy ships
 		gameModel.resetDestroyedEnemyShipsCount(); // Reset the destroyed enemy ships count
+		if (currentScore > ScoreManager.getHighScore()){
+			ScoreManager.setHighScore(currentScore);
+		}
+		
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
