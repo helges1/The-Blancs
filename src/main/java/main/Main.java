@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 import com.badlogic.gdx.Game;
-import view.Homescreen;
+import view.HomeScreen;
 
 import model.TheBlancsGame;
 
@@ -20,7 +20,7 @@ public class Main extends Game {
 
 	@Override
 	public void create() {
-		setScreen(new Homescreen());
+		setScreen(new HomeScreen());
 	}
 
 }

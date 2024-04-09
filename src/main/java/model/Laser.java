@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Laser extends Sprite {
     private Vector2 velocity;
+    private Vector2 windForce;
     // private static Sound laserSound; // Static to avoid reloading for each laser
     //
     // static {
@@ -39,7 +40,14 @@ public class Laser extends Sprite {
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
 
+    public void setWindForce(Vector2 windForce) {
+        this.windForce = windForce;
+    }
+
     public void update(float deltaTime) {
+        // Apply wind force to the velocity
+        if (windForce != null) velocity.add(windForce.x * deltaTime, windForce.y * deltaTime);
+
         setPosition(getX() + velocity.x * deltaTime, getY() + velocity.y * deltaTime);
     }
 

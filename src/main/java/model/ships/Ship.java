@@ -246,35 +246,13 @@ public abstract class Ship extends Sprite {
     }
 
     public void takeDamage(float damage) {
-        if (!isShieldActivated) {
+        if (activePowerUp != PowerUpType.SHIELD) {
             health -= damage;
         }
     }
 
     public void addHealth() {
         health += 20;
-    }
-
-    // PowerUp methods
-    public void upgradeGun() {
-        isGunUpgraded = true;
-    }
-
-    public boolean isGunUpgraded() {
-        return isGunUpgraded;
-    }
-
-    public void activateShield() {
-        isShieldActivated = true;
-    }
-
-    public boolean isShieldActivated() {
-        return isShieldActivated;
-    }
-
-    public void activateBlast() {
-        // Implement blast powerup
-
     }
 
     public void setActivePowerUp(PowerUpType powerUp) {

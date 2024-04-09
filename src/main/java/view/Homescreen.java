@@ -1,108 +1,113 @@
 package view;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.*;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
-
 import model.TheBlancsGame;
 
+public class HomeScreen implements Screen {
 
+    private static final int BUTTON_WIDTH = 300;
+    private static final int BUTTON_HEIGHT = 100;
+    private static final int BUTTON_SPACING = 50; // Space between buttons
 
-
-public class Homescreen implements Screen {
-    
-    // endre på størrelsen til knappene og spillet 
-    private static final int PLAY_BUTTON_Y = 300;
-    private static final int EXIT_BUTTON_Y = 100;
-    private static final int PLAY_WIDTH = 300;
-    private static final int PLAY_HEIGHT = 100;
-    private static final int EXIT_WIDTH = 300;
-    private static final int EXIT_HEIGHT = 100; 
-
-    // kan noen se over denne
     TheBlancsGame game;
-    
-    
+
     Texture playButtonActive;
     Texture playButtonInactive;
     Texture exitButtonActive;
     Texture exitButtonInactive;
     Texture background;
 
-    Music menuMusic;
-
-
-    public Homescreen() {
+    public HomeScreen(TheBlancsGame game) {
         this.game = game;
 
-        Gdx.graphics.setWindowedMode(800, 600);
-        Gdx.graphics.setResizable(false);
+        // Initialize the textures
+        initTextures();
+    }
 
-        //playButtonActive = new Texture("pictures/play_button_active.png");
-
-
-
-        // Load the images for the play and exit buttons and the background
-     
+    private void initTextures() {
+        playButtonActive = new Texture("pictures/start-1.png");
+        playButtonInactive = new Texture("pictures/start-2.png");
+        exitButtonActive = new Texture("pictures/exit-1.png");
+        exitButtonInactive = new Texture("pictures/exit-2.png");
+        background = new Texture("pictures/background.png");
     }
 
     @Override
     public void render(float delta) {
-       Gdx.gl.glClearColor(0, 0, 0, 1);
-         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-            game.batch.begin();
-            
-            game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.begin();
 
-            int x = Gdx.graphics.getWidth() / 2 - PLAY_WIDTH / 2;
+        // Draw background centered
+        game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-            if(Gdx.input.getX() < x + PLAY_WIDTH && Gdx.input.getX() > x && Gdx.graphics.getHeight() - Gdx.input.getY() < PLAY_BUTTON_Y + PLAY_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > PLAY_BUTTON_Y) {
-                game.batch.draw(playButtonActive, x, PLAY_BUTTON_Y, PLAY_WIDTH, PLAY_HEIGHT);
-                if(Gdx.input.isTouched()) {
-                    this.dispose();
-                    game.setScreen(new GameScreen());
-                }
-            } else {
-                game.batch.draw(playButtonInactive, x, PLAY_BUTTON_Y, PLAY_WIDTH, PLAY_HEIGHT);
-            }
+        // Draw buttons centered
+        int playButtonX = (Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2;
+        int playButtonY = (Gdx.graphics.getHeight() + BUTTON_SPACING) / 2 - BUTTON_HEIGHT;
+        int exitButtonX = playButtonX;
+        int exitButtonY = playButtonY - BUTTON_HEIGHT - BUTTON_SPACING;
 
-            game.batch.end();
+        // Draw the play button
+        Texture currentPlayButton = Gdx.input.getX() < playButtonX + BUTTON_WIDTH && Gdx.input.getX() > playButtonX && Gdx.graphics.getHeight() - Gdx.input.getY() < playButtonY + BUTTON_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > playButtonY ? playButtonActive : playButtonInactive;
+        game.batch.draw(currentPlayButton, playButtonX, playButtonY, BUTTON_WIDTH, BUTTON_HEIGHT);
+
+        // Draw the exit button
+        Texture currentExitButton = Gdx.input.getX() < exitButtonX + BUTTON_WIDTH && Gdx.input.getX() > exitButtonX && Gdx.graphics.getHeight() - Gdx.input.getY() < exitButtonY + BUTTON_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > exitButtonY ? exitButtonActive : exitButtonInactive;
+        game.batch.draw(currentExitButton, exitButtonX, exitButtonY, BUTTON_WIDTH, BUTTON_HEIGHT);
+
+        // Check if play button is pressed
+        if (Gdx.input.justTouched() && Gdx.input.getX() < playButtonX + BUTTON_WIDTH && Gdx.input.getX() > playButtonX && Gdx.graphics.getHeight() - Gdx.input.getY() < playButtonY + BUTTON_HEIGHT && Gdx.graphics.getHeight() - Gdx.input.getY() > playButtonY) {
+            playButtonClicked();
+        }
+
+        // Check if exit button is pressed
+        // Here you can add the logic for exiting the game when the exit button is pressed
+
+        game.batch.end();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        // TODO Auto-generated method stub
+    private void playButtonClicked() {
+        // Dispose resources and switch to the game screen
+        this.dispose();
+        game.setScreenType(ScreenType.GAME_SCREEN);
     }
 
     @Override
     public void show() {
-        // TODO Auto-generated method stub
+        // Called when this screen becomes the current screen for the game
     }
 
     @Override
-    public void hide() {
-        // TODO Auto-generated method stub
+    public void resize(int width, int height) {
+        // Adjust the viewport and UI elements size here if needed
     }
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
+        // Called when the game is paused
     }
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
+        // Called when the game is resumed from pause
+    }
+
+    @Override
+    public void hide() {
+        // Called when the current screen changes from this to a different screen
     }
 
     @Override
     public void dispose() {
-        menuMusic.dispose();
-        
+        // Dispose of the textures to free up resources
+        playButtonActive.dispose();
+        playButtonInactive.dispose();
+        exitButtonActive.dispose();
+        exitButtonInactive.dispose();
+        background.dispose();
     }
 }
-
-

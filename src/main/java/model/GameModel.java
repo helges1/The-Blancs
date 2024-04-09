@@ -187,24 +187,45 @@ public class GameModel {
             }
         }
 
-        // Update enemies lasers
-        Iterator<Laser> enemyLaserIterator = enemyLasers.iterator();
-        while (enemyLaserIterator.hasNext()) {
-            Laser laser = enemyLaserIterator.next();
-            laser.update(deltaTime);
-            if (laser.isOffScreen(WORLD_HEIGHT)) {
-                enemyLaserIterator.remove(); // Remove off-screen lasers
-            } else {
-                // Check for collisions with player ship
-                if (checkCollision(laser, playerShip)) {
-                    enemyLaserIterator.remove(); // Remove the laser after hitting the ship
-                    playerShip.takeDamage(5); // Reduce player health
-                    if (playerShip.isDestroyed()) {
-                        // Game over
-                    }
-                }
+// Update enemies' lasers
+Iterator<Laser> enemyLaserIterator = enemyLasers.iterator();
+while (enemyLaserIterator.hasNext()) {
+    Laser laser = enemyLaserIterator.next();
+
+    if (playerShip.getActivePowerUp() == PowerUpType.BLAST) {
+        Vector2 shipPosition = new Vector2(playerShip.getX(), playerShip.getY());
+        Vector2 laserPosition = new Vector2(laser.getX(), laser.getY());
+        
+        float distance = shipPosition.dst(laserPosition); // Calculate distance between ship and laser
+        
+        if (distance <= 200) {
+            System.out.println("Blast effect applied");
+            Vector2 directionFromShipToLaser = laserPosition.sub(shipPosition).nor(); // Direction from ship to laser, normalized
+            Vector2 windForceDirection = directionFromShipToLaser.scl(-1); // Reverse direction to push away
+            
+            // You might want to adjust the magnitude of the wind force based on your gameplay needs
+            float windForceMagnitude = 10f; // Example magnitude
+            Vector2 windforce = new Vector2(windForceDirection.x * windForceMagnitude, windForceDirection.y * windForceMagnitude);
+            laser.setWindForce(windforce);
+        }
+    }
+
+    laser.update(deltaTime);
+
+    if (laser.isOffScreen(WORLD_HEIGHT)) {
+        enemyLaserIterator.remove(); // Remove off-screen lasers
+    } else {
+        // Check for collisions with player ship
+        if (checkCollision(laser, playerShip)) {
+            enemyLaserIterator.remove(); // Remove the laser after hitting the ship
+            playerShip.takeDamage(5); // Reduce player health
+            if (playerShip.isDestroyed()) {
+                // Game over handling
             }
         }
+    }
+}
+
     }
 
     // Helper method to check collision between power-up and player ship
@@ -222,15 +243,12 @@ public class GameModel {
                 playerShip.addHealth();
                 break;
             case GUN:
-                playerShip.upgradeGun();
                 playerShip.setActivePowerUp(PowerUpType.GUN);
                 break;
             case SHIELD:
-                playerShip.activateShield();
                 playerShip.setActivePowerUp(PowerUpType.SHIELD);
                 break;
             case BLAST:
-                playerShip.activateBlast();
                 playerShip.setActivePowerUp(PowerUpType.BLAST);
                 break;
         }
@@ -239,7 +257,7 @@ public class GameModel {
 
     // Method to fire a laser from the player ship
     public void firePlayerLaser() {
-        if (playerShip.isGunUpgraded()) {
+        if (playerShip.getActivePowerUp() == PowerUpType.GUN) {
             // If the player ship's gun is upgraded, shoot bursts of lasers
             int burstSize = 3; 
             for (int i = 0; i < burstSize; i++) {
@@ -280,6 +298,7 @@ public class GameModel {
         PowerUpType[] powerUpTypes = PowerUpType.values();
 
         PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
+        powerUpType = PowerUpType.BLAST;
         // Creating the power up
         PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
 

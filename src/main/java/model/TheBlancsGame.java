@@ -4,7 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
 import view.GameScreen;
-import view.Homescreen;
+import view.HomeScreen;
+import view.ScreenType;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,7 +21,9 @@ public class TheBlancsGame extends Game {
 	
 	private GameModel gameModel;
 	private GameScreen gameScreen;
+    private HomeScreen homeScreen;
 	public SpriteBatch batch;
+	private ScreenType activeScreen = ScreenType.HOME_SCREEN;
 
 
 	@Override
@@ -28,7 +31,6 @@ public class TheBlancsGame extends Game {
 		OrthographicCamera camera = new OrthographicCamera(); // Initialize the camera
 		FitViewport viewport = new FitViewport(GameModel.WORLD_WIDTH, GameModel.WORLD_HEIGHT, camera);
 		batch = new SpriteBatch();
-		
 		//Textures
 //		Texture playerShip = new Texture("pictures/playerShip.png"); 
 //		Texture playerLaser = new Texture("pictures/playerLaser.png"); 
@@ -37,14 +39,36 @@ public class TheBlancsGame extends Game {
 		TextureAtlas atlas = new TextureAtlas("pictures/TheBlancsTextureAtlas.atlas");
 		Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
 		
+        // Model
 		gameModel = new GameModel(atlas, laserSound, viewport, 1, 5);
-		PlayerShipController playerShipController = new PlayerShipController(gameModel);
+		
+        // Controllers
+        PlayerShipController playerShipController = new PlayerShipController(gameModel);
 		EnemyShipController enemyShipController = new EnemyShipController(gameModel);
 		Gdx.input.setInputProcessor(playerShipController);
+        
+        // Screens
 		gameScreen = new GameScreen(gameModel, playerShipController, enemyShipController, batch, camera, viewport);
+		homeScreen = new HomeScreen(this);
 		
-		super.setScreen(gameScreen);
+        updateScreen();
 	}
+
+    private void updateScreen() {
+        switch (activeScreen) {
+            case HOME_SCREEN:
+                setScreen(homeScreen);
+                break;
+            case GAME_SCREEN:
+                setScreen(gameScreen);
+                break;
+            case GAME_OVER_SCREEN:
+                // Set the game over screen here
+                break;
+            default:
+                break;
+        }
+    }
 	
 	@Override
 	public void render() {
@@ -59,6 +83,16 @@ public class TheBlancsGame extends Game {
 	@Override
 	public void dispose() {
 		gameScreen.dispose();
+	}
+
+	public void setScreenType(ScreenType screenType) {
+		this.activeScreen = screenType;
+        updateScreen();
+	}
+    
+
+	public ScreenType getScreenType() {
+		return activeScreen;
 	}
 
 }
