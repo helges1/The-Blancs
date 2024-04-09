@@ -20,47 +20,45 @@ import java.util.List;
 
 public class GameModel {
 
-    // Initialize player ship and lasers
+    // Initialize player ship
     private Ship playerShip;
-    private LinkedList<Laser> playerLasers; // Player lasers
 
-    // UserName
+    // Initialize user name and score
     private String userName;
     private int score;
 
-    // Initialize enemy ships and lasers
+    // Initialize lists with objects
     private LinkedList<Ship> enemyShips;
     private LinkedList<Laser> enemyLasers;
-
-    // Initialize power ups
     private LinkedList<PowerUps> powerUps;
-
-    // Initialize astroids
     private LinkedList<Astroid> astroids;
+    private LinkedList<Laser> playerLasers;
 
     // World values for boundaries or other purposes
     public final static float WORLD_WIDTH = 800;
     public final static float WORLD_HEIGHT = 600;
 
-    // Power up spawn values
+    // Initialize timers
     private float timeSincePowerUpSpawned;
-
-    // Astroid spawn values
     private float timeSinceAstroidSpawned;
-
-    // Enemy spawn values
-    private final float timeBetweenEnemiesSpawn;
     private float timeSinceEnemySpawned;
+
+    // Initialize time values for spawning
+    private final float timeBetweenEnemiesSpawn;
+    private final float timeBetweenAstroidSpawn;
+    private final float timeBetweenPowerUpSpawn;
+
+    // Initialize values for enemy spawning
     private final int maxEnemiesOnScreen;
-
-    //
-    GameLevel currentLevel;
-
-    // Viewport
-    private FitViewport viewport;
 
     // Keep track of destroyed enemy ships
     private int destroyedEnemyShipsCount = 0;
+
+    // Initialize level
+    private GameLevel currentLevel;
+
+    // Viewport
+    private FitViewport viewport;
 
     // Graphics
     private final TextureAtlas atlas;
@@ -69,7 +67,6 @@ public class GameModel {
     private TextureRegion playerLaserTexture;
     private TextureRegion basicEnemyShipTexture;
     private TextureRegion basicEnemyLaserTexture;
-
 
     // Sounds
     private final Sound laserSound;
@@ -122,11 +119,14 @@ public class GameModel {
 
         // Initialize enemy spawn values
         this.timeBetweenEnemiesSpawn = currentLevel.getEnemySpawnRate();
-        this.timeSinceEnemySpawned = 0;
+        this.timeBetweenAstroidSpawn = currentLevel.getAstroidSpawnRate();
         this.maxEnemiesOnScreen = currentLevel.getMaxEnemiesOnScreen();
+        this.timeBetweenPowerUpSpawn = currentLevel.getPowerUpSpawnRate();
 
         // Initialize power up spawn values
         this.timeSincePowerUpSpawned = 0;
+        this.timeSinceEnemySpawned = 0;
+        this.timeSinceAstroidSpawned = 0;
 
         // Set the viewport
         this.viewport = viewport;
@@ -135,8 +135,7 @@ public class GameModel {
     // Method to update the game model
     public void updateModel(float deltaTime) {
         // Update score
-        score += getDestroyedEnemyShipsCount();
-        resetDestroyedEnemyShipsCount();
+        updateScore();
 
         // Change level based on score
         changeLevel(score);
@@ -181,21 +180,17 @@ public class GameModel {
         }
     }
 
-    private void changeLevel(int score) {
-        if (score >= 300 && score < 600) {
-            currentLevel = GameLevel.LEVEL_2;
-        } else if (score >= 600 && score < 900) {
-            currentLevel = GameLevel.LEVEL_3;
-        } else if (score >= 900 ) {
-            currentLevel = GameLevel.LEVEL_4;
-        }
-    }
-
     // Helper method to update ships
     private void updateEnemyShips(List<Ship> enemyShips, float deltaTime) {
         for (Ship enemyShip : enemyShips) {
             enemyShip.update(deltaTime);
         }
+    }
+
+    // Helper method to update score
+    private void updateScore() {
+        score += destroyedEnemyShipsCount;
+        resetDestroyedEnemyShipsCount();
     }
 
     // Helper method to update power-ups
@@ -267,7 +262,6 @@ public class GameModel {
                                                                                               // laser, normalized
                     Vector2 windForceDirection = directionFromShipToLaser.scl(-1); // Reverse direction to push away
 
-
                     float windForceMagnitude = 10f; // Set wind force magnitude
                     Vector2 windforce = new Vector2(windForceDirection.x * windForceMagnitude,
                             windForceDirection.y * windForceMagnitude);
@@ -306,13 +300,13 @@ public class GameModel {
         float playerCenterY = playerShip.getY() + playerShip.getHeight() / 2;
         float astroidCenterX = astroid.getX() + astroid.getWidth() / 2;
         float astroidCenterY = astroid.getY() + astroid.getHeight() / 2;
-    
+
         // Calculate the distance between the centers
         float distance = Vector2.dst(playerCenterX, playerCenterY, astroidCenterX, astroidCenterY);
-    
+
         // Calculate the sum of the radii
         float sumRadii = playerShip.getWidth() / 2 + astroid.getWidth() / 2;
-    
+
         // Check for collision
         if (distance < sumRadii) {
             playerShip.takeDamage(10);
@@ -322,7 +316,17 @@ public class GameModel {
             }
         }
     }
-    
+
+    // Helper method to change level based on score
+    private void changeLevel(int score) {
+        if (score >= 300 && score < 600) {
+            currentLevel = GameLevel.LEVEL_2;
+        } else if (score >= 600 && score < 900) {
+            currentLevel = GameLevel.LEVEL_3;
+        } else if (score >= 900) {
+            currentLevel = GameLevel.LEVEL_4;
+        }
+    }
 
     // Helper method to handle power-up collection
     private void powerUpCollected(PowerUps powerUp) {
@@ -475,15 +479,15 @@ public class GameModel {
         return playerShip;
     }
 
-    public List<Laser> getPlayerLasers() {
-        return playerLasers;
-    }
-
     public FitViewport getViewport() {
         return viewport;
     }
 
-    public List<Laser> getEnemyLasers() {
+    public LinkedList<Laser> getPlayerLasers() {
+        return playerLasers;
+    }
+
+    public LinkedList<Laser> getEnemyLasers() {
         return enemyLasers;
     }
 
