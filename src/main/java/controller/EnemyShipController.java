@@ -5,11 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import model.Astroid;
 import model.GameModel;
 import model.PowerUps.PowerUpType;
 import model.ships.Ship;
 public class EnemyShipController {
     private LinkedList<Ship> enemyShips;
+    private LinkedList<Astroid> astroids;
     private Ship playerShip;
     private float timeSinceLastShot = 0;
     private GameModel gameModel;
@@ -17,6 +19,7 @@ public class EnemyShipController {
     public EnemyShipController(GameModel gameModel) {
         this.enemyShips = gameModel.getEnemyShips();
         this.playerShip = gameModel.getShip();
+        this.astroids = gameModel.getAstroids();
         this.gameModel = gameModel;
     }
 

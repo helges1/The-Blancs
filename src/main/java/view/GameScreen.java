@@ -6,17 +6,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import com.badlogic.gdx.utils.viewport.*;
-
 import controller.EnemyShipController;
 import controller.PlayerShipController;
+
 import model.GameModel;
 import model.Laser;
 import model.PowerUps;
@@ -58,38 +56,24 @@ public class GameScreen implements Screen {
 	// ShapeRenderer for drawing health bar
 	private ShapeRenderer shapeRenderer;
 
-	public GameScreen(GameModel model, PlayerShipController playerShipController,
+	public GameScreen(GameModel gameModel, PlayerShipController playerShipController,
 			EnemyShipController enemyShipController,
 			SpriteBatch batch, OrthographicCamera camera, FitViewport viewport) {
 
 		this.batch = batch;
 		this.camera = camera;
-		gameModel = model;
+		this.gameModel = gameModel;
 
 		this.playerShipController = playerShipController;
-
 		this.enemyShipController = enemyShipController;
-
-		// Load the sprite sheet for the blast
-		Texture blastTextureSheet = new Texture("pictures/air-blast.png");
-
-		final int FRAME_SIZE = 200; // Size of one frame
-		final int FRAMES_PER_ROW = 5; // Number of frames per row
-
-		blastFrames = new TextureRegion[FRAMES_PER_ROW * 2]; // Total frames
-
-		// Load frames from the first row
-		for (int i = 0; i < FRAMES_PER_ROW; i++) {
-			blastFrames[i] = new TextureRegion(blastTextureSheet, i * FRAME_SIZE, 0, FRAME_SIZE, FRAME_SIZE);
-		}
-		// Load frames from the second row
-		for (int i = 0; i < FRAMES_PER_ROW; i++) {
-			blastFrames[i + FRAMES_PER_ROW] = new TextureRegion(blastTextureSheet, i * FRAME_SIZE, FRAME_SIZE,
-					FRAME_SIZE, FRAME_SIZE);
-		}
-
+		
+		// Load the blast frames
+		createBlastFrames();
+		
+		// Load the background and shield textures
 		background = new Texture("pictures/background.png");
 		shieldTexture = new Texture("pictures/shield.png");
+
 		shapeRenderer = new ShapeRenderer();
 		this.viewport = viewport;
 
@@ -214,7 +198,6 @@ public class GameScreen implements Screen {
 
 		// Draw each laser fired by the player
 		for (Laser laser : gameModel.getPlayerLasers()) {
-			laser.update(delta); // Update the laser's position
 			laser.draw(batch);
 		}
 
@@ -225,7 +208,6 @@ public class GameScreen implements Screen {
 
 		// Draw each laser fired by the enemies
 		for (Laser laser : gameModel.getEnemyLasers()) {
-			laser.update(delta); // Update the laser's position
 			laser.draw(batch);
 		}
 
@@ -251,20 +233,8 @@ public class GameScreen implements Screen {
 			// Update the animation time
 			animationTime += delta;
 
-			// Calculate the frame index
-			int frameRate = 10;
-			int frameIndex = (int) (animationTime * frameRate) % blastFrames.length;
-
-			// Calculate the position to draw the blast
-			TextureRegion currentFrame = blastFrames[frameIndex];
-			float scale = 2f; // 
-			float scaledWidth = currentFrame.getRegionWidth() * scale;
-			float scaledHeight = currentFrame.getRegionHeight() * scale;
-			float blastX = gameModel.getShip().getX() + gameModel.getShip().getWidth() / 2 - scaledWidth / 2;
-			float blastY = gameModel.getShip().getY() + gameModel.getShip().getHeight() / 2 - scaledHeight / 2;
-
-			// Draw the current frame 
-			batch.draw(currentFrame, blastX, blastY, scaledWidth, scaledHeight);
+			// Draw the blast
+			drawBlast();
 		} else {
 			// Reset the animation time if the BLAST power-up is not active
 			animationTime = 0;
@@ -272,11 +242,52 @@ public class GameScreen implements Screen {
 
 		// Draw the ship
 		gameModel.getShip().draw(batch);
+
+		// Update the game model
 		gameModel.update();
+
 		batch.end();
 
 		// Draw the HUD
 		drawHUD();
+	}
+
+	private void drawBlast() {
+		// Calculate the frame index
+		int frameRate = 10;
+		int frameIndex = (int) (animationTime * frameRate) % blastFrames.length;
+
+		// Calculate the position to draw the blast
+		TextureRegion currentFrame = blastFrames[frameIndex];
+		float scale = 2f; // 
+		float scaledWidth = currentFrame.getRegionWidth() * scale;
+		float scaledHeight = currentFrame.getRegionHeight() * scale;
+		float blastX = gameModel.getShip().getX() + gameModel.getShip().getWidth() / 2 - scaledWidth / 2;
+		float blastY = gameModel.getShip().getY() + gameModel.getShip().getHeight() / 2 - scaledHeight / 2;
+
+		// Draw the current frame 
+		batch.draw(currentFrame, blastX, blastY, scaledWidth, scaledHeight);
+	}
+
+
+	private void createBlastFrames() {
+		// Load the sprite sheet for the blast
+		Texture blastTextureSheet = new Texture("pictures/air-blast.png");
+
+		final int FRAME_SIZE = 200; // Size of one frame
+		final int FRAMES_PER_ROW = 5; // Number of frames per row
+
+		blastFrames = new TextureRegion[FRAMES_PER_ROW * 2]; // Total frames
+
+		// Load frames from the first row
+		for (int i = 0; i < FRAMES_PER_ROW; i++) {
+			blastFrames[i] = new TextureRegion(blastTextureSheet, i * FRAME_SIZE, 0, FRAME_SIZE, FRAME_SIZE);
+		}
+		// Load frames from the second row
+		for (int i = 0; i < FRAMES_PER_ROW; i++) {
+			blastFrames[i + FRAMES_PER_ROW] = new TextureRegion(blastTextureSheet, i * FRAME_SIZE, FRAME_SIZE,
+					FRAME_SIZE, FRAME_SIZE);
+		}
 	}
 
 	@Override
