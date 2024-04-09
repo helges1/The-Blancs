@@ -19,6 +19,7 @@ import model.GameModel;
 import model.Laser;
 import model.PowerUps;
 import model.ScoreManager;
+import model.TheBlancsGame;
 import model.PowerUps.PowerUpType;
 import model.ships.Ship;
 
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
 	private Texture shieldTexture;
 	private FitViewport viewport; // Add the viewport
 	private OrthographicCamera camera; // Camera for the viewport
+	private TheBlancsGame game;
 
 	private float backgroundOffset; // The Y-offset of the background
 	private final float backgroundScrollSpeed = 300;
@@ -63,6 +65,7 @@ public class GameScreen implements Screen {
 		this.batch = batch;
 		this.camera = camera;
 		this.gameModel = gameModel;
+		this.game = new TheBlancsGame();
 
 		this.playerShipController = playerShipController;
 		this.enemyShipController = enemyShipController;
@@ -165,6 +168,10 @@ public class GameScreen implements Screen {
 		gameModel.resetDestroyedEnemyShipsCount(); // Reset the destroyed enemy ships count
 		if (currentScore > ScoreManager.getHighScore()){
 			ScoreManager.setHighScore(currentScore, gameModel.getUserName());
+		}
+		if (gameModel.isGameOver()){
+			game.setScreenType(ScreenType.GAME_OVER_SCREEN);
+			return;
 		}
 		
 

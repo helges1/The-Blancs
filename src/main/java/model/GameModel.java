@@ -54,6 +54,9 @@ public class GameModel {
     // Keep track of destroyed enemy ships
     private int destroyedEnemyShipsCount = 0;
 
+    // Game over boolean
+    private boolean gameOver = false;
+
     // Initialize level
     private GameLevel currentLevel;
 
@@ -294,6 +297,7 @@ public class GameModel {
                     playerShip.takeDamage(5); // Reduce player health
                     if (playerShip.isDestroyed()) {
                         // Game over handling
+                        gameOver = true;
                     }
                 }
             }
@@ -561,6 +565,10 @@ public class GameModel {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 
 }

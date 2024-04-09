@@ -3,6 +3,7 @@ package model;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
+import view.GameOverScreen;
 import view.GameScreen;
 import view.HomeScreen;
 import view.ScreenType;
@@ -22,6 +23,7 @@ public class TheBlancsGame extends Game {
 	private GameModel gameModel;
 	private GameScreen gameScreen;
     private HomeScreen homeScreen;
+	private GameOverScreen gameOverScreen;
 	private String userName;
 	public SpriteBatch batch;
 	private ScreenType activeScreen = ScreenType.HOME_SCREEN;
@@ -53,6 +55,7 @@ public class TheBlancsGame extends Game {
         // Screens
 		gameScreen = new GameScreen(gameModel, playerShipController, enemyShipController, batch, camera, viewport);
 		homeScreen = new HomeScreen(this);
+		gameOverScreen = new GameOverScreen(this);
 		
         updateScreen();
 	}
@@ -66,7 +69,7 @@ public class TheBlancsGame extends Game {
                 setScreen(gameScreen);
                 break;
             case GAME_OVER_SCREEN:
-                // Set the game over screen here
+                setScreen(gameOverScreen);
                 break;
             default:
                 break;
