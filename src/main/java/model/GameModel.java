@@ -11,10 +11,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import model.ships.BasicEnemyShip;
 import model.ships.PlayerShip;
 import model.ships.Ship;
-import model.ships.Astroid;
-import model.ships.Astroid.AstroidType;
+import model.Astroid.AstroidType;
 import model.PowerUps.PowerUpType;
-import model.ships.Astroid.AstroidType;
 
 import java.util.Iterator;
 import java.util.LinkedList;

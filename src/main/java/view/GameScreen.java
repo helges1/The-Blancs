@@ -219,7 +219,7 @@ public class GameScreen implements Screen {
 		}
 
 		// Draw each Astroide
-		for (model.ships.Astroid astroid : gameModel.getAstroids()) {
+		for (model.Astroid astroid : gameModel.getAstroids()) {
 			astroid.draw(batch);
 		}
 
