@@ -90,8 +90,8 @@ public class TheBlancsGame extends Game {
 
 	public void setScreenType(ScreenType screenType) {
 		this.activeScreen = screenType;
-		if (homeScreen.getUserName() != null) {
-			this.userName = homeScreen.getUserName();
+		if (userName != null) {
+			gameModel.setUserName(userName);
 		}
         updateScreen();
 	}
@@ -103,6 +103,10 @@ public class TheBlancsGame extends Game {
 
 	public PlayerShipController getPlayerController() {
 		return playerShipController;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

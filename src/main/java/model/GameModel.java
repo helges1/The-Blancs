@@ -24,7 +24,7 @@ public class GameModel {
     private LinkedList<Laser> playerLasers; // Player lasers
 
     // UserName
-    private final String userName;
+    private String userName;
     
 
     // Initialize enemy ships and lasers
@@ -393,6 +393,14 @@ while (enemyLaserIterator.hasNext()) {
 
     public LinkedList<PowerUps> getPowerUps() {
         return powerUps;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 }

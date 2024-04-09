@@ -126,6 +126,7 @@ public class HomeScreen implements Screen {
     
         // Now switch to the game screen
         this.dispose();
+        game.setUserName(getUserName());
         game.setScreenType(ScreenType.GAME_SCREEN);
     }
     
@@ -202,7 +203,7 @@ public class HomeScreen implements Screen {
         background.dispose();
     }
 
-    public String getUserName() {
+    private String getUserName() {
         return userNameField.getText();
     }
 }

@@ -120,7 +120,8 @@ public class GameScreen implements Screen {
 	    
 		// Draws high score in its orginal posistion
 		int highScore = ScoreManager.getHighScore();
-		font.draw(batch, "High Score: " + highScore, hudLeftX, hudRow1Y);
+		String highScoreUser = ScoreManager.getHighScoreUser();
+		font.draw(batch, "High Score: " + highScore + " by " + highScoreUser, hudLeftX, hudRow1Y);
 	
 		// Draw the current score in its original position
 		String scoreText = "Score: " + currentScore;
@@ -179,7 +180,7 @@ public class GameScreen implements Screen {
 		currentScore += gameModel.getDestroyedEnemyShipsCount() * 10; // Updates the score based on the destroyed enemy ships
 		gameModel.resetDestroyedEnemyShipsCount(); // Reset the destroyed enemy ships count
 		if (currentScore > ScoreManager.getHighScore()){
-			ScoreManager.setHighScore(currentScore);
+			ScoreManager.setHighScore(currentScore, gameModel.getUserName());
 		}
 		
 
