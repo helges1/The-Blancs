@@ -42,7 +42,7 @@ public class TheBlancsGame extends Game {
 		Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
 		
         // Model
-		gameModel = new GameModel(atlas, laserSound, viewport, 1, 5, userName);
+		gameModel = new GameModel(atlas, laserSound, viewport, userName);
 		
         // Controllers
         this.playerShipController = new PlayerShipController(gameModel);

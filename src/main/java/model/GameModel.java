@@ -28,6 +28,7 @@ public class GameModel {
 
     // UserName
     private String userName;
+    private int score;
 
     // Initialize enemy ships and lasers
     private LinkedList<Ship> enemyShips;
@@ -54,6 +55,9 @@ public class GameModel {
     private float timeSinceEnemySpawned;
     private final int maxEnemiesOnScreen;
 
+    //
+    GameLevel currentLevel;
+
     // Viewport
     private FitViewport viewport;
 
@@ -67,6 +71,7 @@ public class GameModel {
     private TextureRegion playerLaserTexture;
     private TextureRegion basicEnemyShipTexture;
     private TextureRegion basicEnemyLaserTexture;
+
 
     // Sounds
     private final Sound laserSound;
@@ -88,7 +93,7 @@ public class GameModel {
     public GameModel(TextureAtlas atlas,
             // Texture playerShipTexture, Texture playerLaserTexture,
             // Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
-            Sound laserSound, FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen,
+            Sound laserSound, FitViewport viewport,
             String userName) {
 
         // Initialize field variables
@@ -97,6 +102,9 @@ public class GameModel {
         this.playerLaserTexture = atlas.findRegion("playerLaser");
         this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
         this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
+
+        // Initialize level
+        this.currentLevel = GameLevel.LEVEL_1;
 
         // Initialize userName
         this.userName = userName;
@@ -115,9 +123,9 @@ public class GameModel {
         astroids = new LinkedList<>();
 
         // Initialize enemy spawn values
-        this.timeBetweenEnemiesSpawn = timeBetweenEnemiesSpawn;
+        this.timeBetweenEnemiesSpawn = currentLevel.getEnemySpawnRate();
         this.timeSinceEnemySpawned = 0;
-        this.maxEnemiesOnScreen = maxEnemiesOnScreen;
+        this.maxEnemiesOnScreen = currentLevel.getMaxEnemiesOnScreen();
 
         // Initialize power up spawn values
         this.timeSincePowerUpSpawned = 0;
@@ -128,6 +136,13 @@ public class GameModel {
 
     // Method to update the game model
     public void updateModel(float deltaTime) {
+        // Update score
+        score += getDestroyedEnemyShipsCount();
+        resetDestroyedEnemyShipsCount();
+
+        // Change level based on score
+        changeLevel(score);
+
         // Update timers
         timeSincePowerUpSpawned += deltaTime;
         timeSinceEnemySpawned += deltaTime;
@@ -156,15 +171,25 @@ public class GameModel {
         }
 
         // Spawn new PowerUps
-        if (timeSincePowerUpSpawned >= 7) {
+        if (timeSincePowerUpSpawned >= currentLevel.getPowerUpSpawnRate()) {
             spawnPowerUp();
             timeSincePowerUpSpawned = 0;
         }
 
         // Spawn new Astroids
-        if (timeSinceAstroidSpawned >= 5) {
+        if (timeSinceAstroidSpawned >= currentLevel.getAstroidSpawnRate()) {
             spawnAstroids();
             timeSinceAstroidSpawned = 0;
+        }
+    }
+
+    private void changeLevel(int score) {
+        if (score >= 300 && score < 600) {
+            currentLevel = GameLevel.LEVEL_2;
+        } else if (score >= 600 && score < 900) {
+            currentLevel = GameLevel.LEVEL_3;
+        } else if (score >= 900 ) {
+            currentLevel = GameLevel.LEVEL_4;
         }
     }
 
@@ -191,8 +216,15 @@ public class GameModel {
 
     // Helper method to update astroids
     private void updateAstroids(float deltaTime) {
-        for (Astroid astroid : astroids) {
+        Iterator<Astroid> astroidIterator = astroids.iterator();
+        while (astroidIterator.hasNext()) {
+            Astroid astroid = astroidIterator.next();
             astroid.update(deltaTime);
+            if (astroid.isOffScreen(WORLD_HEIGHT)) {
+                astroidIterator.remove(); // Remove off-screen astroids
+            } else {
+                checkAstroidCollision(astroid);
+            }
         }
     }
 
@@ -269,6 +301,30 @@ public class GameModel {
             powerUpCollected(powerUp);
         }
     }
+
+    private void checkAstroidCollision(Astroid astroid) {
+        // Calculate the centers of the player ship and the asteroid
+        float playerCenterX = playerShip.getX() + playerShip.getWidth() / 2;
+        float playerCenterY = playerShip.getY() + playerShip.getHeight() / 2;
+        float astroidCenterX = astroid.getX() + astroid.getWidth() / 2;
+        float astroidCenterY = astroid.getY() + astroid.getHeight() / 2;
+    
+        // Calculate the distance between the centers
+        float distance = Vector2.dst(playerCenterX, playerCenterY, astroidCenterX, astroidCenterY);
+    
+        // Calculate the sum of the radii
+        float sumRadii = playerShip.getWidth() / 2 + astroid.getWidth() / 2;
+    
+        // Check for collision
+        if (distance < sumRadii) {
+            playerShip.takeDamage(10);
+            astroids.remove(astroid);
+            if (playerShip.isDestroyed()) {
+                // Game over handling
+            }
+        }
+    }
+    
 
     // Helper method to handle power-up collection
     private void powerUpCollected(PowerUps powerUp) {

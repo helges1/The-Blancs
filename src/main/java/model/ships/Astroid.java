@@ -102,6 +102,10 @@ public class Astroid extends Sprite{
         super.draw(batch);
     }
 
+    public boolean isOffScreen(float worldHeight) {
+        return this.getY() < -this.getHeight() + this.getHeight();
+    }
+
 
     
 }
