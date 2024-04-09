@@ -120,8 +120,10 @@ public class GameModel {
         // Initialize enemy spawn values
         this.timeBetweenEnemiesSpawn = currentLevel.getEnemySpawnRate();
         this.timeBetweenAstroidSpawn = currentLevel.getAstroidSpawnRate();
-        this.maxEnemiesOnScreen = currentLevel.getMaxEnemiesOnScreen();
         this.timeBetweenPowerUpSpawn = currentLevel.getPowerUpSpawnRate();
+
+        // Initialize max enemies on screen
+        this.maxEnemiesOnScreen = currentLevel.getMaxEnemiesOnScreen();
 
         // Initialize power up spawn values
         this.timeSincePowerUpSpawn = 0;
@@ -168,7 +170,7 @@ public class GameModel {
         }
 
         // Spawn new PowerUps
-        if (timeSincePowerUpSpawn >= timeSincePowerUpSpawn) {
+        if (timeSincePowerUpSpawn >= timeBetweenPowerUpSpawn) {
             spawnPowerUp();
             timeSincePowerUpSpawn = 0;
         }
