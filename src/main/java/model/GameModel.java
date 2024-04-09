@@ -22,6 +22,9 @@ public class GameModel {
     // Initialize player ship and lasers
     private Ship playerShip;
     private LinkedList<Laser> playerLasers; // Player lasers
+
+    // UserName
+    private final String userName;
     
 
     // Initialize enemy ships and lasers
@@ -77,7 +80,7 @@ public class GameModel {
     public GameModel(TextureAtlas atlas,
 //    		Texture playerShipTexture, Texture playerLaserTexture,
 //    		Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
-    		Sound laserSound, FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen) {
+    		Sound laserSound, FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen, String userName) {
     	
     	// Initialize field variables
     	this.atlas = atlas;
@@ -85,7 +88,11 @@ public class GameModel {
     	this.playerLaserTexture = atlas.findRegion("playerLaser");
     	this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
     	this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
+
+        // Initialize userName
+    	this.userName = userName;
     	
+        // Initialize sounds
     	this.laserSound = laserSound;
 
         // Initialize player
@@ -298,7 +305,6 @@ while (enemyLaserIterator.hasNext()) {
         PowerUpType[] powerUpTypes = PowerUpType.values();
 
         PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
-        powerUpType = PowerUpType.BLAST;
         // Creating the power up
         PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
 

@@ -22,8 +22,10 @@ public class TheBlancsGame extends Game {
 	private GameModel gameModel;
 	private GameScreen gameScreen;
     private HomeScreen homeScreen;
+	private String userName;
 	public SpriteBatch batch;
 	private ScreenType activeScreen = ScreenType.HOME_SCREEN;
+	private PlayerShipController playerShipController;
 
 
 	@Override
@@ -40,10 +42,11 @@ public class TheBlancsGame extends Game {
 		Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
 		
         // Model
-		gameModel = new GameModel(atlas, laserSound, viewport, 1, 5);
+		gameModel = new GameModel(atlas, laserSound, viewport, 1, 5, userName);
 		
         // Controllers
-        PlayerShipController playerShipController = new PlayerShipController(gameModel);
+        this.playerShipController = new PlayerShipController(gameModel);
+
 		EnemyShipController enemyShipController = new EnemyShipController(gameModel);
 		Gdx.input.setInputProcessor(playerShipController);
         
@@ -87,12 +90,19 @@ public class TheBlancsGame extends Game {
 
 	public void setScreenType(ScreenType screenType) {
 		this.activeScreen = screenType;
+		if (homeScreen.getUserName() != null) {
+			this.userName = homeScreen.getUserName();
+		}
         updateScreen();
 	}
     
 
 	public ScreenType getScreenType() {
 		return activeScreen;
+	}
+
+	public PlayerShipController getPlayerController() {
+		return playerShipController;
 	}
 
 }

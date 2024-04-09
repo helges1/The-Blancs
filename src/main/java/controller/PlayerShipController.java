@@ -16,6 +16,7 @@ public class PlayerShipController implements InputProcessor {
     private boolean spaceJustPressed, mouseJustPressed; // New flags for tracking firing state
 
     public PlayerShipController(GameModel model) {
+
     	this.model = model;
         this.ship = model.getShip();
     }
