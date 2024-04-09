@@ -11,7 +11,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import model.ships.BasicEnemyShip;
 import model.ships.PlayerShip;
 import model.ships.Ship;
+import model.ships.Astroid;
+import model.ships.Astroid.AstroidType;
 import model.PowerUps.PowerUpType;
+import model.ships.Astroid.AstroidType;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,7 +28,6 @@ public class GameModel {
 
     // UserName
     private String userName;
-    
 
     // Initialize enemy ships and lasers
     private LinkedList<Ship> enemyShips;
@@ -34,12 +36,18 @@ public class GameModel {
     // Initialize power ups
     private LinkedList<PowerUps> powerUps;
 
+    // Initialize astroids
+    private LinkedList<Astroid> astroids;
+
     // World values for boundaries or other purposes
     public final static float WORLD_WIDTH = 800;
     public final static float WORLD_HEIGHT = 600;
 
     // Power up spawn values
     private float timeSincePowerUpSpawned;
+
+    // Astroid spawn values
+    private float timeSinceAstroidSpawned;
 
     // Enemy spawn values
     private final float timeBetweenEnemiesSpawn;
@@ -51,15 +59,15 @@ public class GameModel {
 
     // Keep track of destroyed enemy ships
     private int destroyedEnemyShipsCount = 0;
-    
+
     // Graphics
     private final TextureAtlas atlas;
-    
-    private TextureRegion playerShipTexture; 
-    private TextureRegion playerLaserTexture; 
-    private TextureRegion basicEnemyShipTexture; 
+
+    private TextureRegion playerShipTexture;
+    private TextureRegion playerLaserTexture;
+    private TextureRegion basicEnemyShipTexture;
     private TextureRegion basicEnemyLaserTexture;
-    
+
     // Sounds
     private final Sound laserSound;
 
@@ -78,22 +86,23 @@ public class GameModel {
      * @param maxEnemiesOnScreen
      */
     public GameModel(TextureAtlas atlas,
-//    		Texture playerShipTexture, Texture playerLaserTexture,
-//    		Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
-    		Sound laserSound, FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen, String userName) {
-    	
-    	// Initialize field variables
-    	this.atlas = atlas;
-    	this.playerShipTexture = atlas.findRegion("playerShip");
-    	this.playerLaserTexture = atlas.findRegion("playerLaser");
-    	this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
-    	this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
+            // Texture playerShipTexture, Texture playerLaserTexture,
+            // Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
+            Sound laserSound, FitViewport viewport, float timeBetweenEnemiesSpawn, int maxEnemiesOnScreen,
+            String userName) {
+
+        // Initialize field variables
+        this.atlas = atlas;
+        this.playerShipTexture = atlas.findRegion("playerShip");
+        this.playerLaserTexture = atlas.findRegion("playerLaser");
+        this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
+        this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
 
         // Initialize userName
-    	this.userName = userName;
-    	
+        this.userName = userName;
+
         // Initialize sounds
-    	this.laserSound = laserSound;
+        this.laserSound = laserSound;
 
         // Initialize player
         playerShip = new PlayerShip(playerShipTexture, playerLaserTexture, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, viewport);
@@ -103,6 +112,7 @@ public class GameModel {
         enemyShips = new LinkedList<>();
         enemyLasers = new LinkedList<>();
         powerUps = new LinkedList<>();
+        astroids = new LinkedList<>();
 
         // Initialize enemy spawn values
         this.timeBetweenEnemiesSpawn = timeBetweenEnemiesSpawn;
@@ -121,6 +131,7 @@ public class GameModel {
         // Update timers
         timeSincePowerUpSpawned += deltaTime;
         timeSinceEnemySpawned += deltaTime;
+        timeSinceAstroidSpawned += deltaTime;
 
         // Update playerShip
         playerShip.update(deltaTime);
@@ -130,6 +141,9 @@ public class GameModel {
 
         // Update power ups
         updatePowerUps(deltaTime);
+
+        // Update astroids
+        updateAstroids(deltaTime);
 
         // Update player and enemy lasers
         updateLasers(deltaTime);
@@ -145,6 +159,12 @@ public class GameModel {
         if (timeSincePowerUpSpawned >= 7) {
             spawnPowerUp();
             timeSincePowerUpSpawned = 0;
+        }
+
+        // Spawn new Astroids
+        if (timeSinceAstroidSpawned >= 5) {
+            spawnAstroids();
+            timeSinceAstroidSpawned = 0;
         }
     }
 
@@ -166,6 +186,13 @@ public class GameModel {
             } else {
                 checkPowerUpCollision(powerUp);
             }
+        }
+    }
+
+    // Helper method to update astroids
+    private void updateAstroids(float deltaTime) {
+        for (Astroid astroid : astroids) {
+            astroid.update(deltaTime);
         }
     }
 
@@ -194,44 +221,45 @@ public class GameModel {
             }
         }
 
-// Update enemies' lasers
-Iterator<Laser> enemyLaserIterator = enemyLasers.iterator();
-while (enemyLaserIterator.hasNext()) {
-    Laser laser = enemyLaserIterator.next();
+        // Update enemies' lasers
+        Iterator<Laser> enemyLaserIterator = enemyLasers.iterator();
+        while (enemyLaserIterator.hasNext()) {
+            Laser laser = enemyLaserIterator.next();
 
-    if (playerShip.getActivePowerUp() == PowerUpType.BLAST) {
-        Vector2 shipPosition = new Vector2(playerShip.getX(), playerShip.getY());
-        Vector2 laserPosition = new Vector2(laser.getX(), laser.getY());
-        
-        float distance = shipPosition.dst(laserPosition); // Calculate distance between ship and laser
-        
-        if (distance <= 200) {
-            System.out.println("Blast effect applied");
-            Vector2 directionFromShipToLaser = laserPosition.sub(shipPosition).nor(); // Direction from ship to laser, normalized
-            Vector2 windForceDirection = directionFromShipToLaser.scl(-1); // Reverse direction to push away
-            
-            // You might want to adjust the magnitude of the wind force based on your gameplay needs
-            float windForceMagnitude = 10f; // Example magnitude
-            Vector2 windforce = new Vector2(windForceDirection.x * windForceMagnitude, windForceDirection.y * windForceMagnitude);
-            laser.setWindForce(windforce);
-        }
-    }
+            if (playerShip.getActivePowerUp() == PowerUpType.BLAST) {
+                Vector2 shipPosition = new Vector2(playerShip.getX(), playerShip.getY());
+                Vector2 laserPosition = new Vector2(laser.getX(), laser.getY());
 
-    laser.update(deltaTime);
+                float distance = shipPosition.dst(laserPosition); // Calculate distance between ship and laser
 
-    if (laser.isOffScreen(WORLD_HEIGHT)) {
-        enemyLaserIterator.remove(); // Remove off-screen lasers
-    } else {
-        // Check for collisions with player ship
-        if (checkCollision(laser, playerShip)) {
-            enemyLaserIterator.remove(); // Remove the laser after hitting the ship
-            playerShip.takeDamage(5); // Reduce player health
-            if (playerShip.isDestroyed()) {
-                // Game over handling
+                if (distance <= 200) {
+                    Vector2 directionFromShipToLaser = laserPosition.sub(shipPosition).nor(); // Direction from ship to
+                                                                                              // laser, normalized
+                    Vector2 windForceDirection = directionFromShipToLaser.scl(-1); // Reverse direction to push away
+
+
+                    float windForceMagnitude = 10f; // Set wind force magnitude
+                    Vector2 windforce = new Vector2(windForceDirection.x * windForceMagnitude,
+                            windForceDirection.y * windForceMagnitude);
+                    laser.setWindForce(windforce);
+                }
+            }
+
+            laser.update(deltaTime);
+
+            if (laser.isOffScreen(WORLD_HEIGHT)) {
+                enemyLaserIterator.remove(); // Remove off-screen lasers
+            } else {
+                // Check for collisions with player ship
+                if (checkCollision(laser, playerShip)) {
+                    enemyLaserIterator.remove(); // Remove the laser after hitting the ship
+                    playerShip.takeDamage(5); // Reduce player health
+                    if (playerShip.isDestroyed()) {
+                        // Game over handling
+                    }
+                }
             }
         }
-    }
-}
 
     }
 
@@ -266,7 +294,7 @@ while (enemyLaserIterator.hasNext()) {
     public void firePlayerLaser() {
         if (playerShip.getActivePowerUp() == PowerUpType.GUN) {
             // If the player ship's gun is upgraded, shoot bursts of lasers
-            int burstSize = 3; 
+            int burstSize = 3;
             for (int i = 0; i < burstSize; i++) {
                 Laser laser = playerShip.fireLaser(playerLasers); // Pass playerLasers list
                 if (laser != null) {
@@ -276,19 +304,17 @@ while (enemyLaserIterator.hasNext()) {
             }
         } else {
             // If the gun is not upgraded, fire a single laser
-            Laser laser = playerShip.fireLaser(playerLasers); 
+            Laser laser = playerShip.fireLaser(playerLasers);
             if (laser != null) {
                 playerLasers.add(laser);
                 laserSound.play();
             }
         }
     }
-    
-    
 
     // Method to fire a laser from a single enemy
     public void fireEnemyLaser(Ship enemyShip) {
-        Laser laser = enemyShip.fireLaser(enemyLasers); 
+        Laser laser = enemyShip.fireLaser(enemyLasers);
         if (laser != null) {
             enemyLasers.add(laser);
             laserSound.play();
@@ -312,8 +338,26 @@ while (enemyLaserIterator.hasNext()) {
         powerUps.add(powerUp);
     }
 
+    // Method to spawn a Astroid
+    private void spawnAstroids() {
+        // Randomly select a position for Astroid
+        float astroidX = MathUtils.random(0 + 20, WORLD_WIDTH - 20);
+
+        // Randomly select a Astroid type
+        AstroidType[] astroidTypes = AstroidType.values();
+        AstroidType powerUpType = astroidTypes[MathUtils.random.nextInt(astroidTypes.length)];
+
+        // Create random size from 50 to 150
+        int astroidSize = MathUtils.random(50, 150);
+        // Creating the Astroid
+        Astroid astroid = new Astroid(astroidX, new Vector2(0, -100), powerUpType, astroidSize);
+
+        // Adding the power up to the list
+        astroids.add(astroid);
+    }
+
     private void spawnEnemyShip() {
-    	Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, 0, 0, viewport);
+        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, 0, 0, viewport);
         int randNum = MathUtils.random(0, 3);
 
         float posX = 0;
@@ -336,17 +380,15 @@ while (enemyLaserIterator.hasNext()) {
                 posX = MathUtils.random(0, WORLD_WIDTH);
                 posY = WORLD_HEIGHT + enemyShip.getHeight();
                 break;
-        
+
             default:
                 break;
         }
 
-        
         enemyShip.setX(posX);
         enemyShip.setY(posY);
         enemyShips.add(enemyShip);
     }
-
 
     public void update() {
         for (Iterator<Ship> iterator = getEnemyShips().iterator(); iterator.hasNext();) {
@@ -393,6 +435,10 @@ while (enemyLaserIterator.hasNext()) {
 
     public LinkedList<PowerUps> getPowerUps() {
         return powerUps;
+    }
+
+    public LinkedList<Astroid> getAstroids() {
+        return astroids;
     }
 
     public String getUserName() {

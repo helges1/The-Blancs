@@ -218,6 +218,11 @@ public class GameScreen implements Screen {
 			laser.draw(batch);
 		}
 
+		// Draw each Astroide
+		for (model.ships.Astroid astroid : gameModel.getAstroids()) {
+			astroid.draw(batch);
+		}
+
 		// Draw each laser fired by the enemies
 		for (Laser laser : gameModel.getEnemyLasers()) {
 			laser.update(delta); // Update the laser's position
