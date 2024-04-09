@@ -53,3 +53,8 @@ Sett på tester og pusset litt på modellen,samt jobbet med flere funksjoner i s
 Oppmøte Michal, Stian, Balder og Sebastian til stede 
 
 Har lagt in powerUps, fixet modell klasse og diskutert videre implementasjoner for å utbedre spillet. Er i gang med eksplosjon effekter også. Movement på playerShip er fikset. Diskutert flere nivåer av enemies. en basic enemy, en mer avansert og en 'boss'
+
+## 9. April
+Oppmøte: Stian, Michal og Lasse
+
+Alle powerUps har blitt lagt til funksjoner, homescreen og gameOverScreen er lagt til, highscore system er lagt til. 
