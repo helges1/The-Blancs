@@ -39,9 +39,9 @@ public class GameModel {
     public final static float WORLD_HEIGHT = 600;
 
     // Initialize timers
-    private float timeSincePowerUpSpawned;
-    private float timeSinceAstroidSpawned;
-    private float timeSinceEnemySpawned;
+    private float timeSincePowerUpSpawn;
+    private float timeSinceAstroidSpawn;
+    private float timeSinceEnemySpawn;
 
     // Initialize time values for spawning
     private final float timeBetweenEnemiesSpawn;
@@ -124,9 +124,9 @@ public class GameModel {
         this.timeBetweenPowerUpSpawn = currentLevel.getPowerUpSpawnRate();
 
         // Initialize power up spawn values
-        this.timeSincePowerUpSpawned = 0;
-        this.timeSinceEnemySpawned = 0;
-        this.timeSinceAstroidSpawned = 0;
+        this.timeSincePowerUpSpawn = 0;
+        this.timeSinceEnemySpawn = 0;
+        this.timeSinceAstroidSpawn = 0;
 
         // Set the viewport
         this.viewport = viewport;
@@ -141,9 +141,9 @@ public class GameModel {
         changeLevel(score);
 
         // Update timers
-        timeSincePowerUpSpawned += deltaTime;
-        timeSinceEnemySpawned += deltaTime;
-        timeSinceAstroidSpawned += deltaTime;
+        timeSincePowerUpSpawn += deltaTime;
+        timeSinceEnemySpawn += deltaTime;
+        timeSinceAstroidSpawn += deltaTime;
 
         // Update playerShip
         playerShip.update(deltaTime);
@@ -161,22 +161,22 @@ public class GameModel {
         updateLasers(deltaTime);
 
         // Spawn new EnemyShips
-        if (timeSinceEnemySpawned >= timeBetweenEnemiesSpawn &&
+        if (timeSinceEnemySpawn >= timeBetweenEnemiesSpawn &&
                 enemyShips.size() < maxEnemiesOnScreen) {
             spawnEnemyShip();
-            timeSinceEnemySpawned = 0;
+            timeSinceEnemySpawn = 0;
         }
 
         // Spawn new PowerUps
-        if (timeSincePowerUpSpawned >= currentLevel.getPowerUpSpawnRate()) {
+        if (timeSincePowerUpSpawn >= timeSincePowerUpSpawn) {
             spawnPowerUp();
-            timeSincePowerUpSpawned = 0;
+            timeSincePowerUpSpawn = 0;
         }
 
         // Spawn new Astroids
-        if (timeSinceAstroidSpawned >= currentLevel.getAstroidSpawnRate()) {
+        if (timeSinceAstroidSpawn >= timeBetweenAstroidSpawn) {
             spawnAstroids();
-            timeSinceAstroidSpawned = 0;
+            timeSinceAstroidSpawn = 0;
         }
     }
 
@@ -243,6 +243,18 @@ public class GameModel {
                         break; // Break to avoid ConcurrentModificationException
                     }
                 }
+
+                // Check for collisions with astroids
+                Iterator<Astroid> astroidIterator = astroids.iterator();
+                while (astroidIterator.hasNext()) {
+                    Astroid astroid = astroidIterator.next();
+                    if (checkCollision(laser, astroid)) {
+                        astroidIterator.remove(); // Remove the astroid if hit by a laser
+                        laserIterator.remove(); // Remove the laser after hitting the astroid
+                        break; // Break to avoid ConcurrentModificationException
+                    }
+                }
+
             }
         }
 
@@ -314,6 +326,25 @@ public class GameModel {
             if (playerShip.isDestroyed()) {
                 // Game over handling
             }
+        }
+
+        Boolean astroidHit = false;
+        // Check if enemy hit the asteroid
+        for (Ship enemyShip : enemyShips) {
+            float enemyCenterX = enemyShip.getX() + enemyShip.getWidth() / 2;
+            float enemyCenterY = enemyShip.getY() + enemyShip.getHeight() / 2;
+
+            float distanceToEnemy = Vector2.dst(enemyCenterX, enemyCenterY, astroidCenterX, astroidCenterY);
+            float sumRadiiEnemy = enemyShip.getWidth() / 2 + astroid.getWidth() / 2;
+
+            if (distanceToEnemy < sumRadiiEnemy) {
+                enemyShips.remove(enemyShip);
+                astroidHit = true;
+            }
+        }
+
+        if (astroidHit) {
+            astroids.remove(astroid);
         }
     }
 
@@ -474,6 +505,29 @@ public class GameModel {
     public boolean checkCollision(Laser laser, Ship ship) {
         return laser.getBoundingRectangle().overlaps(ship.getBoundingRectangle());
     }
+
+    public boolean checkCollision(Laser laser, Astroid astroid) {
+        // Calculate the center position of the asteroid
+        float astroidCenterX = astroid.getX() + astroid.getWidth() / 2;
+        float astroidCenterY = astroid.getY() + astroid.getHeight() / 2;
+        
+        // Calculate the radius of the asteroid
+        float astroidRadius = astroid.getHeight() / 2;
+        
+        // Calculate the position of the laser
+        float laserCenterX = laser.getX() + laser.getWidth() / 2;
+        float laserCenterY = laser.getY() + laser.getHeight() / 2;
+        
+        // Calculate the distance between the centers of the laser and the asteroid
+        float distance = Vector2.dst(astroidCenterX, astroidCenterY, laserCenterX, laserCenterY);
+        
+        // Check if the distance is close to the radius of the asteroid
+        float threshold = laser.getWidth() / 2;
+        
+        // Check if the laser hits near the circumference of the asteroid
+        return Math.abs(distance - astroidRadius) <= threshold;
+    }
+    
 
     public Ship getShip() {
         return playerShip;
