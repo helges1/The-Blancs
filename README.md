@@ -11,10 +11,14 @@
 
 
 ## Kjøring 
+- Spillet kjøres i main.java filen som ligger i main/java/main mappen.
+
+- Tester kan kjøres i test mappen vår, og er satt opp med lik struktur som kodemappene våre. 
 
 
 ## Kjente feil
-
+- GameOverScreen fungerer ikke skikkelig enda 
+- Et par tester som feiler grunnet endring i kode
 
 ## Credits
 https://opengameart.org/content/modular-ships
