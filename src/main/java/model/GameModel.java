@@ -78,7 +78,7 @@ public class GameModel {
      * A general constructor for the GameModel where everything is provided as
      * arguments
      * (except world sizes, for some reason)
-     * 
+     *
      * @param playerShipTexture
      * @param playerLaserTexture
      * @param enemyShipTexture
@@ -486,12 +486,17 @@ public class GameModel {
     }
 
     public void update() {
-        for (Iterator<Ship> iterator = getEnemyShips().iterator(); iterator.hasNext();) {
+        for (Iterator<Ship> iterator = enemyShips.iterator(); iterator.hasNext();) {
             Ship enemyShip = iterator.next();
-
-            if (enemyShip.getBoundingRectangle().overlaps(getShip().getBoundingRectangle())) {
-                iterator.remove();
-                // Should also damage player
+            if (enemyShip.getBoundingRectangle().overlaps(playerShip.getBoundingRectangle())) {
+                playerShip.takeDamage(5);
+                enemyShip.takeDamage(5);
+                if (enemyShip.isDestroyed()) {
+                    iterator.remove();
+                }
+                if (playerShip.isDestroyed()) {
+                    gameOver = true;
+                }
             }
         }
     }
@@ -516,24 +521,24 @@ public class GameModel {
         // Calculate the center position of the asteroid
         float astroidCenterX = astroid.getX() + astroid.getWidth() / 2;
         float astroidCenterY = astroid.getY() + astroid.getHeight() / 2;
-        
+
         // Calculate the radius of the asteroid
         float astroidRadius = astroid.getHeight() / 2;
-        
+
         // Calculate the position of the laser
         float laserCenterX = laser.getX() + laser.getWidth() / 2;
         float laserCenterY = laser.getY() + laser.getHeight() / 2;
-        
+
         // Calculate the distance between the centers of the laser and the asteroid
         float distance = Vector2.dst(astroidCenterX, astroidCenterY, laserCenterX, laserCenterY);
-        
+
         // Check if the distance is close to the radius of the asteroid
         float threshold = laser.getWidth() / 2;
-        
+
         // Check if the laser hits near the circumference of the asteroid
         return Math.abs(distance - astroidRadius) <= threshold;
     }
-    
+
 
     public Ship getShip() {
         return playerShip;
