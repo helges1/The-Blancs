@@ -164,8 +164,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		gameModel.updateModel(delta); // Update the game model
-		currentScore += gameModel.getDestroyedEnemyShipsCount() * 10; // Updates the score based on the destroyed enemy ships
-		gameModel.resetDestroyedEnemyShipsCount(); // Reset the destroyed enemy ships count
+		currentScore = gameModel.getScore(); // Updates the score based on the destroyed enemy ships// Reset the destroyed enemy ships count
 		if (currentScore > ScoreManager.getHighScore()){
 			ScoreManager.setHighScore(currentScore, gameModel.getUserName());
 		}
