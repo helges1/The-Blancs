@@ -540,7 +540,7 @@ public class GameModel {
     }
 
 
-    public Ship getShip() {
+    public Ship getPlayerShip() {
         return playerShip;
     }
 

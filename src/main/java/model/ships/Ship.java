@@ -181,7 +181,7 @@ public abstract class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
-    abstract public Laser fireLaser(List<Laser> playerLasers);
+    abstract public Laser fireLaser(List<Laser> lasers);
 //    {
 //    	Laser laser = null;
 //    	if (timeSinceLaserFired >= laserFireRate) {

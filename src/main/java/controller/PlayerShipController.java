@@ -18,7 +18,7 @@ public class PlayerShipController implements InputProcessor {
     public PlayerShipController(GameModel model) {
 
     	this.model = model;
-        this.ship = model.getShip();
+        this.ship = model.getPlayerShip();
     }
 
     // Update the ship's movement and firing based on input

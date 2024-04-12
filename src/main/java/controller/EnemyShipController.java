@@ -9,6 +9,7 @@ import model.Astroid;
 import model.GameModel;
 import model.PowerUps.PowerUpType;
 import model.ships.Ship;
+
 public class EnemyShipController {
     private LinkedList<Ship> enemyShips;
     private LinkedList<Astroid> astroids;
@@ -18,7 +19,7 @@ public class EnemyShipController {
 
     public EnemyShipController(GameModel gameModel) {
         this.enemyShips = gameModel.getEnemyShips();
-        this.playerShip = gameModel.getShip();
+        this.playerShip = gameModel.getPlayerShip();
         this.astroids = gameModel.getAstroids();
         this.gameModel = gameModel;
     }
@@ -67,7 +68,7 @@ public class EnemyShipController {
             }
 
             // If playerShip has Blast powerup
-            if (gameModel.getShip().getActivePowerUp() == PowerUpType.BLAST) {
+            if (gameModel.getPlayerShip().getActivePowerUp() == PowerUpType.BLAST) {
                 // Apply blast effect to enemy ships
                 applyBlastEffect(enemyShip, distanceToPlayer);
             }

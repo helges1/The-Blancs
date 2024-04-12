@@ -115,7 +115,7 @@ public class GameScreen implements Screen {
 		font.draw(batch, scoreText, hudLeftX, hudRow2Y);
 
 		// Assuming health to be 100
-		String healthText = "Health: " + (int) gameModel.getShip().getHealth();
+		String healthText = "Health: " + (int) gameModel.getPlayerShip().getHealth();
 		// Calculate the position for the health bar based on the text size
 		float textWidth = font.getSpaceXadvance() * healthText.length();
 		float healthBarX = hudLeftX + textWidth + 30; // 30 pixels padding from text
@@ -126,7 +126,7 @@ public class GameScreen implements Screen {
 		batch.end();
 
 		// Draw the health bar
-		float healthPercentage = gameModel.getShip().getHealth() / 100f; // Assuming health to always be 100 for now
+		float healthPercentage = gameModel.getPlayerShip().getHealth() / 100f; // Assuming health to always be 100 for now
 
 		Color healthBarColor = Color.GREEN; // Default to green
 		if (healthPercentage > 0.66f) {
@@ -149,11 +149,11 @@ public class GameScreen implements Screen {
 
 		batch.begin();
 		// Draw the powerup timer on the right
-		if (gameModel.getShip().getActivePowerUp() != null) {
-			PowerUpType powerUpType = gameModel.getShip().getActivePowerUp();
+		if (gameModel.getPlayerShip().getActivePowerUp() != null) {
+			PowerUpType powerUpType = gameModel.getPlayerShip().getActivePowerUp();
 			Texture powerUpTexture = powerUpType.getPowerUpTexture();
 			batch.draw(powerUpTexture, hudRightX - powerUpTexture.getWidth(), hudRow1Y - powerUpTexture.getHeight());
-			String powerUpTimerText = String.valueOf((int) gameModel.getShip().getPowerUpTimer());
+			String powerUpTimerText = String.valueOf((int) gameModel.getPlayerShip().getPowerUpTimer());
 			font.draw(batch, powerUpTimerText, hudRightX - font.getSpaceXadvance() * powerUpTimerText.length(),
 					hudRow2Y);
 		}
@@ -229,14 +229,14 @@ public class GameScreen implements Screen {
 		}
 
 		// Draw the shield if it is activated
-		if (gameModel.getShip().getActivePowerUp() == PowerUpType.SHIELD) {
-			batch.draw(shieldTexture, gameModel.getShip().getX() - (gameModel.getShip().getWidth() / 2),
-					gameModel.getShip().getY() - (gameModel.getShip().getHeight() / 2),
-					gameModel.getShip().getWidth() * 2f, gameModel.getShip().getHeight() * 2f);
+		if (gameModel.getPlayerShip().getActivePowerUp() == PowerUpType.SHIELD) {
+			batch.draw(shieldTexture, gameModel.getPlayerShip().getX() - (gameModel.getPlayerShip().getWidth() / 2),
+					gameModel.getPlayerShip().getY() - (gameModel.getPlayerShip().getHeight() / 2),
+					gameModel.getPlayerShip().getWidth() * 2f, gameModel.getPlayerShip().getHeight() * 2f);
 		}
 
 		// Draw the blast if the BLAST power-up is active
-		if (gameModel.getShip().getActivePowerUp() == PowerUpType.BLAST) {
+		if (gameModel.getPlayerShip().getActivePowerUp() == PowerUpType.BLAST) {
 			// Update the animation time
 			animationTime += delta;
 
@@ -248,7 +248,7 @@ public class GameScreen implements Screen {
 		}
 
 		// Draw the ship
-		gameModel.getShip().draw(batch);
+		gameModel.getPlayerShip().draw(batch);
 
 		// Update the game model
 		gameModel.update();
@@ -269,8 +269,8 @@ public class GameScreen implements Screen {
 		float scale = 2f; // 
 		float scaledWidth = currentFrame.getRegionWidth() * scale;
 		float scaledHeight = currentFrame.getRegionHeight() * scale;
-		float blastX = gameModel.getShip().getX() + gameModel.getShip().getWidth() / 2 - scaledWidth / 2;
-		float blastY = gameModel.getShip().getY() + gameModel.getShip().getHeight() / 2 - scaledHeight / 2;
+		float blastX = gameModel.getPlayerShip().getX() + gameModel.getPlayerShip().getWidth() / 2 - scaledWidth / 2;
+		float blastY = gameModel.getPlayerShip().getY() + gameModel.getPlayerShip().getHeight() / 2 - scaledHeight / 2;
 
 		// Draw the current frame 
 		batch.draw(currentFrame, blastX, blastY, scaledWidth, scaledHeight);
