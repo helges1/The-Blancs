@@ -9,9 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import model.ships.BasicEnemyShip;
+import model.ships.Explosion;
 import model.ships.PlayerShip;
 import model.ships.Ship;
-import model.Astroid.AstroidType;
+import model.Asteroid.AsteroidType;
 import model.PowerUps.PowerUpType;
 
 import java.util.Iterator;
@@ -31,8 +32,9 @@ public class GameModel {
     private LinkedList<Ship> enemyShips;
     private LinkedList<Laser> enemyLasers;
     private LinkedList<PowerUps> powerUps;
-    private LinkedList<Astroid> astroids;
+    private LinkedList<Asteroid> Asteroids;
     private LinkedList<Laser> playerLasers;
+    private LinkedList<Explosion> explosions;
 
     // World values for boundaries or other purposes
     public final static float WORLD_WIDTH = 800;
@@ -40,12 +42,12 @@ public class GameModel {
 
     // Initialize timers
     private float timeSincePowerUpSpawn;
-    private float timeSinceAstroidSpawn;
+    private float timeSinceAsteroidSpawn;
     private float timeSinceEnemySpawn;
 
     // Initialize time values for spawning
     private float timeBetweenEnemiesSpawn;
-    private float timeBetweenAstroidSpawn;
+    private float timeBetweenAsteroidSpawn;
     private float timeBetweenPowerUpSpawn;
 
     // Initialize values for enemy spawning
@@ -118,11 +120,12 @@ public class GameModel {
         enemyShips = new LinkedList<>();
         enemyLasers = new LinkedList<>();
         powerUps = new LinkedList<>();
-        astroids = new LinkedList<>();
+        Asteroids = new LinkedList<>();
+        explosions = new LinkedList<>();
 
         // Initialize enemy spawn values
         this.timeBetweenEnemiesSpawn = currentLevel.getEnemySpawnRate();
-        this.timeBetweenAstroidSpawn = currentLevel.getAstroidSpawnRate();
+        this.timeBetweenAsteroidSpawn = currentLevel.getAsteroidSpawnRate();
         this.timeBetweenPowerUpSpawn = currentLevel.getPowerUpSpawnRate();
 
         // Initialize max enemies on screen
@@ -131,7 +134,7 @@ public class GameModel {
         // Initialize power up spawn values
         this.timeSincePowerUpSpawn = 0;
         this.timeSinceEnemySpawn = 0;
-        this.timeSinceAstroidSpawn = 0;
+        this.timeSinceAsteroidSpawn = 0;
 
         // Set the viewport
         this.viewport = viewport;
@@ -147,15 +150,14 @@ public class GameModel {
 
         // Update Level based variables
         timeBetweenEnemiesSpawn = currentLevel.getEnemySpawnRate();
-        timeBetweenAstroidSpawn = currentLevel.getAstroidSpawnRate();
+        timeBetweenAsteroidSpawn = currentLevel.getAsteroidSpawnRate();
         timeBetweenPowerUpSpawn = currentLevel.getPowerUpSpawnRate();
         maxEnemiesOnScreen = currentLevel.getMaxEnemiesOnScreen();
-
 
         // Update timers
         timeSincePowerUpSpawn += deltaTime;
         timeSinceEnemySpawn += deltaTime;
-        timeSinceAstroidSpawn += deltaTime;
+        timeSinceAsteroidSpawn += deltaTime;
 
         // Update playerShip
         playerShip.update(deltaTime);
@@ -166,11 +168,14 @@ public class GameModel {
         // Update power ups
         updatePowerUps(deltaTime);
 
-        // Update astroids
-        updateAstroids(deltaTime);
+        // Update Asteroids
+        updateAsteroids(deltaTime);
 
         // Update player and enemy lasers
         updateLasers(deltaTime);
+
+        // Update explosions
+        updateExplosions(deltaTime);
 
         // Spawn new EnemyShips
         if (timeSinceEnemySpawn >= timeBetweenEnemiesSpawn &&
@@ -185,10 +190,10 @@ public class GameModel {
             timeSincePowerUpSpawn = 0;
         }
 
-        // Spawn new Astroids
-        if (timeSinceAstroidSpawn >= timeBetweenAstroidSpawn) {
-            spawnAstroids();
-            timeSinceAstroidSpawn = 0;
+        // Spawn new Asteroids
+        if (timeSinceAsteroidSpawn >= timeBetweenAsteroidSpawn) {
+            spawnAsteroids();
+            timeSinceAsteroidSpawn = 0;
         }
     }
 
@@ -219,22 +224,34 @@ public class GameModel {
         }
     }
 
-    // Helper method to update astroids
-    private void updateAstroids(float deltaTime) {
-        Iterator<Astroid> astroidIterator = astroids.iterator();
-        while (astroidIterator.hasNext()) {
-            Astroid astroid = astroidIterator.next();
-            astroid.update(deltaTime);
-            if (astroid.isOffScreen(WORLD_HEIGHT)) {
-                astroidIterator.remove(); // Remove off-screen astroids
-            } else if (checkAstroidCollision(astroid)) {
-                astroidIterator.remove(); // Remove the astroid if hit by a laser
+    // Helper method to update Asteroids
+    private void updateAsteroids(float deltaTime) {
+        Iterator<Asteroid> AsteroidIterator = Asteroids.iterator();
+        while (AsteroidIterator.hasNext()) {
+            Asteroid Asteroid = AsteroidIterator.next();
+            Asteroid.update(deltaTime);
+            if (Asteroid.isOffScreen(WORLD_HEIGHT)) {
+                AsteroidIterator.remove(); // Remove off-screen Asteroids
+            } else if (checkAsteroidCollision(Asteroid)) {
+                AsteroidIterator.remove(); // Remove the Asteroid if hit by a laser
+            }
+        }
+    }
+
+    private void updateExplosions(float deltaTime) {
+        Iterator<Explosion> explosionIterator = explosions.iterator();
+        while (explosionIterator.hasNext()) {
+            Explosion explosion = explosionIterator.next();
+            explosion.update(deltaTime);
+            if (explosion.isFinished()) {
+                explosionIterator.remove(); // Remove finished explosions
             }
         }
     }
 
     // Helper method to update lasers
     private void updateLasers(float deltaTime) {
+
         // Update player lasers
         Iterator<Laser> laserIterator = playerLasers.iterator();
         while (laserIterator.hasNext()) {
@@ -248,21 +265,23 @@ public class GameModel {
                 while (enemyShipIterator.hasNext()) {
                     Ship enemyShip = enemyShipIterator.next();
                     if (checkCollision(laser, enemyShip)) {
+                        Explosion explosion = new Explosion(enemyShip.getBoundingRectangle(), 0.5f);
+                        explosions.add(explosion);
                         enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
                         laserIterator.remove(); // Remove the laser after hitting the ship
-                        
+
                         destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
                         break; // Break to avoid ConcurrentModificationException
                     }
                 }
 
-                // Check for collisions with astroids
-                Iterator<Astroid> astroidIterator = astroids.iterator();
-                while (astroidIterator.hasNext()) {
-                    Astroid astroid = astroidIterator.next();
-                    if (checkCollision(laser, astroid)) {
-                        astroidIterator.remove(); // Remove the astroid if hit by a laser
-                        laserIterator.remove(); // Remove the laser after hitting the astroid
+                // Check for collisions with Asteroids
+                Iterator<Asteroid> AsteroidIterator = Asteroids.iterator();
+                while (AsteroidIterator.hasNext()) {
+                    Asteroid Asteroid = AsteroidIterator.next();
+                    if (checkCollision(laser, Asteroid)) {
+                        AsteroidIterator.remove(); // Remove the Asteroid if hit by a laser
+                        laserIterator.remove(); // Remove the laser after hitting the Asteroid
                         break; // Break to avoid ConcurrentModificationException
                     }
                 }
@@ -312,6 +331,75 @@ public class GameModel {
 
     }
 
+    // Method to spawn a power up
+    private void spawnPowerUp() {
+        // Randomly select a position for the power up
+        float powerUpX = MathUtils.random(0, WORLD_WIDTH - 20);
+        float powerUpY = MathUtils.random(0, WORLD_HEIGHT - 20);
+
+        // Randomly select a power up type
+        PowerUpType[] powerUpTypes = PowerUpType.values();
+
+        PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
+        // Creating the power up
+        PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
+
+        // Adding the power up to the list
+        powerUps.add(powerUp);
+    }
+
+    // Method to spawn a Asteroid
+    private void spawnAsteroids() {
+        // Randomly select a position for Asteroid
+        float AsteroidX = MathUtils.random(0 + 20, WORLD_WIDTH - 20);
+
+        // Randomly select a Asteroid type
+        AsteroidType[] AsteroidTypes = AsteroidType.values();
+        AsteroidType powerUpType = AsteroidTypes[MathUtils.random.nextInt(AsteroidTypes.length)];
+
+        // Create random size from 50 to 150
+        int AsteroidSize = MathUtils.random(50, 150);
+        // Creating the Asteroid
+        Asteroid Asteroid = new Asteroid(AsteroidX, new Vector2(0, -100), powerUpType, AsteroidSize);
+
+        // Adding the power up to the list
+        Asteroids.add(Asteroid);
+    }
+
+    private void spawnEnemyShip() {
+        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, 0, 0, viewport);
+        int randNum = MathUtils.random(0, 3);
+
+        float posX = 0;
+        float posY = 0;
+
+        switch (randNum) {
+            case 0:
+                posX = 0 - enemyShip.getWidth();
+                posY = MathUtils.random(0, WORLD_HEIGHT);
+                break;
+            case 1:
+                posX = WORLD_WIDTH + enemyShip.getWidth();
+                posY = MathUtils.random(0, WORLD_HEIGHT);
+                break;
+            case 2:
+                posX = MathUtils.random(0, WORLD_WIDTH);
+                posY = 0 - enemyShip.getHeight();
+                break;
+            case 3:
+                posX = MathUtils.random(0, WORLD_WIDTH);
+                posY = WORLD_HEIGHT + enemyShip.getHeight();
+                break;
+
+            default:
+                break;
+        }
+
+        enemyShip.setX(posX);
+        enemyShip.setY(posY);
+        enemyShips.add(enemyShip);
+    }
+
     // Helper method to check collision between power-up and player ship
     private void checkPowerUpCollision(PowerUps powerUp) {
         if (playerShip.getBoundingRectangle().overlaps(powerUp.getBoundingRectangle())) {
@@ -319,7 +407,8 @@ public class GameModel {
         }
     }
 
-    private boolean checkAstroidCollision(Astroid astroid) {
+    // Helper method to check collision between Asteroid and player ship
+    private boolean checkAsteroidCollision(Asteroid Asteroid) {
 
         // Initialize collision detection to false
         boolean collisionDetected = false;
@@ -327,13 +416,13 @@ public class GameModel {
         // Calculate the centers of the player ship and the asteroid
         float playerCenterX = playerShip.getX() + playerShip.getWidth() / 2;
         float playerCenterY = playerShip.getY() + playerShip.getHeight() / 2;
-        float astroidCenterX = astroid.getX() + astroid.getWidth() / 2;
-        float astroidCenterY = astroid.getY() + astroid.getHeight() / 2;
-    
+        float AsteroidCenterX = Asteroid.getX() + Asteroid.getWidth() / 2;
+        float AsteroidCenterY = Asteroid.getY() + Asteroid.getHeight() / 2;
+
         // Calculate the distance between the centers
-        float distance = Vector2.dst(playerCenterX, playerCenterY, astroidCenterX, astroidCenterY);
-        float sumRadii = playerShip.getWidth() / 2 + astroid.getWidth() / 2;
-    
+        float distance = Vector2.dst(playerCenterX, playerCenterY, AsteroidCenterX, AsteroidCenterY);
+        float sumRadii = playerShip.getWidth() / 2 + Asteroid.getWidth() / 2;
+
         // Check for collision with the player ship
         if (distance < sumRadii) {
             playerShip.takeDamage(10);
@@ -342,17 +431,17 @@ public class GameModel {
                 gameOver = true;
             }
         }
-    
+
         // Check collisions with enemy ships
         Iterator<Ship> shipIterator = enemyShips.iterator();
         while (shipIterator.hasNext()) {
             Ship enemyShip = shipIterator.next();
             float enemyCenterX = enemyShip.getX() + enemyShip.getWidth() / 2;
             float enemyCenterY = enemyShip.getY() + enemyShip.getHeight() / 2;
-    
-            float distanceToEnemy = Vector2.dst(enemyCenterX, enemyCenterY, astroidCenterX, astroidCenterY);
-            float sumRadiiEnemy = enemyShip.getWidth() / 2 + astroid.getWidth() / 2;
-    
+
+            float distanceToEnemy = Vector2.dst(enemyCenterX, enemyCenterY, AsteroidCenterX, AsteroidCenterY);
+            float sumRadiiEnemy = enemyShip.getWidth() / 2 + Asteroid.getWidth() / 2;
+
             if (distanceToEnemy < sumRadiiEnemy) {
                 shipIterator.remove(); // Remove the enemy ship if hit by an asteroid
                 collisionDetected = true;
@@ -360,7 +449,6 @@ public class GameModel {
         }
         return collisionDetected;
     }
-    
 
     // Helper method to change level based on score
     private void changeLevel(int score) {
@@ -424,75 +512,6 @@ public class GameModel {
         }
     }
 
-    // Method to spawn a power up
-    private void spawnPowerUp() {
-        // Randomly select a position for the power up
-        float powerUpX = MathUtils.random(0, WORLD_WIDTH - 20);
-        float powerUpY = MathUtils.random(0, WORLD_HEIGHT - 20);
-
-        // Randomly select a power up type
-        PowerUpType[] powerUpTypes = PowerUpType.values();
-
-        PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
-        // Creating the power up
-        PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
-
-        // Adding the power up to the list
-        powerUps.add(powerUp);
-    }
-
-    // Method to spawn a Astroid
-    private void spawnAstroids() {
-        // Randomly select a position for Astroid
-        float astroidX = MathUtils.random(0 + 20, WORLD_WIDTH - 20);
-
-        // Randomly select a Astroid type
-        AstroidType[] astroidTypes = AstroidType.values();
-        AstroidType powerUpType = astroidTypes[MathUtils.random.nextInt(astroidTypes.length)];
-
-        // Create random size from 50 to 150
-        int astroidSize = MathUtils.random(50, 150);
-        // Creating the Astroid
-        Astroid astroid = new Astroid(astroidX, new Vector2(0, -100), powerUpType, astroidSize);
-
-        // Adding the power up to the list
-        astroids.add(astroid);
-    }
-
-    private void spawnEnemyShip() {
-        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, 0, 0, viewport);
-        int randNum = MathUtils.random(0, 3);
-
-        float posX = 0;
-        float posY = 0;
-
-        switch (randNum) {
-            case 0:
-                posX = 0 - enemyShip.getWidth();
-                posY = MathUtils.random(0, WORLD_HEIGHT);
-                break;
-            case 1:
-                posX = WORLD_WIDTH + enemyShip.getWidth();
-                posY = MathUtils.random(0, WORLD_HEIGHT);
-                break;
-            case 2:
-                posX = MathUtils.random(0, WORLD_WIDTH);
-                posY = 0 - enemyShip.getHeight();
-                break;
-            case 3:
-                posX = MathUtils.random(0, WORLD_WIDTH);
-                posY = WORLD_HEIGHT + enemyShip.getHeight();
-                break;
-
-            default:
-                break;
-        }
-
-        enemyShip.setX(posX);
-        enemyShip.setY(posY);
-        enemyShips.add(enemyShip);
-    }
-
     public void update() {
         for (Iterator<Ship> iterator = enemyShips.iterator(); iterator.hasNext();) {
             Ship enemyShip = iterator.next();
@@ -525,26 +544,26 @@ public class GameModel {
         return laser.getBoundingRectangle().overlaps(ship.getBoundingRectangle());
     }
 
-    public boolean checkCollision(Laser laser, Astroid astroid) {
+    public boolean checkCollision(Laser laser, Asteroid Asteroid) {
         // Calculate the center position of the asteroid
-        float astroidCenterX = astroid.getX() + astroid.getWidth() / 2;
-        float astroidCenterY = astroid.getY() + astroid.getHeight() / 2;
+        float AsteroidCenterX = Asteroid.getX() + Asteroid.getWidth() / 2;
+        float AsteroidCenterY = Asteroid.getY() + Asteroid.getHeight() / 2;
 
         // Calculate the radius of the asteroid
-        float astroidRadius = astroid.getHeight() / 2;
+        float AsteroidRadius = Asteroid.getHeight() / 2;
 
         // Calculate the position of the laser
         float laserCenterX = laser.getX() + laser.getWidth() / 2;
         float laserCenterY = laser.getY() + laser.getHeight() / 2;
 
         // Calculate the distance between the centers of the laser and the asteroid
-        float distance = Vector2.dst(astroidCenterX, astroidCenterY, laserCenterX, laserCenterY);
+        float distance = Vector2.dst(AsteroidCenterX, AsteroidCenterY, laserCenterX, laserCenterY);
 
         // Check if the distance is close to the radius of the asteroid
         float threshold = laser.getWidth() / 2;
 
         // Check if the laser hits near the circumference of the asteroid
-        return Math.abs(distance - astroidRadius) <= threshold;
+        return Math.abs(distance - AsteroidRadius) <= threshold;
     }
 
     public Ship getPlayerShip() {
@@ -567,8 +586,12 @@ public class GameModel {
         return powerUps;
     }
 
-    public LinkedList<Astroid> getAstroids() {
-        return astroids;
+    public LinkedList<Asteroid> getAsteroids() {
+        return Asteroids;
+    }
+
+    public LinkedList<Explosion> getExplosions() {
+        return explosions;
     }
 
     public String getUserName() {

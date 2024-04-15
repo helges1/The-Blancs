@@ -28,7 +28,7 @@ public class TestGameModel {
     @BeforeEach
     public void setUp() {
         // Mocking the texture factory for Astroid class
-        Astroid.setTextureFactory(path -> mock(Texture.class));
+        Asteroid.setTextureFactory(path -> mock(Texture.class));
 
         atlas = mock(TextureAtlas.class);
         viewport = mock(FitViewport.class);

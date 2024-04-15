@@ -18,11 +18,16 @@ public class Explosion {
 
     private Rectangle boundingBox;
 
-    Explosion(Texture texture, Rectangle boundingBox, float totalAnimationTime) {
-        this.boundingBox = boundingBox;
+    private Texture texture;
+
+    public Explosion(Rectangle boundingBox, float totalAnimationTime) {
+        this.texture = new Texture("pictures/explosion.png");
+        // Create a bounding box that is twice the size of the original bounding box
+        this.boundingBox = boundingBox.setHeight(boundingBox.height * 2f).setWidth(boundingBox.width * 2f);
+        
         this.explosionTimer = totalAnimationTime;
 
-        TextureRegion[][] textureRegion2D = TextureRegion.split(texture, 64, 64);
+        TextureRegion[][] textureRegion2D = TextureRegion.split(texture, 128, 128);
         TextureRegion[] textureRegion1D = new TextureRegion[64];
         int index = 0;
         for (int i = 0; i < 8; i++) {
@@ -42,6 +47,10 @@ public class Explosion {
         if (!explosionAnimation.isAnimationFinished(explosionTimer)) {
             batch.draw(explosionAnimation.getKeyFrame(explosionTimer), boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         }
+    }
+
+    public boolean isFinished() {
+        return explosionAnimation.isAnimationFinished(explosionTimer);
     }
 
 }

@@ -21,6 +21,7 @@ import model.PowerUps;
 import model.ScoreManager;
 import model.TheBlancsGame;
 import model.PowerUps.PowerUpType;
+import model.ships.Explosion;
 import model.ships.Ship;
 
 public class GameScreen implements Screen {
@@ -207,9 +208,9 @@ public class GameScreen implements Screen {
 			laser.draw(batch);
 		}
 
-		// Draw each Astroide
-		for (model.Astroid astroid : gameModel.getAstroids()) {
-			astroid.draw(batch);
+		// Draw each Asteroide
+		for (model.Asteroid Asteroid : gameModel.getAsteroids()) {
+			Asteroid.draw(batch);
 		}
 
 		// Draw each laser fired by the enemies
@@ -225,6 +226,10 @@ public class GameScreen implements Screen {
 		// Draw PowerUps
 		for (PowerUps powerUp : gameModel.getPowerUps()) {
 			powerUp.draw(batch);
+		}
+
+		for (Explosion explosion : gameModel.getExplosions()) {
+			explosion.draw(batch);
 		}
 
 		// Draw the shield if it is activated

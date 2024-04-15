@@ -10,15 +10,15 @@ enum GameLevel {
 
     private final float enemySpawnRate;
     private final int maxEnemiesOnScreen;
-    private final float astroidSpawnRate;
-    private final Vector2 astroidVelocity;
+    private final float AsteroidSpawnRate;
+    private final Vector2 AsteroidVelocity;
     private final int powerUpSpawnRate;
 
-    GameLevel(float enemySpawnRate, int maxEnemiesOnScreen, float astroidSpawnRate, Vector2 astroidVelocity, int powerUpSpawnRate) {
+    GameLevel(float enemySpawnRate, int maxEnemiesOnScreen, float AsteroidSpawnRate, Vector2 AsteroidVelocity, int powerUpSpawnRate) {
         this.enemySpawnRate = enemySpawnRate;
         this.maxEnemiesOnScreen = maxEnemiesOnScreen;
-        this.astroidSpawnRate = astroidSpawnRate;
-        this.astroidVelocity = astroidVelocity;
+        this.AsteroidSpawnRate = AsteroidSpawnRate;
+        this.AsteroidVelocity = AsteroidVelocity;
         this.powerUpSpawnRate = powerUpSpawnRate;
     }
 
@@ -30,12 +30,12 @@ enum GameLevel {
         return maxEnemiesOnScreen;
     }
 
-    public float getAstroidSpawnRate() {
-        return astroidSpawnRate;
+    public float getAsteroidSpawnRate() {
+        return AsteroidSpawnRate;
     }
 
-    public Vector2 getAstroidVelocity() {
-        return astroidVelocity;
+    public Vector2 getAsteroidVelocity() {
+        return AsteroidVelocity;
     }
 
     public int getPowerUpSpawnRate() {
