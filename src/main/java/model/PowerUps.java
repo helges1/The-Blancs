@@ -9,19 +9,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class PowerUps extends Sprite{
 
     public enum PowerUpType {
-        SHIELD(new Texture("pictures/powerup-shield.png")),
-        LIFE(new Texture("pictures/powerup-life.png")),
-        BLAST(new Texture("pictures/powerup-blast.png")),
-        GUN(new Texture("pictures/powerup-gun.png"));
+        SHIELD(new Texture("pictures/powerup-shield.png"), "Shield Activated"),
+        LIFE(new Texture("pictures/powerup-life.png"), "Extra Life"),
+        BLAST(new Texture("pictures/powerup-blast.png"), "Blast Activated"),
+        GUN(new Texture("pictures/powerup-gun.png"), "Gun Upgraded");
 
         private final Texture powerUpTexture;
+        private final String powerUpName;
 
-        PowerUpType(Texture powerUpTexture) {
+        PowerUpType(Texture powerUpTexture, String powerUpName) {
             this.powerUpTexture = powerUpTexture;
+            this.powerUpName = powerUpName;
         }
 
         public Texture getPowerUpTexture() {
             return powerUpTexture;
+        }
+
+        public String getPowerUpName() {
+            return powerUpName;
         }
 
     }

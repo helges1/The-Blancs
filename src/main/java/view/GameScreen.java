@@ -153,10 +153,14 @@ public class GameScreen implements Screen {
 		if (gameModel.getPlayerShip().getActivePowerUp() != null) {
 			PowerUpType powerUpType = gameModel.getPlayerShip().getActivePowerUp();
 			Texture powerUpTexture = powerUpType.getPowerUpTexture();
-			batch.draw(powerUpTexture, hudRightX - powerUpTexture.getWidth(), hudRow1Y - powerUpTexture.getHeight());
+			String powerUpText = powerUpType.getPowerUpName();
+
+			// Draw the powerup text and texture
+			font.draw(batch, powerUpText, hudRightX - font.getSpaceXadvance() * powerUpText.length() * 1.75f, hudRow1Y);
+			batch.draw(powerUpTexture, hudRightX - powerUpTexture.getWidth(), hudRow1Y - powerUpTexture.getHeight() - 7.5f);
 			String powerUpTimerText = String.valueOf((int) gameModel.getPlayerShip().getPowerUpTimer());
 			font.draw(batch, powerUpTimerText, hudRightX - font.getSpaceXadvance() * powerUpTimerText.length(),
-					hudRow2Y);
+					hudRow2Y - 7.5f);
 		}
 
 		batch.end();
