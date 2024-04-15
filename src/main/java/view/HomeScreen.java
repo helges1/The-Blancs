@@ -12,16 +12,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.math.Vector2;
 
 import model.TheBlancsGame;
 
 public class HomeScreen implements Screen {
-
-    private static final int BUTTON_WIDTH = 300;
-    private static final int BUTTON_HEIGHT = 100;
-    private static final int BUTTON_SPACING = 50; // Space between buttons
-
+    private static final float WORLD_WIDTH = 800;
+    private static final float WORLD_HEIGHT = 600;
 
     private TheBlancsGame game;
     private Stage stage;
@@ -35,15 +33,10 @@ public class HomeScreen implements Screen {
 
     public HomeScreen(TheBlancsGame game) {
         this.game = game;
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
-
-        // Initialize the textures
         initTextures();
-
-        // Initialize the text field
         initTextField();
-
     }
 
     private void initTextures() {
@@ -58,78 +51,60 @@ public class HomeScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        stage.getCamera().update();
+        game.batch.setProjectionMatrix(stage.getCamera().combined);
 
         game.batch.begin();
+        game.batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
-        // Draw background centered
-        game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        // Draw Title of Game
         BitmapFont font = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
         font.setColor(Color.WHITE);
-        font.getData().setScale(4);
+        font.getData().setScale(3);
+        GlyphLayout layout = new GlyphLayout(font, "The Blancs Game");
+        float x = (WORLD_WIDTH - layout.width) /2;
+        font.draw(game.batch, layout, x, WORLD_HEIGHT - 100);
 
-        // Use GlyphLayout to calculate the width of the text
-        GlyphLayout layout = new GlyphLayout();
-        layout.setText(font, "The Blancs Game");
-
-        // Calculate the x-coordinate for the text to be centered
-        float x = (Gdx.graphics.getWidth() - layout.width) / 2;
-
-        // Draw the text
-        font.draw(game.batch, layout, x, Gdx.graphics.getHeight() - 100);
-
-
-        // Draw buttons centered
-        int playButtonX = (Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2;
-        int playButtonY = (Gdx.graphics.getHeight() + BUTTON_SPACING) / 2 - BUTTON_HEIGHT;
-        int exitButtonX = playButtonX;
-        int exitButtonY = playButtonY - BUTTON_HEIGHT - BUTTON_SPACING;
-
-        // Draw the play button
-        Texture currentPlayButton = Gdx.input.getX() < playButtonX + BUTTON_WIDTH && Gdx.input.getX() > playButtonX
-                && Gdx.graphics.getHeight() - Gdx.input.getY() < playButtonY + BUTTON_HEIGHT
-                && Gdx.graphics.getHeight() - Gdx.input.getY() > playButtonY ? playButtonActive : playButtonInactive;
-        game.batch.draw(currentPlayButton, playButtonX, playButtonY, BUTTON_WIDTH, BUTTON_HEIGHT);
-
-        // Draw the exit button
-        Texture currentExitButton = Gdx.input.getX() < exitButtonX + BUTTON_WIDTH && Gdx.input.getX() > exitButtonX
-                && Gdx.graphics.getHeight() - Gdx.input.getY() < exitButtonY + BUTTON_HEIGHT
-                && Gdx.graphics.getHeight() - Gdx.input.getY() > exitButtonY ? exitButtonActive : exitButtonInactive;
-        game.batch.draw(currentExitButton, exitButtonX, exitButtonY, BUTTON_WIDTH, BUTTON_HEIGHT);
-
-
-
-        // Check if play button is pressed
-        if (Gdx.input.justTouched() && Gdx.input.getX() < playButtonX + BUTTON_WIDTH && Gdx.input.getX() > playButtonX
-                && Gdx.graphics.getHeight() - Gdx.input.getY() < playButtonY + BUTTON_HEIGHT
-                && Gdx.graphics.getHeight() - Gdx.input.getY() > playButtonY) {
-            playButtonClicked();
-        }
-
-        // Check if exit button is pressed
-        if (Gdx.input.justTouched() && Gdx.input.getX() < exitButtonX + BUTTON_WIDTH && Gdx.input.getX() > exitButtonX
-                && Gdx.graphics.getHeight() - Gdx.input.getY() < exitButtonY + BUTTON_HEIGHT
-                && Gdx.graphics.getHeight() - Gdx.input.getY() > exitButtonY) {
-            exitButtonClicked();
-        }
+        drawButtons();
         game.batch.end();
-
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
-    private void playButtonClicked() {
+    private void drawButtons() {
+        int buttonWidth = (int) (WORLD_WIDTH / 4);
+        int buttonHeight = (int) (WORLD_HEIGHT / 10);
+        int buttonSpacing = buttonHeight / 3; // Adjust the spacing if needed for better visual layout
+        int centerX = (int) (WORLD_WIDTH - buttonWidth) / 2;
 
-        // Setting PlayerShipController as the input processor
-        Gdx.input.setInputProcessor(game.getPlayerController());
-    
-        // Now switch to the game screen
-        this.dispose();
-        game.setUserName(getUserName());
-        game.setScreenType(ScreenType.GAME_SCREEN);
+        // Center Y position moved down by 20% of the WORLD_HEIGHT
+        int baseY = (int) (WORLD_HEIGHT / 2 - buttonHeight / 2 + WORLD_HEIGHT * -0.10);
+
+        int playButtonY = baseY;  // directly use the adjusted base Y
+        int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button
+
+        Texture currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? playButtonActive : playButtonInactive;
+        Texture currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
+        game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
+
+        if (isButtonPressed(centerX, playButtonY, buttonWidth, buttonHeight)) {
+            playButtonClicked();
+        }
+        if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
+            exitButtonClicked();
+        }
     }
-    
+
+
+    private boolean isButtonHovered(int x, int y, int width, int height) {
+        Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+        stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
+        return touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
+    }
+
+    private boolean isButtonPressed(int x, int y, int width, int height) {
+        return Gdx.input.justTouched() && isButtonHovered(x, y, width, height);
+    }
 
     private void initTextField() {
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
@@ -137,65 +112,51 @@ public class HomeScreen implements Screen {
         font.getData().setScale(1.25f);
         textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
-
-        // Create a simple background for the text field
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.DARK_GRAY);
         pixmap.fill();
         Texture pixmapTex = new Texture(pixmap);
         pixmap.dispose();
         textFieldStyle.background = new TextureRegionDrawable(new TextureRegion(pixmapTex));
-    
         userNameField = new TextField("", textFieldStyle);
         userNameField.setMessageText("Enter your username");
-        userNameField.setAlignment(1); // Centered text
-    
-        // Positioning the text field above the Start button
-        int textFieldWidth = 300;
-        int textFieldHeight = 66;
-        int textFieldX = (Gdx.graphics.getWidth() - textFieldWidth) / 2; 
-        int playButtonY = (Gdx.graphics.getHeight() + BUTTON_SPACING) / 2 - BUTTON_HEIGHT; 
-        int textFieldY = playButtonY + BUTTON_HEIGHT + 10; 
-    
+        userNameField.setAlignment(1);
+        int textFieldWidth = (int) (WORLD_WIDTH / 2.5);
+        int textFieldHeight = (int) (WORLD_HEIGHT / 12);
+        int textFieldX = (int) (WORLD_WIDTH - textFieldWidth) / 2;
+        int textFieldY = (int) (WORLD_HEIGHT + textFieldHeight + 5) / 2;
         userNameField.setPosition(textFieldX, textFieldY);
         userNameField.setSize(textFieldWidth, textFieldHeight);
-    
         stage.addActor(userNameField);
+    }
+
+    private void playButtonClicked() {
+        Gdx.input.setInputProcessor(game.getPlayerController());
+        this.dispose();
+        game.setUserName(getUserName());
+        game.setScreenType(ScreenType.GAME_SCREEN);
     }
 
     private void exitButtonClicked() {
         Gdx.app.exit();
     }
-    
 
     @Override
-    public void show() {
-        // Called when this screen becomes the current screen for the game
-    }
-
+    public void show() {}
     @Override
     public void resize(int width, int height) {
-        // Adjust the viewport and UI elements size here if needed
+        stage.getViewport().update(width, height, true);
+        stage.getCamera().position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
+        stage.getCamera().update();
     }
-
     @Override
-    public void pause() {
-        // Called when the game is paused
-    }
-
+    public void pause() {}
     @Override
-    public void resume() {
-        // Called when the game is resumed from pause
-    }
-
+    public void resume() {}
     @Override
-    public void hide() {
-        // Called when the current screen changes from this to a different screen
-    }
-
+    public void hide() {}
     @Override
     public void dispose() {
-        // Dispose of the textures to free up resources
         playButtonActive.dispose();
         playButtonInactive.dispose();
         exitButtonActive.dispose();
