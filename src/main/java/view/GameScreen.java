@@ -152,16 +152,27 @@ public class GameScreen implements Screen {
 		// Draw the powerup timer on the right
 		if (gameModel.getPlayerShip().getActivePowerUp() != null) {
 			PowerUpType powerUpType = gameModel.getPlayerShip().getActivePowerUp();
-			Texture powerUpTexture = powerUpType.getPowerUpTexture();
+			TextureRegion powerUpTexture = gameModel.getPowerUpTexture(powerUpType);
 			String powerUpText = powerUpType.getPowerUpName();
-
-			// Draw the powerup text and texture
-			font.draw(batch, powerUpText, hudRightX - font.getSpaceXadvance() * powerUpText.length() * 1.75f, hudRow1Y);
-			batch.draw(powerUpTexture, hudRightX - powerUpTexture.getWidth(), hudRow1Y - powerUpTexture.getHeight() - 7.5f);
+		
+			// x position for the powerUpText
+			float powerUpTextX = hudRightX - font.getSpaceXadvance() * powerUpText.length() * 1.75f;
+			
+			// Draw the powerUpText at calculated position
+			font.draw(batch, powerUpText, powerUpTextX, hudRow1Y);
+			
+			// x and y position for the powerUpTexture
+			float powerUpTextureX = hudRightX - powerUpTexture.getRegionWidth();
+			float powerUpTextureY = hudRow1Y - powerUpTexture.getRegionHeight() - 7.5f; // Slightly above the row
+		
+			// Draw the powerUpTexture at calculated position
+			batch.draw(powerUpTexture, powerUpTextureX, powerUpTextureY);
+		
+			// Draw the powerUp timer text below the powerUpText
 			String powerUpTimerText = String.valueOf((int) gameModel.getPlayerShip().getPowerUpTimer());
-			font.draw(batch, powerUpTimerText, hudRightX - font.getSpaceXadvance() * powerUpTimerText.length(),
-					hudRow2Y - 7.5f);
-		}
+			float powerUpTimerTextX = hudRightX - font.getSpaceXadvance() * powerUpTimerText.length();
+			font.draw(batch, powerUpTimerText, powerUpTimerTextX, hudRow2Y - 7.5f);
+		}		
 
 		batch.end();
 	}

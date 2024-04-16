@@ -73,6 +73,8 @@ public class GameModel {
     private TextureRegion basicEnemyLaserTexture;
     private TextureRegion asteroidTexture;
 
+    private final TextureAtlas atlas;
+
     // Sounds
     private final Sound laserSound;
 
@@ -92,6 +94,8 @@ public class GameModel {
             Sound laserSound, FitViewport viewport,
             String userName) {
 
+        
+        this.atlas = atlas;
         this.playerShipTexture = atlas.findRegion("playerShip");
         this.playerLaserTexture = atlas.findRegion("playerLaser");
         this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
@@ -337,7 +341,8 @@ public class GameModel {
 
         PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
         // Creating the power up
-        PowerUps powerUp = new PowerUps(powerUpX, powerUpY, powerUpType, 5);
+        TextureRegion powerUpTexture = atlas.findRegion(powerUpType.getTextureName());
+        PowerUps powerUp = new PowerUps(powerUpTexture, powerUpX, powerUpY, powerUpType, 5);
 
         // Adding the power up to the list
         powerUps.add(powerUp);
@@ -603,6 +608,10 @@ public class GameModel {
 
     public int getScore() {
         return score;
+    }
+
+    public TextureRegion getPowerUpTexture(PowerUpType type) {
+        return atlas.findRegion(type.getTextureName());
     }
 
 }

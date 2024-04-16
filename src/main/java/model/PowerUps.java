@@ -1,71 +1,53 @@
 package model;
 
-
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class PowerUps extends Sprite{
+public class PowerUps extends Sprite {
 
     public enum PowerUpType {
-        SHIELD(new Texture("pictures/powerup-shield.png"), "Shield Activated"),
-        LIFE(new Texture("pictures/powerup-life.png"), "Extra Life"),
-        BLAST(new Texture("pictures/powerup-blast.png"), "Blast Activated"),
-        GUN(new Texture("pictures/powerup-gun.png"), "Gun Upgraded");
+        SHIELD("powerup-shield", "Shield Activated"),
+        LIFE("powerup-life", "Extra Life"),
+        BLAST("powerup-blast", "Blast Activated"),
+        GUN("powerup-gun", "Gun Upgraded");
 
-        private final Texture powerUpTexture;
+        private final String textureName;
         private final String powerUpName;
 
-        PowerUpType(Texture powerUpTexture, String powerUpName) {
-            this.powerUpTexture = powerUpTexture;
+        PowerUpType(String textureName, String powerUpName) {
+            this.textureName = textureName;
             this.powerUpName = powerUpName;
         }
 
-        public Texture getPowerUpTexture() {
-            return powerUpTexture;
+        public String getTextureName() {
+            return textureName;
         }
 
         public String getPowerUpName() {
             return powerUpName;
         }
-
     }
 
-
-
-    private final float powerUpWidth = 100;
-    private final float powerUpHeight = 100;
+    private final float size = 100;
     private float powerUpDuration;
-    private float xPos, yPos;
-
-    private Texture powerUpTexture;
     private boolean isCollected = false;
+    private PowerUpType powerUpType;
+    private float xPos = 0;
+    private float yPos = 0;
 
-    PowerUpType powerUpType;
-
-    public PowerUps(float xPos, float yPos, PowerUpType powerUpType, float powerUpDuration) {
+    public PowerUps(TextureRegion powerUpTexture, float xPos, float yPos, PowerUpType powerUpType, float powerUpDuration) {
+        super(powerUpTexture);
         this.powerUpType = powerUpType;
         this.powerUpDuration = powerUpDuration;
         this.xPos = xPos;
         this.yPos = yPos;
-
-        try {
-            powerUpTexture = powerUpType.getPowerUpTexture();
-            this.setTexture(powerUpTexture);
-            this.setSize(powerUpWidth, powerUpHeight); // Set the sprite to a specific size
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid powerUpType: " + powerUpType);
-        }
+        this.setPosition(xPos, yPos);
+        this.setSize(size, size);
     }
-
 
     public PowerUpType getPowerUpType() {
         return powerUpType;
-    }
-
-    public Texture getPowerUpTexture() {
-        return powerUpTexture;
     }
 
     public boolean isCollected() {
@@ -84,15 +66,7 @@ public class PowerUps extends Sprite{
         return powerUpDuration <= 0;
     }
 
-    public void dispose() {
-        powerUpTexture.dispose();
-    }
-
-    public Rectangle getBoundingRectangle() {
-        return new Rectangle(xPos, yPos, powerUpTexture.getWidth(), powerUpTexture.getHeight());
-    }
-
     public void draw(SpriteBatch batch) {
-        batch.draw(powerUpTexture, xPos, yPos);
+        batch.draw(this, xPos, yPos);
     }
 }
