@@ -57,4 +57,12 @@ Har lagt in powerUps, fixet modell klasse og diskutert videre implementasjoner f
 ## 9. April
 Oppmøte: Stian, Michal og Lasse
 
-Alle powerUps har blitt lagt til funksjoner, homescreen og gameOverScreen er lagt til, highscore system er lagt til. 
+Alle powerUps har blitt lagt til funksjoner, homescreen og gameOverScreen er lagt til, highscore system er lagt til.
+
+## 16. April
+Oppmøte: Michal, Stian, Lasse, Balder og Sebastian
+
+Vi har bestemt oss for ikke å legge til flere idéer til spillet nå - alt handler om å få det vi har til å fungere som det skal.
+Om man sitter igjen med tid til overs, da kan vi implementere de mer komplekse idéene, for det er ikke et mangel på idéer.
+Alt handler om å finjustere slik at det blir et fungerende spill.
+Fremover skal vi også ha fokus på å gjøre så mye som mulig "test-bart", og faktisk skrive disse testene.
