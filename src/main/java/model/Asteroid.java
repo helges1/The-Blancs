@@ -16,7 +16,7 @@ public class Asteroid extends Sprite {
     }
 
     public enum AsteroidType {
-        Asteroid1("pictures/asteroid1.png");
+        Asteroid1("src/main/resources/pictures/asteroid1.png");
 
         private final Texture AsteroidTexture;
 
@@ -29,7 +29,7 @@ public class Asteroid extends Sprite {
         }
     }
 
-    private Animation<TextureRegion> AsteroidAnimation;
+    private Animation<TextureRegion> asteroidAnimation;
     private float animationTimer;
     private final float frameDuration = 0.3f;  // Duration each frame is shown
     private Vector2 velocity;
@@ -37,14 +37,29 @@ public class Asteroid extends Sprite {
     public Asteroid(TextureRegion asteroidTexture, float xStartPos, Vector2 velocity, float AsteroidSize) {
         super(asteroidTexture);
         this.velocity = velocity;
-        this.AsteroidAnimation = new Animation<>(frameDuration, createTextureSheet(asteroidTexture));
+        this.asteroidAnimation = new Animation<>(frameDuration, createTextureSheet(asteroidTexture));
         this.animationTimer = 0;
 
 
-        TextureRegion initialFrame = AsteroidAnimation.getKeyFrame(0);
+        TextureRegion initialFrame = asteroidAnimation.getKeyFrame(0);
         this.setRegion(initialFrame);
         this.setSize(AsteroidSize, AsteroidSize);
         this.setPosition(xStartPos, 950);  // yPos is fixed at 950
+    }
+    
+    /**
+     * A constructor only for testing!
+     */
+    Asteroid(TextureRegion asteroidTexture, Animation<TextureRegion> animation, float xStart, float yStart, Vector2 velocity, float asteroidSize) {
+    	super(asteroidTexture);
+    	this.velocity = velocity;
+    	this.asteroidAnimation = animation;
+    	this.animationTimer = 0;
+    	
+    	TextureRegion initialFrame = asteroidAnimation.getKeyFrame(0);
+        this.setRegion(initialFrame);
+        this.setSize(asteroidSize, asteroidSize);
+        this.setPosition(xStart, yStart);
     }
 
     private TextureRegion[] createTextureSheet(TextureRegion asteroidTexture) {
@@ -62,7 +77,7 @@ public class Asteroid extends Sprite {
 
     public void update(float deltaTime) {
         animationTimer += deltaTime;
-        TextureRegion currentFrame = AsteroidAnimation.getKeyFrame(animationTimer, true); // true for looping
+        TextureRegion currentFrame = asteroidAnimation.getKeyFrame(animationTimer, true); // true for looping
 
         this.setRegion(currentFrame);
         moveAsteroid(deltaTime);

@@ -31,7 +31,7 @@ public class GameModel {
     private LinkedList<Ship> enemyShips;
     private LinkedList<Laser> enemyLasers;
     private LinkedList<PowerUps> powerUps;
-    private LinkedList<Asteroid> Asteroids;
+    private LinkedList<Asteroid> asteroids;
     private LinkedList<Laser> playerLasers;
     private LinkedList<Explosion> explosions;
 
@@ -81,14 +81,10 @@ public class GameModel {
      * arguments
      * (except world sizes, for some reason)
      *
-     * @param playerShipTexture
-     * @param playerLaserTexture
-     * @param enemyShipTexture
-     * @param enemyLaserTexture
-     * @param playerLaserSpeed
-     * @param enemyLaserSpeed
-     * @param timeBetweenEnemiesSpawn
-     * @param maxEnemiesOnScreen
+     * @param atlas the TextureAtlas containing all the textures for the game
+     * @param laserSound a Sound to be played when lasers are fired
+     * @param viewport a FitViewport to make the the view and the sprites work with each other
+     * @param userName a String representing the unser name of the current player, used to track high score and such
      */
     public GameModel(TextureAtlas atlas,
             // Texture playerShipTexture, Texture playerLaserTexture,
@@ -119,7 +115,7 @@ public class GameModel {
         enemyShips = new LinkedList<>();
         enemyLasers = new LinkedList<>();
         powerUps = new LinkedList<>();
-        Asteroids = new LinkedList<>();
+        asteroids = new LinkedList<>();
         explosions = new LinkedList<>();
 
         // Initialize enemy spawn values
@@ -225,7 +221,7 @@ public class GameModel {
 
     // Helper method to update Asteroids
     private void updateAsteroids(float deltaTime) {
-        Iterator<Asteroid> AsteroidIterator = Asteroids.iterator();
+        Iterator<Asteroid> AsteroidIterator = asteroids.iterator();
         while (AsteroidIterator.hasNext()) {
             Asteroid Asteroid = AsteroidIterator.next();
             Asteroid.update(deltaTime);
@@ -275,7 +271,7 @@ public class GameModel {
                 }
 
                 // Check for collisions with Asteroids
-                Iterator<Asteroid> AsteroidIterator = Asteroids.iterator();
+                Iterator<Asteroid> AsteroidIterator = asteroids.iterator();
                 while (AsteroidIterator.hasNext()) {
                     Asteroid Asteroid = AsteroidIterator.next();
                     if (checkCollision(laser, Asteroid)) {
@@ -353,12 +349,12 @@ public class GameModel {
         float xPos = MathUtils.random(0 + 20, WORLD_WIDTH - 20);
 
         // Create random size from 50 to 150
-        int AsteroidSize = MathUtils.random(50, 150);
+        int asteroidSize = MathUtils.random(50, 150);
         // Creating the Asteroid
-        Asteroid Asteroid = new Asteroid(asteroidTexture, xPos, new Vector2(0, -100), AsteroidSize);
+        Asteroid Asteroid = new Asteroid(asteroidTexture, xPos, new Vector2(0, -100), asteroidSize);
 
         // Adding the power up to the list
-        Asteroids.add(Asteroid);
+        asteroids.add(Asteroid);
     }
 
     private void spawnEnemyShip() {
@@ -582,7 +578,7 @@ public class GameModel {
     }
 
     public LinkedList<Asteroid> getAsteroids() {
-        return Asteroids;
+        return asteroids;
     }
 
     public LinkedList<Explosion> getExplosions() {

@@ -18,48 +18,49 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class TestGameModel {
+public class GameModelTest {
 	
-	private FitViewport viewport;
 	private GameModel model;
-    private Sound laserSound;
-    private TextureAtlas atlas;
+	
+	private final FitViewport viewport = mock(FitViewport.class);
+	
+    private final Sound laserSound = mock(Sound.class);
+    private final TextureAtlas atlas = mock(TextureAtlas.class);
+    private final String userName = "Tester";
 
     @BeforeEach
     public void setUp() {
-        // Mocking the texture factory for Astroid class
-        Asteroid.setTextureFactory(path -> mock(Texture.class));
+//        // Mocking the texture factory for Astroid class
+//        Asteroid.setTextureFactory(path -> mock(Texture.class));
+//        Texture textureMock = mock(Texture.class);
+//
+//        // Setup width and height
+//        when(textureMock.getWidth()).thenReturn(4096);
+//        when(textureMock.getHeight()).thenReturn(4096);
+//
+//        // Properly setting up texture regions
+//        mockAtlasRegion("playerShip", 0, 50, 98, 75, textureMock);
+//        mockAtlasRegion("basicEnemyShip", 3184, 3881, 82, 84, textureMock);
+//        mockAtlasRegion("enemyLaser", 3266, 3928, 13, 37, textureMock);
+//        mockAtlasRegion("playerLaser", 3184, 3825, 36, 56, textureMock);
 
-        atlas = mock(TextureAtlas.class);
-        viewport = mock(FitViewport.class);
-        laserSound = mock(Sound.class);
-        Texture textureMock = mock(Texture.class);
-
-        // Setup width and height
-        when(textureMock.getWidth()).thenReturn(4096);
-        when(textureMock.getHeight()).thenReturn(4096);
-
-        // Properly setting up texture regions
-        mockAtlasRegion("playerShip", 0, 50, 98, 75, textureMock);
-        mockAtlasRegion("basicEnemyShip", 3184, 3881, 82, 84, textureMock);
-        mockAtlasRegion("enemyLaser", 3266, 3928, 13, 37, textureMock);
-        mockAtlasRegion("playerLaser", 3184, 3825, 36, 56, textureMock);
-
-        model = new GameModel(atlas, laserSound, viewport, "testUser");
+        model = new GameModel(atlas, laserSound, viewport, userName);
     }
 
 
-    private void mockAtlasRegion(String name, int x, int y, int width, int height, Texture texture) {
-        AtlasRegion region = new AtlasRegion(texture, x, y, width, height);
-        when(atlas.findRegion(name)).thenReturn(region);
-    }
+//    private void mockAtlasRegion(String name, int x, int y, int width, int height, Texture texture) {
+//        AtlasRegion region = new AtlasRegion(texture, x, y, width, height);
+//        when(atlas.findRegion(name)).thenReturn(region);
+//    }
 
     @Test
     public void testInitialization() {
         assertNotNull(model, "Model should be initialized.");
     }
 
-	
+	/**
+	 * This test tests that something is tested properly
+	 * */
     @Test
     public void firstEnemySpawnsAfter5Seconds() {
         // Simulate the passing of time in the game's update cycle
