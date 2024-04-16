@@ -12,7 +12,6 @@ import model.ships.BasicEnemyShip;
 import model.ships.Explosion;
 import model.ships.PlayerShip;
 import model.ships.Ship;
-import model.Asteroid.AsteroidType;
 import model.PowerUps.PowerUpType;
 
 import java.util.Iterator;
@@ -72,6 +71,7 @@ public class GameModel {
     private TextureRegion playerLaserTexture;
     private TextureRegion basicEnemyShipTexture;
     private TextureRegion basicEnemyLaserTexture;
+    private TextureRegion asteroidTexture;
 
     // Sounds
     private final Sound laserSound;
@@ -102,6 +102,7 @@ public class GameModel {
         this.playerLaserTexture = atlas.findRegion("playerLaser");
         this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
         this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
+        this.asteroidTexture = atlas.findRegion("asteroid1");
 
         // Initialize level
         this.currentLevel = GameLevel.LEVEL_1;
@@ -351,16 +352,12 @@ public class GameModel {
     // Method to spawn a Asteroid
     private void spawnAsteroids() {
         // Randomly select a position for Asteroid
-        float AsteroidX = MathUtils.random(0 + 20, WORLD_WIDTH - 20);
-
-        // Randomly select a Asteroid type
-        AsteroidType[] AsteroidTypes = AsteroidType.values();
-        AsteroidType powerUpType = AsteroidTypes[MathUtils.random.nextInt(AsteroidTypes.length)];
+        float xPos = MathUtils.random(0 + 20, WORLD_WIDTH - 20);
 
         // Create random size from 50 to 150
         int AsteroidSize = MathUtils.random(50, 150);
         // Creating the Asteroid
-        Asteroid Asteroid = new Asteroid(AsteroidX, new Vector2(0, -100), powerUpType, AsteroidSize);
+        Asteroid Asteroid = new Asteroid(asteroidTexture, xPos, new Vector2(0, -100), AsteroidSize);
 
         // Adding the power up to the list
         Asteroids.add(Asteroid);

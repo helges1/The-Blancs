@@ -34,9 +34,10 @@ public class Asteroid extends Sprite {
     private final float frameDuration = 0.3f;  // Duration each frame is shown
     private Vector2 velocity;
 
-    public Asteroid(float xStartPos, Vector2 velocity, AsteroidType AsteroidType, float AsteroidSize) {
+    public Asteroid(TextureRegion asteroidTexture, float xStartPos, Vector2 velocity, float AsteroidSize) {
+        super(asteroidTexture);
         this.velocity = velocity;
-        this.AsteroidAnimation = new Animation<>(frameDuration, createTextureSheet(AsteroidType));
+        this.AsteroidAnimation = new Animation<>(frameDuration, createTextureSheet(asteroidTexture));
         this.animationTimer = 0;
 
 
@@ -46,14 +47,14 @@ public class Asteroid extends Sprite {
         this.setPosition(xStartPos, 950);  // yPos is fixed at 950
     }
 
-    private TextureRegion[] createTextureSheet(AsteroidType AsteroidType) {
-        Texture AsteroidTexture = AsteroidType.getAsteroidTexture();
+    private TextureRegion[] createTextureSheet(TextureRegion asteroidTexture) {
+        TextureRegion AsteroidTexture = asteroidTexture;
         int frameWidth = 90;
-        int frameCount = AsteroidTexture.getWidth() / frameWidth;
+        int frameCount = (int) this.getWidth() / frameWidth;
         TextureRegion[] AsteroidFrames = new TextureRegion[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            AsteroidFrames[i] = new TextureRegion(AsteroidTexture, i * frameWidth, 0, frameWidth, AsteroidTexture.getHeight());
+            AsteroidFrames[i] = new TextureRegion(AsteroidTexture, i * frameWidth, 0, frameWidth, (int) this.getHeight());
         }
 
         return AsteroidFrames;
