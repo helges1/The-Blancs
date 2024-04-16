@@ -1,7 +1,7 @@
 package model;
 
 import com.badlogic.gdx.audio.Sound;
-
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -64,8 +64,8 @@ public class GameModel {
     // Viewport
     private FitViewport viewport;
 
-    // Graphics
-    private final TextureAtlas atlas;
+    // Textures
+    //private final TextureAtlas atlas;
 
     private TextureRegion playerShipTexture;
     private TextureRegion playerLaserTexture;
@@ -96,8 +96,6 @@ public class GameModel {
             Sound laserSound, FitViewport viewport,
             String userName) {
 
-        // Initialize field variables
-        this.atlas = atlas;
         this.playerShipTexture = atlas.findRegion("playerShip");
         this.playerLaserTexture = atlas.findRegion("playerLaser");
         this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");

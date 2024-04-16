@@ -43,21 +43,26 @@ public class GameOverScreen implements Screen {
     
         // Use GlyphLayout to center text
         GlyphLayout gameOverLayout = new GlyphLayout(font, "Game Over");
-        GlyphLayout restartLayout = new GlyphLayout(font, "Tap to restart");
+        //GlyphLayout restartLayout = new GlyphLayout(font, "Tap to restart");
+        
+        float x = (Gdx.graphics.getWidth() - gameOverLayout.width) / 2;
+        float y = (Gdx.graphics.getHeight() + gameOverLayout.height) / 2;
+        font.draw(batch, gameOverLayout, x, y);
+        
     
-        float gameOverX = (Gdx.graphics.getWidth() - gameOverLayout.width) / 2;
-        float gameOverY = (Gdx.graphics.getHeight() + gameOverLayout.height) / 2;
-        float restartX = (Gdx.graphics.getWidth() - restartLayout.width) / 2;
-        float restartY = gameOverY - 50; 
+       // float gameOverX = (Gdx.graphics.getWidth() - gameOverLayout.width) / 2;
+       // float gameOverY = (Gdx.graphics.getHeight() + gameOverLayout.height) / 2;
+       // float restartX = (Gdx.graphics.getWidth() - restartLayout.width) / 2;
+        //float restartY = gameOverY - 50; 
 
-        font.draw(batch, gameOverLayout, gameOverX, gameOverY);
-        font.draw(batch, restartLayout, restartX, restartY);
+        //font.draw(batch, gameOverLayout, gameOverX, gameOverY);
+        //font.draw(batch, restartLayout, restartX, restartY);
     
         batch.end();
 
         // Check for player input to restart the game or return to the main menu
         if (Gdx.input.justTouched()) {
-            this.dispose(); 
+            //this.dispose(); 
             game.setScreenType(ScreenType.GAME_SCREEN);
     }
     }
@@ -86,6 +91,7 @@ public class GameOverScreen implements Screen {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        background.dispose();
     }
     
     

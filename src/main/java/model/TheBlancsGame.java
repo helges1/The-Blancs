@@ -55,6 +55,8 @@ public class TheBlancsGame extends Game {
 		gameScreen = new GameScreen(gameModel, playerShipController, enemyShipController, batch, camera, viewport);
 		homeScreen = new HomeScreen(this);
 		gameOverScreen = new GameOverScreen(this);
+
+		
 		
         updateScreen();
 	}
@@ -75,9 +77,15 @@ public class TheBlancsGame extends Game {
         }
     }
 	
+	
 	@Override
 	public void render() {
 		super.render();
+
+		if (gameModel.isGameOver()) {
+			activeScreen = ScreenType.GAME_OVER_SCREEN;
+			updateScreen();
+		}
 	}
 	
 	@Override
