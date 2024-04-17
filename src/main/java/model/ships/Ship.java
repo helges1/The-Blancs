@@ -256,4 +256,8 @@ public abstract class Ship extends Sprite {
         powerUpDuration = 20;
     }
 
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
 }
