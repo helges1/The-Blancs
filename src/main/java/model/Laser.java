@@ -56,4 +56,7 @@ public class Laser extends Sprite {
         // Static method to dispose the sound resource when the game is exiting
         // laserSound.dispose();
     }
+    public Vector2 getVelocity() {
+        return velocity;
+    }
 }
