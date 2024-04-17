@@ -119,4 +119,8 @@ public class TheBlancsGame extends Game {
 		this.userName = userName;
 	}
 
+	public GameModel getGameModel() {
+		return gameModel;
+	}
+
 }
