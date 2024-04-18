@@ -2,6 +2,7 @@ package view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -24,6 +25,7 @@ public class HomeScreen implements Screen {
     private TheBlancsGame game;
     private Stage stage;
     private TextField userNameField;
+    private Music backgroundMusic;
 
     Texture playButtonActive;
     Texture playButtonInactive;
@@ -37,6 +39,8 @@ public class HomeScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         initTextures();
         initTextField();
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/ville_seppanen-1_g.mp3"));
+        backgroundMusic.setLooping(true);
     }
 
     private void initTextures() {
@@ -142,7 +146,9 @@ public class HomeScreen implements Screen {
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        backgroundMusic.play();
+    }
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -154,7 +160,9 @@ public class HomeScreen implements Screen {
     @Override
     public void resume() {}
     @Override
-    public void hide() {}
+    public void hide() {
+        backgroundMusic.pause();
+    }
     @Override
     public void dispose() {
         playButtonActive.dispose();
@@ -162,6 +170,7 @@ public class HomeScreen implements Screen {
         exitButtonActive.dispose();
         exitButtonInactive.dispose();
         background.dispose();
+        backgroundMusic.dispose();
     }
 
     private String getUserName() {
