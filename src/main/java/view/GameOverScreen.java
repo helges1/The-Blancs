@@ -2,6 +2,7 @@ package view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -29,6 +30,8 @@ public class GameOverScreen implements Screen {
     Texture exitButtonActive;
     Texture exitButtonInactive;
 
+    private Music backgroundMusic;
+
     
     public GameOverScreen(TheBlancsGame game) {
         this.game = game;
@@ -45,12 +48,16 @@ public class GameOverScreen implements Screen {
         newGameButtonInactive = new Texture("pictures/start-2.png");
         exitButtonActive = new Texture("pictures/exit-1.png");
         exitButtonInactive = new Texture("pictures/exit-2.png");
+        // Load background music
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/GameOverMusic.ogg"));
+        backgroundMusic.setLooping(true);
         // Set the score text
         this.scoreText = "Score: " + game.getGameModel().getScore();
     }
 
     @Override
     public void show() {
+        backgroundMusic.play();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -153,6 +160,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void hide() {
+        backgroundMusic.pause();
         
     }
 
@@ -165,6 +173,7 @@ public class GameOverScreen implements Screen {
         newGameButtonInactive.dispose();
         exitButtonActive.dispose();
         exitButtonInactive.dispose();
+        backgroundMusic.dispose();
     }
     
     
