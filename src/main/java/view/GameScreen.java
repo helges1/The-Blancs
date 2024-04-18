@@ -2,6 +2,7 @@ package view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,6 +36,7 @@ public class GameScreen implements Screen {
 	private FitViewport viewport; // Add the viewport
 	private OrthographicCamera camera; // Camera for the viewport
 	private TheBlancsGame game;
+	private Music backgroundMusic;
 
 	private float backgroundOffset; // The Y-offset of the background
 	private final float backgroundScrollSpeed = 300;
@@ -78,6 +80,10 @@ public class GameScreen implements Screen {
 		background = new Texture("pictures/background.png");
 		shieldTexture = new Texture("pictures/shield.png");
 
+		// Load the background music
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/throughSpace.ogg"));
+		backgroundMusic.setLooping(true);
+
 		shapeRenderer = new ShapeRenderer();
 		this.viewport = viewport;
 
@@ -100,6 +106,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
+		backgroundMusic.play();
 		ScoreManager.loadHighScore();
 	}
 
@@ -333,7 +340,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void hide() {
-		// Implementation remains the same
+		backgroundMusic.pause(); // Pause the background music when the screen is hidden
 	}
 
 	@Override
@@ -341,5 +348,6 @@ public class GameScreen implements Screen {
 		background.dispose();
 		batch.dispose();
 		shapeRenderer.dispose();
+		backgroundMusic.dispose();
 	}
 }
