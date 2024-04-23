@@ -39,7 +39,7 @@ public class EnemyShipController {
 
         }
 
-
+        
         for (Ship enemyShip : enemyShips) {
             // Rotate the enemy ship to face the player's ship
             Vector2 playerShipPos = new Vector2(playerShip.getX(), playerShip.getY());

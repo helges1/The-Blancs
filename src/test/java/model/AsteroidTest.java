@@ -13,13 +13,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import model.Asteroid.AsteroidType;
+
 
 public class AsteroidTest {
 	
 	private Asteroid asteroid;
 	
 	private final Texture texture = mock(Texture.class);
+	@SuppressWarnings("unchecked")
 	private final Animation<TextureRegion> animation = mock(Animation.class);
 	
 	@BeforeEach

@@ -86,6 +86,7 @@ public class TheBlancsGame extends Game {
 			activeScreen = ScreenType.GAME_OVER_SCREEN;
 			updateScreen();
 		}
+
 	}
 	
 	@Override
