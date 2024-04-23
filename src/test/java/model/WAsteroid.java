@@ -14,7 +14,7 @@ public class WAsteroid extends Asteroid {
 	
 	@Override
 	public void setRegion(TextureRegion region) {
-		super.setRegion(region);
+		//pass
 	}
 
 }

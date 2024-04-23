@@ -178,7 +178,7 @@ public abstract class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
-    abstract public Laser fireLaser(List<Laser> lasers);
+    abstract public boolean fireLaser(List<Laser> lasers);
 
     public void setViewport(FitViewport viewport) {
         this.viewport = viewport;

@@ -41,16 +41,17 @@ public class BasicEnemyShip extends Ship {
     }
 
     @Override
-    public Laser fireLaser(List<Laser> enemyLasers) {
-        Laser laser = null;
+    public boolean fireLaser(List<Laser> enemyLasers) {
         if (timeSinceLaserFired >= basicEnemyFireRate) {
             if (random.nextInt(3) > 0) { // 66% chance that the ship chooses to fire laser
                 Vector2 position = getNosePositionOfShip();
                 float angle = getRotation();
-                laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed, angle);
+                Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed, angle);
                 timeSinceLaserFired = 0;
+                enemyLasers.add(laser);
+                return true;
             }
         }
-        return laser;
+        return false;
     }
 }

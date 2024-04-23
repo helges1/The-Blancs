@@ -33,10 +33,11 @@ public class PlayerShip extends Ship {
 	}
 
 	@Override
-	public Laser fireLaser(List<Laser> playerLasers) {
+	public boolean fireLaser(List<Laser> playerLasers) {
 		Laser laser = null;
 		if (timeSinceLaserFired >= playerFireRate) {
 			// ...
+			timeSinceLaserFired = 0;
 
 			if (this.getActivePowerUp() == PowerUpType.GUN) { // Check if the gun is upgraded
 
@@ -62,7 +63,7 @@ public class PlayerShip extends Ship {
 					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 20, 30);
 					playerLasers.add(laser);
 				}
-				
+				return true;
 	
 			} else {
 				// Shoot a single laser
@@ -70,10 +71,11 @@ public class PlayerShip extends Ship {
 				float angle = getRotation(); 
 				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 20, 30);
 				playerLasers.add(laser);
+				return true;
 			}
-			timeSinceLaserFired = 0;
+			
 		}
-		return laser;
+		return false;
 	}
 
 }

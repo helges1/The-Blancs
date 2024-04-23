@@ -480,31 +480,22 @@ public class GameModel {
     public void firePlayerLaser() {
         if (playerShip.getActivePowerUp() == PowerUpType.GUN) {
             // If the player ship's gun is upgraded, shoot bursts of lasers
-            int burstSize = 3;
-            for (int i = 0; i < burstSize; i++) {
-                Laser laser = playerShip.fireLaser(playerLasers); // Pass playerLasers list
-                if (laser != null) {
-                    playerLasers.add(laser);
+                if (playerShip.fireLaser(playerLasers)) { // Pass playerLasers list
+                    laserSound.play();
+                    laserSound.play();
                     laserSound.play();
                 }
-            }
         } else {
             // If the gun is not upgraded, fire a single laser
-            Laser laser = playerShip.fireLaser(playerLasers);
-            if (laser != null) {
-                playerLasers.add(laser);
+            if (playerShip.fireLaser(playerLasers))
                 laserSound.play();
-            }
         }
     }
 
     // Method to fire a laser from a single enemy
     public void fireEnemyLaser(Ship enemyShip) {
-        Laser laser = enemyShip.fireLaser(enemyLasers);
-        if (laser != null) {
-            enemyLasers.add(laser);
+        if (enemyShip.fireLaser(enemyLasers))
             laserSound.play();
-        }
     }
 
     public void update() {

@@ -81,6 +81,16 @@ public class GameModelTest {
         //model.updateModel(timeBetweenSpawns); // Try to spawn one more
         //assertEquals(maxEnemies, model.getEnemyShips().size(), "No more than max enemies should spawn");
     }
+    
+    @Test
+    public void firePlayerLaserTest() {
+    	assertEquals(0, model.getPlayerLasers().size(), "The list of player lasers should initially be empty.");
+    	//model.firePlayerLaser();
+    	assertEquals(0, model.getPlayerLasers().size(), "The list of player lasers should contain 0 lasers.");
+    	model.updateModel(1);
+    	model.firePlayerLaser();
+    	assertEquals(1, model.getPlayerLasers().size(), "The list of player lasers should contain 1 lasers.");
+    }
 
     @AfterEach
     public void tearDown() {
