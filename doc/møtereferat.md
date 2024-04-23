@@ -66,3 +66,8 @@ Vi har bestemt oss for ikke å legge til flere idéer til spillet nå - alt hand
 Om man sitter igjen med tid til overs, da kan vi implementere de mer komplekse idéene, for det er ikke et mangel på idéer.
 Alt handler om å finjustere slik at det blir et fungerende spill.
 Fremover skal vi også ha fokus på å gjøre så mye som mulig "test-bart", og faktisk skrive disse testene.
+
+## 23. April
+Oppmøte: Michal og Sebastian
+
+Sjekket over hva som gjenstår og hva som bør endres på med tanke på tilbakemeldingene. Har startet å løse kjente bugs.

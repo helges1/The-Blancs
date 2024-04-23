@@ -38,5 +38,10 @@ Brukerhistorier basert på nye egenskaper
 - Som sagt har vi en bug som gjør at spillet ikke går over til GameOverScreen når spillet er over (health<= 0). Vi har også et par tester som heller ikke fungerer som de skal. Tester er generelt noe vi må utbedre, og lage flere av. 
 
 # Produkt og kode 
+- Hvordan programmet kjøres er beskrevet i README.md.
+- Siden sist har vi implementert flere funksjoner (nevnt ovenfor). Bugs som har oppstått løses fortløpende. Vi fører bugs som vi er kjente med på [Trello](https://trello.com/invite/b/tr1xRmAG/ATTI346cf3dd7098f5c2c75c88b418352b7812169306/the-blancs)
+- Prosjektet er ikke testet på Linux, men fungerer på Windows og MacOS. Vi skal få sørget å få testet på Linux via VM før endelig prosjekt skal fullføres.
+- UML diagrammet vårt er oppdatert og det finner du under mappen doc/UML.
+
 
 
