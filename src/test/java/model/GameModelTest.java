@@ -85,11 +85,26 @@ public class GameModelTest {
     @Test
     public void firePlayerLaserTest() {
     	assertEquals(0, model.getPlayerLasers().size(), "The list of player lasers should initially be empty.");
-    	//model.firePlayerLaser();
-    	assertEquals(0, model.getPlayerLasers().size(), "The list of player lasers should contain 0 lasers.");
-    	model.updateModel(1);
+    	
+    	model.firePlayerLaser();
+    	assertEquals(0, model.getPlayerLasers().size(), "The list of player lasers should contain 0 lasers."
+    			+ " Player can only fire every 0.3 seconds.");
+    	
+    	model.updateModel(1); // 1 second passes
     	model.firePlayerLaser();
     	assertEquals(1, model.getPlayerLasers().size(), "The list of player lasers should contain 1 lasers.");
+    	
+    	model.firePlayerLaser();
+    	assertEquals(1, model.getPlayerLasers().size(), "The list of player lasers should contain 1 lasers."
+    			+ " Player can only fire every 0.3 seconds.");
+    	
+    	model.updateModel(0.3f); // 0.3 seconds pass
+    	model.firePlayerLaser();
+    	assertEquals(2, model.getPlayerLasers().size(), "The list of player lasers should contain 2 lasers.");
+    	
+    	model.updateModel(0.3f);
+    	model.firePlayerLaser();
+    	assertEquals(3, model.getPlayerLasers().size(), "The list of player lasers should contain 3 lasers.");
     }
 
     @AfterEach
