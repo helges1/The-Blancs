@@ -2,6 +2,8 @@ package model.ships;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 
 import model.Laser;
@@ -15,8 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -127,9 +128,85 @@ public class ShipTest {
         assertEquals(health, ship.getHealth(), "Health should be set correctly.");
     }
     
+    @Test
+    public void testGetNosePosition0Degrees() {
+    	Vector2 exptected = new Vector2(xPos + (width / 2), yPos + height);
+    	Vector2 actual = ship.getNosePositionOfShip();
+    	assertEquals(exptected, actual);
+    }
+    
+    @Test
+    public void testGetNosePosition90Degrees() {
+    	ship.rotateShip(90);
+    	Vector2 exptected = new Vector2(xPos, yPos + (width / 2));
+    	Vector2 actual = ship.getNosePositionOfShip();
+    	assertEquals(exptected, actual);
+    }
+    
+    @Test
+    public void testGetNosePosition180Degrees() {
+    	ship.rotateShip(180);
+    	Vector2 exptected = new Vector2(xPos + (width / 2), yPos);
+    	Vector2 actual = ship.getNosePositionOfShip();
+    	assertEquals(exptected, actual);
+    }
+    
+    @Test
+    public void testGetNosePosition270Degrees() {
+    	ship.rotateShip(270);
+    	Vector2 exptected = new Vector2(xPos + height, yPos + (width / 2));
+    	Vector2 actual = ship.getNosePositionOfShip();
+    	assertEquals(exptected, actual);
+    }
+    
+    @Test
+    public void testGetNosePositionMinus90Degrees() {
+    	ship.rotateShip(-90);
+    	Vector2 exptected = new Vector2(xPos + height, yPos + (width / 2));
+    	Vector2 actual = ship.getNosePositionOfShip();
+    	assertEquals(exptected, actual);
+    }
+    
+    @Test
+    public void testGetNosePosition45Degrees() {
+    	ship.rotateShip(45);
+    	float radians = (float) Math.toRadians(45);
+    	float exptectedX = xPos + (width / 2)*MathUtils.cos(radians);
+    	float expectedY = yPos + height*MathUtils.cos(radians) + (width / 2)*MathUtils.sin(radians);
+    	Vector2 exptected = new Vector2(exptectedX, expectedY);
+    	Vector2 actual = ship.getNosePositionOfShip();
+    	// Check that the difference between expected and actual output is > 10^-10
+    	double aproxZero = Math.pow(10, -10);
+    	assertTrue(actual.x - exptected.x < aproxZero);
+    	assertTrue(actual.y - exptected.y < aproxZero);
+    }
+    
+    @Test
+    public void testGetNosePosition187Degrees() {
+    	ship.rotateShip(187);
+    	float radians = (float) Math.toRadians(187);
+    	float exptectedX = xPos + (width / 2)*(-MathUtils.cos(radians)) + height*(-MathUtils.sin(radians));
+    	float expectedY = yPos + (width / 2)*(-MathUtils.sin(radians));
+    	Vector2 exptected = new Vector2(exptectedX, expectedY);
+    	Vector2 actual = ship.getNosePositionOfShip();
+    	// Check that the difference between expected and actual output is > 10^-10
+    	double aproxZero = Math.pow(10, -10);
+    	assertTrue(actual.x - exptected.x < aproxZero);
+    	assertTrue(actual.y - exptected.y < aproxZero);
+    }
 
 
-
+    @Test
+    public void testPositionAfterRotation() {
+    	assertEquals(250, ship.getX());
+    	assertEquals(250, ship.getY());
+    	ship.rotateShip(90);
+    	assertEquals(250, ship.getX());
+    	assertEquals(250, ship.getY());
+    	ship.rotateShip(73);
+    	assertEquals(250, ship.getX());
+    	assertEquals(250, ship.getY());
+    }
 
 
 

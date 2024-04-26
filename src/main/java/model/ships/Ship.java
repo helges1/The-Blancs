@@ -66,7 +66,7 @@ public abstract class Ship extends Sprite {
     }
 
     /**
-     * A very general construcot for the Ship calss. EveryThing about the ship must
+     * A very general constructor for the Ship class. EveryThing about the ship must
      * be given as arguments.
      * 
      * @param texture    the texture of the ship
@@ -76,7 +76,7 @@ public abstract class Ship extends Sprite {
      * @param height     a float rep. the height of the ship.
      * @param speed      a float rep. the speed of the ship.
      * @param laserSpeed a float rep. the speed of the laser.
-     * @param fireRate   a flaot rep. the rate at which the ship can fire lasers.
+     * @param fireRate   a float rep. the rate at which the ship can fire lasers.
      * @param viewport   a FitViewport. The Viewport that should see the ship (? how
      *                   viewport works??)
      */
@@ -164,16 +164,41 @@ public abstract class Ship extends Sprite {
 
         float radians = (float) Math.toRadians(shipRotation);
 
-        float laserCenterOffsetX = getWidth() * 0f;
-        float laserCenterOffsetY = getHeight() * 1.2f;
-
-        float rotatedOffsetX = laserCenterOffsetX * MathUtils.cos(radians)
-                - laserCenterOffsetY * MathUtils.sin(radians);
-        float rotatedOffsetY = laserCenterOffsetX * MathUtils.sin(radians)
-                + laserCenterOffsetY * MathUtils.cos(radians);
-
-        float noseX = getX() + rotatedOffsetX + 2;
-        float noseY = getY() + rotatedOffsetY - 6;
+//        float laserCenterOffsetX = getWidth() * 0f;
+//        float laserCenterOffsetY = getHeight() * 1.2f;
+//
+//        float rotatedOffsetX = laserCenterOffsetX * MathUtils.cos(radians)
+//                - laserCenterOffsetY * MathUtils.sin(radians);
+//        float rotatedOffsetY = laserCenterOffsetX * MathUtils.sin(radians)
+//                + laserCenterOffsetY * MathUtils.cos(radians);
+//
+//        float noseX = getX() + rotatedOffsetX + 2;
+//        float noseY = getY() + rotatedOffsetY - 6;
+//        
+//        float noseX = getX() + (getWidth() / 2) * MathUtils.sin(radians) + getHeight() * MathUtils.cos(radians);
+//        float noseY = getY() + (getWidth() / 2) * MathUtils.cos(radians) + getHeight() * MathUtils.sin(radians);
+        
+        float noseX = getX();
+        float noseY = getY();
+        if (shipRotation >= 0 && shipRotation <= 90) {
+        	noseX += (getWidth() / 2)*MathUtils.cos(radians);
+        	noseY += getHeight()*MathUtils.cos(radians) + (getWidth() / 2)*MathUtils.sin(radians);
+        }
+        else if (shipRotation > 90 && shipRotation <= 180) {
+        	// cos(x) < 0 when 90<x<180
+        	noseX -= (getWidth() / 2)*MathUtils.cos(radians);
+        	noseY += (getWidth() / 2)*MathUtils.sin(radians);
+        }
+        else if (shipRotation > 180 && shipRotation <= 275) {
+        	// sin(x) and cos(x) < 0 when 180<x<275
+        	noseX += (getWidth() / 2)*(-MathUtils.cos(radians)) + getHeight()*(-MathUtils.sin(radians));
+        	noseY -= (getWidth() / 2)*MathUtils.sin(radians);
+        }
+        else {
+        	// angle (0, -90) | sin(x) < 0
+        	noseX += getHeight()*(-MathUtils.sin(radians)) + (getWidth() / 2)*MathUtils.cos(radians);
+        	noseY += (getWidth() / 2)*(-MathUtils.sin(radians)) + getHeight()*MathUtils.cos(radians);
+        }
 
         return new Vector2(noseX, noseY);
     }
