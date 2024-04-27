@@ -20,6 +20,8 @@ public class PlayerShip extends Ship {
 	private static final float playerHeight = 40;
 	
 	private static final float playerLaserSpeed = 400;
+	private static final float playerLaserWidth = 20;
+	private static final float playerLaserHeight = 30;
 	private static final float playerFireRate = 0.3f;
 
 
@@ -60,7 +62,7 @@ public class PlayerShip extends Ship {
 					position = new Vector2(getNosePositionOfShip()).add(offset);
 					
 					angle = getRotation(); 
-					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 20, 30);
+					laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, playerLaserWidth, playerLaserHeight);
 					playerLasers.add(laser);
 				}
 				return true;
@@ -68,8 +70,8 @@ public class PlayerShip extends Ship {
 			} else {
 				// Shoot a single laser
 				Vector2 position = getNosePositionOfShip();
-				float angle = getRotation(); 
-				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, 20, 30);
+				float angle = getRotation();
+				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, playerLaserWidth, playerLaserHeight);
 				playerLasers.add(laser);
 				return true;
 			}

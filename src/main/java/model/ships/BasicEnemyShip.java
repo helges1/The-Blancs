@@ -22,6 +22,8 @@ public class BasicEnemyShip extends Ship {
     private static final float basicEnemyHeight = 40;
 
     private static final float basicEnemyLaserSpeed = 300;
+    private static final float basicEnemyLaserWidth = 15;
+    private static final float basicEnemyLaserHeight = 30;    
     private static final float basicEnemyFireRate = 1;
 
     /**
@@ -46,7 +48,8 @@ public class BasicEnemyShip extends Ship {
             if (random.nextInt(3) > 0) { // 66% chance that the ship chooses to fire laser
                 Vector2 position = getNosePositionOfShip();
                 float angle = getRotation();
-                Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed, angle);
+                Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed,
+                		angle, basicEnemyLaserWidth, basicEnemyLaserHeight);
                 timeSinceLaserFired = 0;
                 enemyLasers.add(laser);
                 return true;

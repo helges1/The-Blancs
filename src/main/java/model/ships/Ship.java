@@ -177,27 +177,28 @@ public abstract class Ship extends Sprite {
 //        
 //        float noseX = getX() + (getWidth() / 2) * MathUtils.sin(radians) + getHeight() * MathUtils.cos(radians);
 //        float noseY = getY() + (getWidth() / 2) * MathUtils.cos(radians) + getHeight() * MathUtils.sin(radians);
-        
+        float width = getWidth() / 2;
+        float height = getHeight();
         float noseX = getX();
         float noseY = getY();
         if (shipRotation >= 0 && shipRotation <= 90) {
-        	noseX += (getWidth() / 2)*MathUtils.cos(radians);
-        	noseY += getHeight()*MathUtils.cos(radians) + (getWidth() / 2)*MathUtils.sin(radians);
+        	noseX += width*MathUtils.cos(radians);
+        	noseY += height*MathUtils.cos(radians) + width*MathUtils.sin(radians);
         }
         else if (shipRotation > 90 && shipRotation <= 180) {
-        	// cos(x) < 0 when 90<x<180
-        	noseX -= (getWidth() / 2)*MathUtils.cos(radians);
-        	noseY += (getWidth() / 2)*MathUtils.sin(radians);
+        	//90<x<180 -> sin(x) > 0 & cos(x) < 0
+        	noseX -= width*MathUtils.cos(radians);
+        	noseY += width*MathUtils.sin(radians);
         }
-        else if (shipRotation > 180 && shipRotation <= 275) {
-        	// sin(x) and cos(x) < 0 when 180<x<275
-        	noseX += (getWidth() / 2)*(-MathUtils.cos(radians)) + getHeight()*(-MathUtils.sin(radians));
-        	noseY -= (getWidth() / 2)*MathUtils.sin(radians);
+        else if (shipRotation > 180 && shipRotation <= 270) {
+        	//180<x<270 -> sin(x) < 0 & cos(x) < 0
+        	noseX += width*(-MathUtils.cos(radians)) + height*(-MathUtils.sin(radians));
+        	noseY -= width*MathUtils.sin(radians);
         }
         else {
-        	// angle (0, -90) | sin(x) < 0
-        	noseX += getHeight()*(-MathUtils.sin(radians)) + (getWidth() / 2)*MathUtils.cos(radians);
-        	noseY += (getWidth() / 2)*(-MathUtils.sin(radians)) + getHeight()*MathUtils.cos(radians);
+        	//270<x<360 -> sin(x) < 0 & cos(x) > 0
+        	noseX += height*(-MathUtils.sin(radians)) + width*MathUtils.cos(radians);
+        	noseY += width*(-MathUtils.sin(radians)) + height*MathUtils.cos(radians);
         }
 
         return new Vector2(noseX, noseY);
