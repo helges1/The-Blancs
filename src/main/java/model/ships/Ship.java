@@ -286,4 +286,8 @@ public abstract class Ship extends Sprite {
         return velocity;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
 }

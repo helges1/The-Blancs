@@ -36,9 +36,8 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(TheBlancsGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT) );
-        //Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(stage);
         
-        this.batch = new SpriteBatch();
         this.font = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
         this.font.getData().setScale(3);
 
@@ -58,7 +57,6 @@ public class GameOverScreen implements Screen {
     @Override
     public void show() {
         backgroundMusic.play();
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -66,28 +64,28 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getCamera().update();
-        batch.setProjectionMatrix(stage.getCamera().combined);
-        batch.begin();
+        game.batch.setProjectionMatrix(stage.getCamera().combined);
+        game.batch.begin();
         
         // Draw the background
-        batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        game.batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
     
         // Draw the game over text
         GlyphLayout gameOverLayout = new GlyphLayout(font, "Game Over");
         float x = (WORLD_WIDTH - gameOverLayout.width) / 2;
         float y = (WORLD_HEIGHT + gameOverLayout.height) / 2 + 100;
-        font.draw(batch, gameOverLayout, x, y);
+        font.draw(game.batch, gameOverLayout, x, y);
 
         // Draw the score text
         GlyphLayout scoreLayout = new GlyphLayout(font, scoreText);
         float scoreX = (WORLD_WIDTH - scoreLayout.width) / 2;
         float scoreY = y - 70;
-        font.draw(batch, scoreLayout, scoreX, scoreY);
+        font.draw(game.batch, scoreLayout, scoreX, scoreY);
 
         // Draw the buttons
         drawButtons();
 
-        batch.end();
+        game.batch.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -106,14 +104,16 @@ public class GameOverScreen implements Screen {
         // Draws the hover effect for the buttons based on the mouse position
         Texture currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? newGameButtonActive : newGameButtonInactive;
         Texture currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
-        batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
-        batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
+        game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
+        game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
 
 
         if (isButtonPressed(centerX, playButtonY, buttonWidth, buttonHeight)) {
+            Gdx.app.log("GameOverScreen", "Play button pressed");
             playButtonClicked();
         }
         if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
+            Gdx.app.log("GameOverScreen", "Exit button pressed");
             exitButtonClicked();
         }
     }
@@ -121,7 +121,9 @@ public class GameOverScreen implements Screen {
     private boolean isButtonHovered(int x, int y, int width, int height) {
         Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
-        return touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
+        boolean hovered = touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
+        Gdx.app.log("GameOverScreen", "Hovered: " + hovered + ", Touch: " + touchPos.toString() + ", ButtonRect: [" + x + "," + y + "," + (x+width) + "," + (y+height) + "]");
+        return hovered;
     }
 
     private boolean isButtonPressed(int x, int y, int width, int height) {
@@ -131,13 +133,12 @@ public class GameOverScreen implements Screen {
     private void playButtonClicked() {
         Gdx.input.setInputProcessor(game.getPlayerController());
         this.dispose();
-        batch.end();
+        game.getGameModel().resetGameState();
         game.setScreenType(ScreenType.GAME_SCREEN);
     }
 
     private void exitButtonClicked() {
         this.dispose();
-        batch.end();
         Gdx.app.exit();
     }
 
@@ -166,7 +167,6 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         font.dispose();
         background.dispose();
         newGameButtonActive.dispose();

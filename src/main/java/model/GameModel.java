@@ -603,5 +603,18 @@ public class GameModel {
     public TextureRegion getPowerUpTexture(PowerUpType type) {
         return atlas.findRegion(type.getTextureName());
     }
+    public void resetGameState() {
+        gameOver = false;
+        score = 0;
+        destroyedEnemyShipsCount = 0;
+        playerLasers.clear();
+        enemyLasers.clear();
+        enemyShips.clear();
+        powerUps.clear();
+        asteroids.clear();
+        explosions.clear();
+        playerShip.setPosition(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        playerShip.setHealth(100);
+    }
 
 }
