@@ -21,14 +21,17 @@ public class GameOverScreen implements Screen {
     private TheBlancsGame game;
     private Stage stage;
     private String scoreText;
-    private SpriteBatch batch;
     private BitmapFont font;
+    private BitmapFont buttonFont;
+    private boolean resourcesDisposed = false;
 
     Texture background;
     Texture newGameButtonActive;
     Texture newGameButtonInactive;
     Texture exitButtonActive;
     Texture exitButtonInactive;
+    Texture blankButtonActive;
+    Texture blankButtonInactive;
 
     private Music backgroundMusic;
 
@@ -40,6 +43,8 @@ public class GameOverScreen implements Screen {
         
         this.font = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
         this.font.getData().setScale(3);
+        this.buttonFont = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
+        this.buttonFont.getData().setScale(1);
 
         // Load textures
         background = new Texture("pictures/background.png");
@@ -47,6 +52,9 @@ public class GameOverScreen implements Screen {
         newGameButtonInactive = new Texture("pictures/start-2.png");
         exitButtonActive = new Texture("pictures/exit-1.png");
         exitButtonInactive = new Texture("pictures/exit-2.png");
+        blankButtonActive = new Texture("pictures/blank-1.png");
+        blankButtonInactive = new Texture("pictures/blank-2.png");
+
         // Load background music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/GameOverMusic.ogg"));
         backgroundMusic.setLooping(true);
@@ -102,10 +110,16 @@ public class GameOverScreen implements Screen {
         int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button
 
         // Draws the hover effect for the buttons based on the mouse position
-        Texture currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? newGameButtonActive : newGameButtonInactive;
+        Texture currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? blankButtonActive : blankButtonInactive;
         Texture currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
         game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
+
+        // Draws text on the blank button
+        GlyphLayout playAgainLayout = new GlyphLayout(buttonFont, "Play Again");
+        float textX = centerX + (buttonWidth - playAgainLayout.width) / 2;
+        float textY = playButtonY + (buttonHeight + playAgainLayout.height) / 2;
+        buttonFont.draw(game.batch, "Play Again", textX, textY);
 
 
         if (isButtonPressed(centerX, playButtonY, buttonWidth, buttonHeight)) {
@@ -127,18 +141,17 @@ public class GameOverScreen implements Screen {
     }
 
     private boolean isButtonPressed(int x, int y, int width, int height) {
-        return Gdx.input.justTouched() && isButtonHovered(x, y, width, height);
+        return Gdx.input.isTouched() && isButtonHovered(x, y, width, height);
     }
 
     private void playButtonClicked() {
         Gdx.input.setInputProcessor(game.getPlayerController());
-        this.dispose();
         game.getGameModel().resetGameState();
         game.setScreenType(ScreenType.GAME_SCREEN);
     }
 
     private void exitButtonClicked() {
-        this.dispose();
+        this.disposeResourcesForExit();
         Gdx.app.exit();
     }
 
@@ -167,13 +180,19 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
-        font.dispose();
-        background.dispose();
-        newGameButtonActive.dispose();
-        newGameButtonInactive.dispose();
-        exitButtonActive.dispose();
-        exitButtonInactive.dispose();
-        backgroundMusic.dispose();
+    }
+    public void disposeResourcesForExit() {
+        // This method is called only when the game is completely exiting.
+        if (!resourcesDisposed) {
+            font.dispose();
+            background.dispose();
+            newGameButtonActive.dispose();
+            newGameButtonInactive.dispose();
+            exitButtonActive.dispose();
+            exitButtonInactive.dispose();
+            backgroundMusic.dispose();
+            resourcesDisposed = true;
+        }
     }
     
     
