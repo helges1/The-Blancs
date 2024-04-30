@@ -8,9 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import model.ships.BasicEnemyShip;
+import model.ships.BasicShipFactory;
 import model.ships.Explosion;
 import model.ships.PlayerShip;
 import model.ships.Ship;
+import model.ships.ShipFactory;
 import model.PowerUps.PowerUpType;
 
 import java.util.Iterator;
@@ -37,6 +39,8 @@ public class GameModel {
     // World values for boundaries or other purposes
     public final static float WORLD_WIDTH = 800;
     public final static float WORLD_HEIGHT = 600;
+    
+    private ShipFactory shipFactory;
 
     // Initialize timers
     private float timeSincePowerUpSpawn;
@@ -100,6 +104,7 @@ public class GameModel {
         this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
         this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
         this.asteroidTexture = atlas.findRegion("asteroid1");
+        this.shipFactory = new BasicShipFactory(viewport, atlas);
 
         // Initialize level
         this.currentLevel = GameLevel.LEVEL_1;
@@ -178,7 +183,8 @@ public class GameModel {
         // Spawn new EnemyShips
         if (timeSinceEnemySpawn >= timeBetweenEnemiesSpawn &&
                 enemyShips.size() < maxEnemiesOnScreen) {
-            spawnEnemyShip();
+//            spawnEnemyShip();
+        	enemyShips.add(shipFactory.getEnemyShip(currentLevel));
             timeSinceEnemySpawn = 0;
         }
 
