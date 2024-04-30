@@ -9,6 +9,9 @@ import model.GameModel;
 import model.PowerUps.PowerUpType;
 import model.ships.Ship;
 
+/**
+ * This class is responsible for controlling the enemy ships in the game.
+ */
 public class EnemyShipController {
     private LinkedList<Ship> enemyShips;
     private LinkedList<Asteroid> asteroids;
@@ -16,6 +19,10 @@ public class EnemyShipController {
     private float timeSinceLastShot = 0;
     private GameModel gameModel;
 
+    /**
+     * Constructor for the EnemyShipController class.
+     * @param gameModel The game model object.
+     */
     public EnemyShipController(GameModel gameModel) {
         this.enemyShips = gameModel.getEnemyShips();
         this.playerShip = gameModel.getPlayerShip();
@@ -23,6 +30,10 @@ public class EnemyShipController {
         this.gameModel = gameModel;
     }
 
+    /**
+     * Updates the enemy ships in the game.
+     * @param deltaTime The time passed since the last frame.
+     */
     public void update(float deltaTime) {
         timeSinceLastShot += deltaTime;
         // Every 1 second, make a random enemy ship shoot
@@ -74,6 +85,11 @@ public class EnemyShipController {
         }
     }
 
+    /**
+     * Applies the blast effect to the enemy ship.
+     * @param enemyShip The enemy ship to apply the blast effect to.
+     * @param distanceToPlayer The distance from the enemy ship to the player ship.
+     */
     private void applyBlastEffect(Ship enemyShip, float deltaTime) {
 
         // Calculate the vector from the enemy ship to the player ship

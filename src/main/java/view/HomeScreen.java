@@ -142,7 +142,8 @@ public class HomeScreen implements Screen {
         game.setUserName(getUserName());
         game.setScreenType(ScreenType.GAME_SCREEN);
     }
-
+    
+     
     private void exitButtonClicked() {
         Gdx.app.exit();
     }

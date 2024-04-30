@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import model.GameModel;
 import model.ships.Ship;
 
+/**
+ * This class is responsible for controlling the player ship in the game.
+ */
 public class PlayerShipController implements InputProcessor {
 	private GameModel model;
     private Ship ship;
@@ -15,6 +18,10 @@ public class PlayerShipController implements InputProcessor {
     private boolean spacePressed, mousePressed;
     private boolean spaceJustPressed, mouseJustPressed; // New flags for tracking firing state
 
+    /**
+     * Constructor for the PlayerShipController class.
+     * @param model The game model object.
+     */
     public PlayerShipController(GameModel model) {
 
     	this.model = model;
@@ -50,6 +57,9 @@ public class PlayerShipController implements InputProcessor {
         }
     }
 
+    /*
+     * InputProcessor methods for controlling key down events. 
+     */
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
@@ -75,6 +85,9 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
+    /*
+     * InputProcessor method for handling key up events.
+     */
     @Override
     public boolean keyUp(int keycode) {
         switch (keycode) {
@@ -100,6 +113,9 @@ public class PlayerShipController implements InputProcessor {
 
     }
 
+    /*
+     * InputProcessor method for handling mouse movement events.
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         Vector2 rotateTowards = model.getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
@@ -107,12 +123,18 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
-
+    /*
+     * InputProcessor methods for handling mouse button events.
+     * 
+     */
     @Override
     public boolean keyTyped(char character) {
         return false;
     }
 
+    /*
+     * InputProcessor methods for handling mouse button events.
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT && !mousePressed) {
@@ -122,6 +144,9 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
+    /*
+     * InputProcessor methods for handling mouse button events.
+     */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
@@ -131,16 +156,25 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
+    /*
+     * @ return false
+     */
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /*
+     * @ return false
+     */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
+    /*
+     * @ return false
+     */
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
