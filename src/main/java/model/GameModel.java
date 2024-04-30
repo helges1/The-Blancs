@@ -45,14 +45,6 @@ public class GameModel {
     private float timeSinceAsteroidSpawn;
     private float timeSinceEnemySpawn;
 
-    // Initialize time values for spawning
-    private float timeBetweenEnemiesSpawn;
-    private float timeBetweenAsteroidSpawn;
-    private float timeBetweenPowerUpSpawn;
-
-    // Initialize values for enemy spawning
-    private int maxEnemiesOnScreen;
-
     // Keep track of destroyed enemy ships
     private int destroyedEnemyShipsCount = 0;
 
@@ -68,35 +60,27 @@ public class GameModel {
     // Textures
     //private final TextureAtlas atlas;
 
-    private TextureRegion asteroidTexture;
-
     private final TextureAtlas atlas;
+    private TextureRegion asteroidTexture;
 
     // Sounds
     private final Sound laserSound;
 
     /**
      * A general constructor for the GameModel where everything is provided as
-     * arguments
-     * (except world sizes, for some reason)
+     * arguments (except world sizes, which are universal constants).
      *
-     * @param atlas the TextureAtlas containing all the textures for the game
-     * @param laserSound a Sound to be played when lasers are fired
-     * @param viewport a FitViewport to make the the view and the sprites work with each other
-     * @param userName a String representing the unser name of the current player, used to track high score and such
+     * @param atlas the TextureAtlas containing all the textures for the game.
+     * @param laserSound a Sound to be played when lasers are fired.
+     * @param viewport a FitViewport to make the the view and the sprites work with each other.
+     * @param userName a String representing the username of the current player, used to track high score and such.
      */
     public GameModel(TextureAtlas atlas,
-            // Texture playerShipTexture, Texture playerLaserTexture,
-            // Texture basicEnemyShipTexture, Texture basicEnemyLaserTexture,
             Sound laserSound, FitViewport viewport,
             String userName) {
 
         
         this.atlas = atlas;
-//        this.playerShipTexture = atlas.findRegion("playerShip");
-//        this.playerLaserTexture = atlas.findRegion("playerLaser");
-//        this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
-//        this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
         this.asteroidTexture = atlas.findRegion("asteroid1");
         this.shipFactory = new BasicShipFactory(viewport, atlas);
 
@@ -110,7 +94,7 @@ public class GameModel {
         this.laserSound = laserSound;
 
         // Initialize player
-        playerShip = shipFactory.getPlayerShip();//new PlayerShip(playerShipTexture, playerLaserTexture, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, viewport);
+        playerShip = shipFactory.getPlayerShip();
         playerLasers = new LinkedList<>();
 
         // Initialize enemies
@@ -119,14 +103,6 @@ public class GameModel {
         powerUps = new LinkedList<>();
         asteroids = new LinkedList<>();
         explosions = new LinkedList<>();
-
-        // Initialize enemy spawn values
-        this.timeBetweenEnemiesSpawn = currentLevel.getEnemySpawnRate();
-        this.timeBetweenAsteroidSpawn = currentLevel.getAsteroidSpawnRate();
-        this.timeBetweenPowerUpSpawn = currentLevel.getPowerUpSpawnRate();
-
-        // Initialize max enemies on screen
-        this.maxEnemiesOnScreen = currentLevel.getMaxEnemiesOnScreen();
 
         // Initialize power up spawn values
         this.timeSincePowerUpSpawn = 0;
@@ -144,12 +120,6 @@ public class GameModel {
 
         // Change level based on score
         changeLevel(score);
-
-        // Update Level based variables
-        timeBetweenEnemiesSpawn = currentLevel.getEnemySpawnRate();
-        timeBetweenAsteroidSpawn = currentLevel.getAsteroidSpawnRate();
-        timeBetweenPowerUpSpawn = currentLevel.getPowerUpSpawnRate();
-        maxEnemiesOnScreen = currentLevel.getMaxEnemiesOnScreen();
 
         // Update timers
         timeSincePowerUpSpawn += deltaTime;
@@ -175,20 +145,20 @@ public class GameModel {
         updateExplosions(deltaTime);
 
         // Spawn new EnemyShips
-        if (timeSinceEnemySpawn >= timeBetweenEnemiesSpawn &&
-                enemyShips.size() < maxEnemiesOnScreen) {
+        if (timeSinceEnemySpawn >= currentLevel.getEnemySpawnRate() &&
+                enemyShips.size() < currentLevel.getMaxEnemiesOnScreen()) {
         	enemyShips.add(shipFactory.getEnemyShip(currentLevel));
             timeSinceEnemySpawn = 0;
         }
 
         // Spawn new PowerUps
-        if (timeSincePowerUpSpawn >= timeBetweenPowerUpSpawn) {
+        if (timeSincePowerUpSpawn >= currentLevel.getPowerUpSpawnRate()) {
             spawnPowerUp();
             timeSincePowerUpSpawn = 0;
         }
 
         // Spawn new Asteroids
-        if (timeSinceAsteroidSpawn >= timeBetweenAsteroidSpawn) {
+        if (timeSinceAsteroidSpawn >= currentLevel.getAsteroidSpawnRate()) {
             spawnAsteroids();
             timeSinceAsteroidSpawn = 0;
         }
@@ -568,6 +538,7 @@ public class GameModel {
     public TextureRegion getPowerUpTexture(PowerUpType type) {
         return atlas.findRegion(type.getTextureName());
     }
+    
     public void resetGameState() {
         gameOver = false;
         score = 0;
