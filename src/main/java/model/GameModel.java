@@ -7,10 +7,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import model.ships.BasicEnemyShip;
 import model.ships.BasicShipFactory;
 import model.ships.Explosion;
-import model.ships.PlayerShip;
 import model.ships.Ship;
 import model.ships.ShipFactory;
 import model.PowerUps.PowerUpType;
@@ -70,10 +68,6 @@ public class GameModel {
     // Textures
     //private final TextureAtlas atlas;
 
-    private TextureRegion playerShipTexture;
-    private TextureRegion playerLaserTexture;
-    private TextureRegion basicEnemyShipTexture;
-    private TextureRegion basicEnemyLaserTexture;
     private TextureRegion asteroidTexture;
 
     private final TextureAtlas atlas;
@@ -99,10 +93,10 @@ public class GameModel {
 
         
         this.atlas = atlas;
-        this.playerShipTexture = atlas.findRegion("playerShip");
-        this.playerLaserTexture = atlas.findRegion("playerLaser");
-        this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
-        this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
+//        this.playerShipTexture = atlas.findRegion("playerShip");
+//        this.playerLaserTexture = atlas.findRegion("playerLaser");
+//        this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
+//        this.basicEnemyLaserTexture = atlas.findRegion("enemyLaser");
         this.asteroidTexture = atlas.findRegion("asteroid1");
         this.shipFactory = new BasicShipFactory(viewport, atlas);
 
@@ -116,7 +110,7 @@ public class GameModel {
         this.laserSound = laserSound;
 
         // Initialize player
-        playerShip = new PlayerShip(playerShipTexture, playerLaserTexture, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, viewport);
+        playerShip = shipFactory.getPlayerShip();//new PlayerShip(playerShipTexture, playerLaserTexture, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, viewport);
         playerLasers = new LinkedList<>();
 
         // Initialize enemies
@@ -183,7 +177,6 @@ public class GameModel {
         // Spawn new EnemyShips
         if (timeSinceEnemySpawn >= timeBetweenEnemiesSpawn &&
                 enemyShips.size() < maxEnemiesOnScreen) {
-//            spawnEnemyShip();
         	enemyShips.add(shipFactory.getEnemyShip(currentLevel));
             timeSinceEnemySpawn = 0;
         }
@@ -365,40 +358,6 @@ public class GameModel {
 
         // Adding the power up to the list
         asteroids.add(Asteroid);
-    }
-
-    private void spawnEnemyShip() {
-        Ship enemyShip = new BasicEnemyShip(basicEnemyShipTexture, basicEnemyLaserTexture, 0, 0, viewport);
-        int randNum = MathUtils.random(0, 3);
-
-        float posX = 0;
-        float posY = 0;
-
-        switch (randNum) {
-            case 0:
-                posX = 0 - enemyShip.getWidth();
-                posY = MathUtils.random(0, WORLD_HEIGHT);
-                break;
-            case 1:
-                posX = WORLD_WIDTH + enemyShip.getWidth();
-                posY = MathUtils.random(0, WORLD_HEIGHT);
-                break;
-            case 2:
-                posX = MathUtils.random(0, WORLD_WIDTH);
-                posY = 0 - enemyShip.getHeight();
-                break;
-            case 3:
-                posX = MathUtils.random(0, WORLD_WIDTH);
-                posY = WORLD_HEIGHT + enemyShip.getHeight();
-                break;
-
-            default:
-                break;
-        }
-
-        enemyShip.setX(posX);
-        enemyShip.setY(posY);
-        enemyShips.add(enemyShip);
     }
 
     // Helper method to check collision between power-up and player ship
