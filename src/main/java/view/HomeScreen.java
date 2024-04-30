@@ -1,6 +1,5 @@
 package view;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -20,6 +19,10 @@ import com.badlogic.gdx.math.Vector2;
 import model.GameModel;
 import model.TheBlancsGame;
 
+/**
+ * Represents the home screen of the game where the player can start a new game or exit.
+ * This screen allows the player to enter their username and select the play or exit options.
+ */
 public class HomeScreen implements Screen {
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
@@ -34,7 +37,12 @@ public class HomeScreen implements Screen {
     Texture exitButtonActive;
     Texture exitButtonInactive;
     Texture background;
-
+    
+    /**
+     * Constructs the HomeScreen with the main game context.
+     * 
+     * @param game The main game object, used to manage transitions and other screens.
+     */
     public HomeScreen(TheBlancsGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
@@ -44,7 +52,10 @@ public class HomeScreen implements Screen {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/ville_seppanen-1_g.mp3"));
         backgroundMusic.setLooping(true);
     }
-
+    
+    /**
+     * Initializes textures for UI elements such as buttons and background.
+     */
     private void initTextures() {
         playButtonActive = new Texture("pictures/start-1.png");
         playButtonInactive = new Texture("pictures/start-2.png");
@@ -53,6 +64,11 @@ public class HomeScreen implements Screen {
         background = new Texture("pictures/background.png");
     }
 
+    /**
+     * Renders the home screen including background, buttons, and text fields.
+     * 
+     * @param delta Time since the last frame was rendered.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -75,7 +91,10 @@ public class HomeScreen implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
-
+    
+    /**
+     * Draws interactive buttons for starting a new game or exiting.
+     */
     private void drawButtons() {
         int buttonWidth = (int) (WORLD_WIDTH / 4);
         int buttonHeight = (int) (WORLD_HEIGHT / 10);
@@ -101,17 +120,37 @@ public class HomeScreen implements Screen {
         }
     }
 
-
+    /**
+     * Checks if a screen coordinate is within the bounds of a button.
+     * 
+     * @param x The x-coordinate of the button.
+     * @param y The y-coordinate of the button.
+     * @param width The width of the button.
+     * @param height The height of the button.
+     * @return true if the current touch position is within the button's bounds, false otherwise.
+     */
     private boolean isButtonHovered(int x, int y, int width, int height) {
         Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
         return touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
     }
-
+    
+    /**
+     * Checks if a button has been pressed.
+     * 
+     * @param x The x-coordinate of the button.
+     * @param y The y-coordinate of the button.
+     * @param width The width of the button.
+     * @param height The height of the button.
+     * @return true if the button is pressed, false otherwise.
+     */
     private boolean isButtonPressed(int x, int y, int width, int height) {
         return Gdx.input.justTouched() && isButtonHovered(x, y, width, height);
     }
-
+    
+    /**
+     * Initializes the text field for username input.
+     */
     private void initTextField() {
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         BitmapFont font = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
@@ -135,7 +174,10 @@ public class HomeScreen implements Screen {
         userNameField.setSize(textFieldWidth, textFieldHeight);
         stage.addActor(userNameField);
     }
-
+    
+    /**
+     * Handles the logic when the play button is clicked, transitioning to the main game screen.
+     */
     private void playButtonClicked() {
         Gdx.input.setInputProcessor(game.getPlayerController());
         this.dispose();
@@ -143,30 +185,58 @@ public class HomeScreen implements Screen {
         game.setScreenType(ScreenType.GAME_SCREEN);
     }
     
-     
+    /**
+     * Handles the logic when the exit button is clicked, exiting the application.
+     */
     private void exitButtonClicked() {
         Gdx.app.exit();
     }
-
+    
+    /**
+     * Called when this screen becomes the current screen for a Game.
+     */
     @Override
     public void show() {
         backgroundMusic.play();
-
+    
     }
+
+    /**
+     * Adjusts the screen's viewport when the screen size changes.
+     * 
+     * @param width The new width of the screen.
+     * @param height The new height of the screen.
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         stage.getCamera().position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
         stage.getCamera().update();
     }
+
+    /**
+     * Called when the game is paused.
+     */
     @Override
     public void pause() {}
+
+    /**
+     * Called when the game resumes from a paused state.
+     */
     @Override
     public void resume() {}
+
+    /**
+     * Called when this screen is no longer the current screen for a Game.
+     */
     @Override
     public void hide() {
         backgroundMusic.pause();
     }
+
+    /**
+     * Releases all resources of this screen.
+     */
     @Override
     public void dispose() {
         playButtonActive.dispose();
@@ -176,7 +246,12 @@ public class HomeScreen implements Screen {
         background.dispose();
         backgroundMusic.dispose();
     }
-
+    
+    /**
+     * Retrieves the username entered in the text field.
+     * 
+     * @return A string containing the username.
+     */
     private String getUserName() {
         return userNameField.getText();
     }

@@ -25,6 +25,11 @@ import model.PowerUps.PowerUpType;
 import model.ships.Explosion;
 import model.ships.Ship;
 
+/**
+ * Represents the main game play screen where the action takes place.
+ * This screen manages rendering and updating all game elements like the player's ship,
+ * enemies, lasers, and power-ups.
+ */
 public class GameScreen implements Screen {
 
 	private SpriteBatch batch;

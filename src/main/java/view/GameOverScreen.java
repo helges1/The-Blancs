@@ -13,6 +13,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import model.GameModel;
 import model.TheBlancsGame;
 
+/**
+ * Represents the game over screen displayed when a game session ends. This screen shows the final score
+ * and provides options to restart the game or exit.
+ * <p>
+ * This class manages the UI elements on the game over screen, such as displaying the player's final score,
+ * and rendering buttons for replaying the game or exiting. 
+ */
 public class GameOverScreen implements Screen {
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
