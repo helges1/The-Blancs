@@ -22,7 +22,7 @@ public class GameOverScreen implements Screen {
 
     private TheBlancsGame game;
     private Stage stage;
-    private String scoreText;
+    private String scoreText = "Score: 0";
     private BitmapFont font;
     private BitmapFont buttonFont;
     private boolean resourcesDisposed = false;
@@ -34,6 +34,7 @@ public class GameOverScreen implements Screen {
     Texture exitButtonInactive;
     Texture blankButtonActive;
     Texture blankButtonInactive;
+
 
     private Music backgroundMusic;
 
@@ -60,8 +61,9 @@ public class GameOverScreen implements Screen {
         // Load background music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/GameOverMusic.ogg"));
         backgroundMusic.setLooping(true);
-        // Set the score text
-        this.scoreText = "Score: " + game.getGameModel().getScore();
+
+        
+        
     }
 
     @Override
@@ -85,6 +87,7 @@ public class GameOverScreen implements Screen {
         float x = (WORLD_WIDTH - gameOverLayout.width) / 2;
         float y = (WORLD_HEIGHT + gameOverLayout.height) / 2 + 100;
         font.draw(game.batch, gameOverLayout, x, y);
+
 
         // Draw the score text
         GlyphLayout scoreLayout = new GlyphLayout(font, scoreText);
@@ -194,6 +197,10 @@ public class GameOverScreen implements Screen {
             backgroundMusic.dispose();
             resourcesDisposed = true;
         }
+    }
+
+    public void setFinalScore(int score) {
+        this.scoreText = "Score: " + score;
     }
     
     

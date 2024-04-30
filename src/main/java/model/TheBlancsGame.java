@@ -27,6 +27,7 @@ public class TheBlancsGame extends Game {
 	public SpriteBatch batch;
 	private ScreenType activeScreen = ScreenType.HOME_SCREEN;
 	private PlayerShipController playerShipController;
+	private int finalScore = 0;
 
 
 	@Override
@@ -55,7 +56,6 @@ public class TheBlancsGame extends Game {
 		gameScreen = new GameScreen(gameModel, playerShipController, enemyShipController, batch, camera, viewport);
 		homeScreen = new HomeScreen(this);
 		gameOverScreen = new GameOverScreen(this);
-
 		
 		
         updateScreen();
@@ -83,10 +83,11 @@ public class TheBlancsGame extends Game {
 	@Override
 	public void render() {
 		super.render();
-
 		if (gameModel.isGameOver() && activeScreen != ScreenType.GAME_OVER_SCREEN) {
+			finalScore = gameModel.getScore();  // Get the final score from the game model
+			gameOverScreen.setFinalScore(finalScore);
 			activeScreen = ScreenType.GAME_OVER_SCREEN;
-			updateScreen();
+			updateScreen();  // Update screen will handle setting the game over screen
 		}
 
 	}
@@ -125,5 +126,6 @@ public class TheBlancsGame extends Game {
 	public GameModel getGameModel() {
 		return gameModel;
 	}
+
 
 }
