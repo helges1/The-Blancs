@@ -33,8 +33,8 @@ public class GameScreen implements Screen {
 	private EnemyShipController enemyShipController;
 	private Texture background;
 	private Texture shieldTexture;
-	private FitViewport viewport; // Add the viewport
-	private OrthographicCamera camera; // Camera for the viewport
+	private FitViewport viewport; 
+	private OrthographicCamera camera; 
 	private TheBlancsGame game;
 	private Music backgroundMusic;
 
@@ -60,7 +60,17 @@ public class GameScreen implements Screen {
 
 	// ShapeRenderer for drawing health bar
 	private ShapeRenderer shapeRenderer;
-
+    
+	/**
+     * Constructs the GameScreen with necessary dependencies.
+     * 
+     * @param gameModel The central model managing game logic and state.
+     * @param playerShipController Controls player actions and interactions.
+     * @param enemyShipController Controls enemy actions and interactions.
+     * @param batch The SpriteBatch used to draw all textures.
+     * @param camera The OrthographicCamera providing a view of the game world.
+     * @param viewport Manages how the game world is scaled and shown on different screens.
+     */
 	public GameScreen(GameModel gameModel, PlayerShipController playerShipController,
 			EnemyShipController enemyShipController,
 			SpriteBatch batch, OrthographicCamera camera, FitViewport viewport) {
@@ -103,13 +113,19 @@ public class GameScreen implements Screen {
 		hudSectionWidth = viewport.getWorldWidth() / 3;
 		backgroundOffset = 0;
 	}
-
+    
+	/**
+     * Called when this screen becomes the current screen for the game.
+     */
 	@Override
 	public void show() {
 		backgroundMusic.play();
 		ScoreManager.loadHighScore();
 	}
 
+    /**
+     * Draws the game's HUD, showing scores, health, and power-up status.
+     */
 	private void drawHUD() {
 		batch.begin();
 	    
@@ -184,6 +200,11 @@ public class GameScreen implements Screen {
 		batch.end();
 	}
 
+	/**
+     * Renders the game world, including the HUD, player, enemies, and projectiles.
+     * 
+     * @param delta Time since last frame in seconds.
+     */
 	@Override
 	public void render(float delta) {
 		gameModel.updateModel(delta); // Update the game model
@@ -285,6 +306,9 @@ public class GameScreen implements Screen {
 		drawHUD();
 	}
 
+    /**
+     * Draws the blast effect when the player uses the blast power-up.
+     */
 	private void drawBlast() {
 		// Calculate the frame index
 		int frameRate = 10;
@@ -302,7 +326,9 @@ public class GameScreen implements Screen {
 		batch.draw(currentFrame, blastX, blastY, scaledWidth, scaledHeight);
 	}
 
-
+    /**
+     * Creates frames for the blast animation from a texture sheet.
+     */
 	private void createBlastFrames() {
 		// Load the sprite sheet for the blast
 		Texture blastTextureSheet = new Texture("pictures/air-blast.png");
@@ -323,26 +349,44 @@ public class GameScreen implements Screen {
 		}
 	}
 
+    /**
+     * Called when the game screen size changes.
+     * 
+     * @param width New width of the screen.
+     * @param height New height of the screen.
+     */
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height, true); // Update the viewport on resize, centering the camera
 	}
-
+    
+    /**
+     * Called when the game is paused.
+     */
 	@Override
 	public void pause() {
 		// Implementation remains the same
 	}
-
+    
+	/**
+     * Called when the game resumes from a paused state.
+     */
 	@Override
 	public void resume() {
 		// Implementation remains the same
 	}
-
+	
+    /**
+     * Called when the game screen is no longer the current screen.
+     */
 	@Override
 	public void hide() {
 		backgroundMusic.pause(); // Pause the background music when the screen is hidden
 	}
-
+    
+    /**
+     * Frees up resources when this screen is destroyed.
+     */
 	@Override
 	public void dispose() {
 		background.dispose();
