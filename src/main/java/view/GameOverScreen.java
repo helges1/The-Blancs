@@ -1,5 +1,6 @@
 package view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -12,11 +13,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import model.GameModel;
 import model.TheBlancsGame;
 
 public class GameOverScreen implements Screen {
-    private static final float WORLD_WIDTH = 800;
-    private static final float WORLD_HEIGHT = 600;
+    private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
+    private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
 
     private TheBlancsGame game;
     private Stage stage;
@@ -136,7 +138,6 @@ public class GameOverScreen implements Screen {
         Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
         boolean hovered = touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
-        Gdx.app.log("GameOverScreen", "Hovered: " + hovered + ", Touch: " + touchPos.toString() + ", ButtonRect: [" + x + "," + y + "," + (x+width) + "," + (y+height) + "]");
         return hovered;
     }
 

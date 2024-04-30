@@ -25,7 +25,20 @@ public class Laser extends Sprite {
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
 
-    // Alternative constructor to allow setting custom width and height
+    /**
+     * Constructor for Laser, which allows you to specify texture, position,
+     * speed, angle, width and height of the laser.
+     * The base of the laser is centered at the given <strong>position</strong>,
+     * according to the given <strong>angle</strong>.
+     * 
+     * @param texture a <code>TextureRegion</code> corresponding to the texture of the laser.
+     * @param position a <code>Vector2</code> representing the position the laser is to be constructed at.
+     * @param speed a <code>float</code> representing the speed at which the laser can travel.
+     * @param angle a <code>float</code> representing the angle of the laser in degrees.
+     * The laser faces north (up) at 0 degrees.
+     * @param width a <code>float</code> representing the width of the laser.
+     * @param height a <code>float</code> representing the height of the laser.
+     */
     public Laser(TextureRegion texture, Vector2 position, float speed, float angle, float width, float height) {
         super(texture);
         setSize(width, height);

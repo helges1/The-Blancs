@@ -2,7 +2,7 @@ package model;
 
 import com.badlogic.gdx.math.Vector2;
 
-enum GameLevel {
+public enum GameLevel {
     LEVEL_1(3f, 3, 10f, new Vector2(0, -100), 15),
     LEVEL_2(1.5f, 6, 8f, new Vector2(-15, -125), 10),
     LEVEL_3(1f, 9, 6f, new Vector2(-15, -150), 5),
@@ -14,7 +14,7 @@ enum GameLevel {
     private final Vector2 AsteroidVelocity;
     private final int powerUpSpawnRate;
 
-    GameLevel(float enemySpawnRate, int maxEnemiesOnScreen, float AsteroidSpawnRate, Vector2 AsteroidVelocity, int powerUpSpawnRate) {
+    private GameLevel(float enemySpawnRate, int maxEnemiesOnScreen, float AsteroidSpawnRate, Vector2 AsteroidVelocity, int powerUpSpawnRate) {
         this.enemySpawnRate = enemySpawnRate;
         this.maxEnemiesOnScreen = maxEnemiesOnScreen;
         this.AsteroidSpawnRate = AsteroidSpawnRate;
