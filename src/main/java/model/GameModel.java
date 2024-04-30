@@ -58,8 +58,6 @@ public class GameModel {
     private FitViewport viewport;
 
     // Textures
-    //private final TextureAtlas atlas;
-
     private final TextureAtlas atlas;
     private TextureRegion asteroidTexture;
 
