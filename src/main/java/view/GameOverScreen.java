@@ -1,6 +1,4 @@
 package view;
-
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -8,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -38,12 +35,19 @@ public class GameOverScreen implements Screen {
 
     private Music backgroundMusic;
 
-    
+    /**
+     * Constructor to initialize the game over screen.
+     * @param game The main game object that controls the screens.
+     */
     public GameOverScreen(TheBlancsGame game) {
         this.game = game;
-        stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT) );
+
+        // Create a stage for the game over screen
+        stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        // Set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
         
+        // Load fonts
         this.font = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
         this.font.getData().setScale(3);
         this.buttonFont = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
@@ -62,15 +66,20 @@ public class GameOverScreen implements Screen {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/GameOverMusic.ogg"));
         backgroundMusic.setLooping(true);
 
-        
-        
     }
 
+    /**
+     * Called when this screen becomes the current screen for the game.
+     */
     @Override
     public void show() {
         backgroundMusic.play();
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -102,6 +111,10 @@ public class GameOverScreen implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
+
+    /**
+     * Helper method to draw interactive buttons on the screen.
+     */
     private void drawButtons() {
         int buttonWidth = (int) (WORLD_WIDTH / 4);
         int buttonHeight = (int) (WORLD_HEIGHT / 10);
@@ -136,7 +149,15 @@ public class GameOverScreen implements Screen {
             exitButtonClicked();
         }
     }
-    
+
+    /**
+     * Checks if a button is currently hovered by the mouse.
+     * @param x The x-coordinate of the button.
+     * @param y The y-coordinate of the button.
+     * @param width The width of the button.
+     * @param height The height of the button.
+     * @return true if the button is hovered, false otherwise.
+     */
     private boolean isButtonHovered(int x, int y, int width, int height) {
         Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
@@ -144,21 +165,40 @@ public class GameOverScreen implements Screen {
         return hovered;
     }
 
+    /**
+     * Checks if a button is currently being pressed.
+     * @param x The x-coordinate of the button.
+     * @param y The y-coordinate of the button.
+     * @param width The width of the button.
+     * @param height The height of the button.
+     * @return true if the button is pressed, false otherwise.
+     */
     private boolean isButtonPressed(int x, int y, int width, int height) {
         return Gdx.input.isTouched() && isButtonHovered(x, y, width, height);
     }
 
+    /**
+     * Logic to execute when the play button is clicked.
+     */
     private void playButtonClicked() {
         Gdx.input.setInputProcessor(game.getPlayerController());
         game.getGameModel().resetGameState();
         game.setScreenType(ScreenType.GAME_SCREEN);
     }
-
+    
+    /**
+     * Logic to execute when the exit button is clicked.
+     */
     private void exitButtonClicked() {
         this.disposeResourcesForExit();
         Gdx.app.exit();
     }
 
+    /**
+     * Called when the screen is resized.
+     * @param width The new width of the screen.
+     * @param height The new height of the screen.
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -166,25 +206,40 @@ public class GameOverScreen implements Screen {
         stage.getCamera().update();
     }
 
+    /**
+     * Called when the screen is paused.
+     */
     @Override
     public void pause() {
        
     }
-
+    
+    /**
+     * Called when the screen is resumed from a paused state.
+     */
     @Override
     public void resume() {
        
     }
 
+    /**
+     * Called when this screen is no longer the current screen for the game.
+     */
     @Override
     public void hide() {
         backgroundMusic.pause();
-        
     }
 
+    /**
+     * Called when this screen should release all resources.
+     */
     @Override
     public void dispose() {
     }
+
+    /**
+     * Called to dispose of resources when the game is exiting completely.
+     */
     public void disposeResourcesForExit() {
         // This method is called only when the game is completely exiting.
         if (!resourcesDisposed) {
@@ -199,6 +254,10 @@ public class GameOverScreen implements Screen {
         }
     }
 
+    /**
+     * Sets the final score to be displayed on the game over screen.
+     * @param score The score achieved in the game.
+     */
     public void setFinalScore(int score) {
         this.scoreText = "Score: " + score;
     }
