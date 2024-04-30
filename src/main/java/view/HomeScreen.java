@@ -1,5 +1,6 @@
 package view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -16,11 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.math.Vector2;
 
+import model.GameModel;
 import model.TheBlancsGame;
 
 public class HomeScreen implements Screen {
-    private static final float WORLD_WIDTH = 800;
-    private static final float WORLD_HEIGHT = 600;
+    private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
+    private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
 
     private TheBlancsGame game;
     private Stage stage;
@@ -148,6 +150,7 @@ public class HomeScreen implements Screen {
     @Override
     public void show() {
         backgroundMusic.play();
+
     }
     @Override
     public void resize(int width, int height) {
