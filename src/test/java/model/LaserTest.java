@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class LaserTest {
@@ -75,5 +76,31 @@ public class LaserTest {
 
         assertTrue(laser.isOffScreen(worldHeight));
     }
+
+    @Test
+    public void testCentreAtPointForVariousAngles() {
+        float[] testAngles = {0, 45, 90};
+        Vector2 centerPosition = new Vector2(300, 300);
+
+        for (float angle : testAngles) {
+            laser.setRotation(angle);  // Set the rotation for the test
+            laser.centreAtPoint(centerPosition);
+
+            float radians = (float) Math.toRadians(angle);
+            float halfWidth = laser.getWidth() / 2;
+            float height = laser.getHeight();
+            float cosAngle = MathUtils.cos(radians);
+            float sinAngle = MathUtils.sin(radians);
+
+            float expectedX = centerPosition.x - (halfWidth * cosAngle + height * sinAngle);
+            float expectedY = centerPosition.y - (halfWidth * sinAngle);
+
+            assertEquals(expectedX, laser.getX(), 0.01, "X position should be correct for angle " + angle);
+            assertEquals(expectedY, laser.getY(), 0.01, "Y position should be correct for angle " + angle);
+    }
 }
+
+    
+}
+
 

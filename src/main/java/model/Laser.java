@@ -52,7 +52,7 @@ public class Laser extends Sprite {
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
     
-    private void centreAtPoint(Vector2 position/*, float angle, float width, float height*/) {
+    public void centreAtPoint(Vector2 position/*, float angle, float width, float height*/) {
     	float angle = getRotation();
     	float radians = (float) Math.toRadians(angle);
     	float width = getWidth() / 2;
