@@ -97,12 +97,9 @@ public class TheBlancsGame extends Game {
 		}
 
 	}
-	
-	@Override
-	public void resize(int width, int height) {
-		gameScreen.resize(width, height);
-	}
-	
+
+
+
 	@Override
 	public void dispose() {
 		gameScreen.dispose();

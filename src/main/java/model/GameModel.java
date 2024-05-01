@@ -470,6 +470,7 @@ public class GameModel {
         return Math.abs(distance - AsteroidRadius) <= threshold;
     }
 
+
     public Ship getPlayerShip() {
         return playerShip;
     }

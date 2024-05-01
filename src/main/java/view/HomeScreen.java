@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.utils.viewport.Viewport;
 import model.GameModel;
 import model.TheBlancsGame;
 
@@ -26,7 +27,7 @@ import model.TheBlancsGame;
 public class HomeScreen implements Screen {
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
-
+    private Viewport viewport;
     private TheBlancsGame game;
     private Stage stage;
     private TextField userNameField;
@@ -47,6 +48,7 @@ public class HomeScreen implements Screen {
      */
     public HomeScreen(TheBlancsGame game) {
         this.game = game;
+        this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
         initTextures();

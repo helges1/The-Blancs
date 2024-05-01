@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import com.badlogic.gdx.utils.viewport.Viewport;
 import model.GameModel;
 import model.TheBlancsGame;
 
@@ -23,6 +24,8 @@ import model.TheBlancsGame;
 public class GameOverScreen implements Screen {
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
+
+    private Viewport viewport;
 
     private TheBlancsGame game;
     private Stage stage;
@@ -49,6 +52,7 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(TheBlancsGame game) {
         this.game = game;
 
+        this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
         // Create a stage for the game over screen
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         // Set the input processor to the stage
@@ -268,6 +272,7 @@ public class GameOverScreen implements Screen {
     public void setFinalScore(int score) {
         this.scoreText = "Score: " + score;
     }
-    
-    
+
+
+
 }
