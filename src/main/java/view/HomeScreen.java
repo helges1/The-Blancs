@@ -49,7 +49,7 @@ public class HomeScreen implements Screen {
     public HomeScreen(TheBlancsGame game) {
         this.game = game;
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
-        stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
         initTextures();
         initTextField();
@@ -108,7 +108,7 @@ public class HomeScreen implements Screen {
         int centerX = (int) (WORLD_WIDTH - buttonWidth) / 2;
 
         // Center Y position moved down by 20% of the WORLD_HEIGHT
-        int baseY = (int) (WORLD_HEIGHT / 2 - buttonHeight / 2 + WORLD_HEIGHT * -0.10 + 50);
+        int baseY = (int) (WORLD_HEIGHT / 2 - buttonHeight / 2 + WORLD_HEIGHT * -0.10 );
 
         int playButtonY = baseY;  // directly use the adjusted base Y
         int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button

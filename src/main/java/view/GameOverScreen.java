@@ -54,7 +54,7 @@ public class GameOverScreen implements Screen {
 
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
         // Create a stage for the game over screen
-        stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        stage = new Stage(viewport);
         // Set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
         
