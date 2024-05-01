@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 
 import view.GameOverScreen;
 import view.GameScreen;
+import view.HelpScreen;
 import view.HomeScreen;
 import view.ScreenType;
 
@@ -23,6 +24,7 @@ public class TheBlancsGame extends Game {
 	private GameScreen gameScreen;
     private HomeScreen homeScreen;
 	private GameOverScreen gameOverScreen;
+	private HelpScreen helpScreen;
 	private String userName;
 	public SpriteBatch batch;
 	private ScreenType activeScreen = ScreenType.HOME_SCREEN;
@@ -56,6 +58,7 @@ public class TheBlancsGame extends Game {
 		gameScreen = new GameScreen(gameModel, playerShipController, enemyShipController, batch, camera, viewport);
 		homeScreen = new HomeScreen(this);
 		gameOverScreen = new GameOverScreen(this);
+		helpScreen = new HelpScreen(this);
 		
 		
         updateScreen();
@@ -67,6 +70,9 @@ public class TheBlancsGame extends Game {
             case HOME_SCREEN:
                 setScreen(homeScreen);
                 break;
+			case HELP_SCREEN:
+				setScreen(helpScreen);
+				break;
             case GAME_SCREEN:
                 setScreen(gameScreen);
                 break;

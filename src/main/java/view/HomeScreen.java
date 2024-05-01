@@ -36,6 +36,8 @@ public class HomeScreen implements Screen {
     Texture playButtonInactive;
     Texture exitButtonActive;
     Texture exitButtonInactive;
+    Texture helpButtonActive;
+    Texture helpButtonInactive;
     Texture background;
     
     /**
@@ -61,6 +63,8 @@ public class HomeScreen implements Screen {
         playButtonInactive = new Texture("pictures/start-2.png");
         exitButtonActive = new Texture("pictures/exit-1.png");
         exitButtonInactive = new Texture("pictures/exit-2.png");
+        helpButtonActive = new Texture("pictures/help-1.png");
+        helpButtonInactive = new Texture("pictures/help-2.png");
         background = new Texture("pictures/background.png");
     }
 
@@ -102,15 +106,18 @@ public class HomeScreen implements Screen {
         int centerX = (int) (WORLD_WIDTH - buttonWidth) / 2;
 
         // Center Y position moved down by 20% of the WORLD_HEIGHT
-        int baseY = (int) (WORLD_HEIGHT / 2 - buttonHeight / 2 + WORLD_HEIGHT * -0.10);
+        int baseY = (int) (WORLD_HEIGHT / 2 - buttonHeight / 2 + WORLD_HEIGHT * -0.10 + 50);
 
         int playButtonY = baseY;  // directly use the adjusted base Y
         int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button
+        int helpButtonY = exitButtonY - buttonHeight - buttonSpacing;  // position below the exit button
 
         Texture currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? playButtonActive : playButtonInactive;
         Texture currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        Texture currentHelpButton = isButtonHovered(centerX, helpButtonY, buttonWidth, buttonHeight) ? helpButtonActive : helpButtonInactive;
         game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
+        game.batch.draw(currentHelpButton, centerX, helpButtonY, buttonWidth, buttonHeight);
 
         if (isButtonPressed(centerX, playButtonY, buttonWidth, buttonHeight)) {
             playButtonClicked();
@@ -118,7 +125,11 @@ public class HomeScreen implements Screen {
         if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
             exitButtonClicked();
         }
+        if (isButtonPressed(centerX, helpButtonY, buttonWidth, buttonHeight)) {
+            helpButtonClicked();
+        }
     }
+
 
     /**
      * Checks if a screen coordinate is within the bounds of a button.
@@ -191,6 +202,10 @@ public class HomeScreen implements Screen {
     private void exitButtonClicked() {
         Gdx.app.exit();
     }
+    private void helpButtonClicked() {
+        game.setScreenType(ScreenType.HELP_SCREEN);
+    }
+
     
     /**
      * Called when this screen becomes the current screen for a Game.
