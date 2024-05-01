@@ -137,7 +137,12 @@ public class GameScreen implements Screen {
 		// Draws high score in its orginal posistion
 		int highScore = ScoreManager.getHighScore();
 		String highScoreUser = ScoreManager.getHighScoreUser();
+		// only show "by" if the user has a username, if not, just show the score
+		if (highScoreUser.equals("")) {
+			font.draw(batch, "High Score: " + highScore, hudLeftX, hudRow1Y);
+		} else {
 		font.draw(batch, "High Score: " + highScore + " by " + highScoreUser, hudLeftX, hudRow1Y);
+		}
 	
 		// Draw the current score in its original position
 		String scoreText = "Score: " + currentScore;

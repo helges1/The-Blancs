@@ -125,20 +125,24 @@ public class ScoreManager {
                     }
                     HighScore fetchedScore = gson.fromJson(response.toString(), HighScore.class);
 
-                    System.out.println("Fetched high score: " + fetchedScore.score + " by " + fetchedScore.user);
-                    if (fetchedScore.score > highScore) {
-                        highScore = fetchedScore.score;
-                        highScoreUser = fetchedScore.user;
-                        Gdx.app.postRunnable(() -> saveHighScore());  // Ensure thread safety with Gdx.app.postRunnable
+                    synchronized (con) {
+                        // Compare the online fetched score with the local high score
+                        if (fetchedScore.score != highScore || !fetchedScore.user.equals(highScoreUser)) {
+                            // Update the local high score if different from the online score
+                            highScore = fetchedScore.score;
+                            highScoreUser = fetchedScore.user;
+                            Gdx.app.postRunnable(ScoreManager::saveHighScore);  // Save locally and update online if necessary
+                        }
                     }
                 }
-
                 con.disconnect();
             } catch (Exception e) {
                 System.err.println("Error fetching high score from Pantry: " + e.getMessage());
+                // Handle error, potentially notify user or retry
             }
         }).start();
     }
+
 
     public static int getHighScore() {
         return highScore;
