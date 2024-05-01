@@ -3,6 +3,7 @@ package model;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 
 public class PowerUps extends Sprite {
 
@@ -26,6 +27,19 @@ public class PowerUps extends Sprite {
 
         public String getPowerUpName() {
             return powerUpName;
+        }
+
+        public float getWidth() {
+            return 100;
+        }
+
+        public float getHeight() {
+            return 100;
+        }
+
+        public static PowerUpType getRandomPowerUpType() {
+            PowerUpType[] powerUpTypes = PowerUpType.values();
+            return powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
         }
     }
 

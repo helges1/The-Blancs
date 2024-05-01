@@ -38,7 +38,9 @@ public class GameModel {
     public final static float WORLD_WIDTH = 800;
     public final static float WORLD_HEIGHT = 600;
     
+    // Factories
     private ShipFactory shipFactory;
+    private PowerUpsFactory powerUpsFactory;
 
     // Initialize timers
     private float timeSincePowerUpSpawn;
@@ -81,6 +83,7 @@ public class GameModel {
         this.atlas = atlas;
         this.asteroidTexture = atlas.findRegion("asteroid1");
         this.shipFactory = new BasicShipFactory(viewport, atlas);
+        this.powerUpsFactory = new PowerUpsFactory(atlas);
 
         // Initialize level
         this.currentLevel = GameLevel.LEVEL_1;
@@ -151,7 +154,7 @@ public class GameModel {
 
         // Spawn new PowerUps
         if (timeSincePowerUpSpawn >= currentLevel.getPowerUpSpawnRate()) {
-            spawnPowerUp();
+            powerUps.add(powerUpsFactory.createPowerUp(currentLevel.getPowerUpSpawnRate()));
             timeSincePowerUpSpawn = 0;
         }
 
@@ -294,24 +297,6 @@ public class GameModel {
             }
         }
 
-    }
-
-    // Method to spawn a power up
-    private void spawnPowerUp() {
-        // Randomly select a position for the power up
-        float powerUpX = MathUtils.random(0, WORLD_WIDTH - 20);
-        float powerUpY = MathUtils.random(0, WORLD_HEIGHT - 20);
-
-        // Randomly select a power up type
-        PowerUpType[] powerUpTypes = PowerUpType.values();
-
-        PowerUpType powerUpType = powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
-        // Creating the power up
-        TextureRegion powerUpTexture = atlas.findRegion(powerUpType.getTextureName());
-        PowerUps powerUp = new PowerUps(powerUpTexture, powerUpX, powerUpY, powerUpType, 5);
-
-        // Adding the power up to the list
-        powerUps.add(powerUp);
     }
 
     // Method to spawn a Asteroid
