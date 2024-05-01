@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.math.Vector2;
@@ -167,27 +169,45 @@ public class HomeScreen implements Screen {
     private void initTextField() {
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         BitmapFont font = new BitmapFont(Gdx.files.internal("skin/default.fnt"));
-        font.getData().setScale(1.25f);
+        font.getData().setScale(1.25f); // Adjust font scale for better visibility
         textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
+
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.DARK_GRAY);
         pixmap.fill();
         Texture pixmapTex = new Texture(pixmap);
         pixmap.dispose();
+
         textFieldStyle.background = new TextureRegionDrawable(new TextureRegion(pixmapTex));
+
         userNameField = new TextField("", textFieldStyle);
         userNameField.setMessageText("Enter your username");
         userNameField.setAlignment(1);
+
         int textFieldWidth = (int) (WORLD_WIDTH / 2.5);
         int textFieldHeight = (int) (WORLD_HEIGHT / 12);
         int textFieldX = (int) (WORLD_WIDTH - textFieldWidth) / 2;
         int textFieldY = (int) (WORLD_HEIGHT + textFieldHeight + 5) / 2;
         userNameField.setPosition(textFieldX, textFieldY);
         userNameField.setSize(textFieldWidth, textFieldHeight);
+
         stage.addActor(userNameField);
+
+        // Set the input processor to the stage to ensure the TextField can receive input
+        Gdx.input.setInputProcessor(stage);
+
+        // Add a listener to manage focus
+        userNameField.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // When the text field is clicked, set focus to it
+                stage.setKeyboardFocus(userNameField);
+            }
+        });
     }
-    
+
+
     /**
      * Handles the logic when the play button is clicked, transitioning to the main game screen.
      */
@@ -215,6 +235,8 @@ public class HomeScreen implements Screen {
     @Override
     public void show() {
         backgroundMusic.play();
+
+
     
     }
 
@@ -227,6 +249,7 @@ public class HomeScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        Gdx.input.setInputProcessor(stage);
         stage.getCamera().position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
         stage.getCamera().update();
     }
