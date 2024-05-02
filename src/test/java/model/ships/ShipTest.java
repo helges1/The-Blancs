@@ -53,6 +53,17 @@ public class ShipTest {
             public boolean fireLaser(List<Laser> lasers) {
                 return true; // Do nothing for now
             }
+
+			@Override
+			void resetCannon() {
+				// Do nothing for now
+				
+			}
+
+			@Override
+			void upgradeCannon() {
+				// Do nothing for now 
+			}
         };
     }
     
