@@ -536,6 +536,7 @@ public class GameModel {
         asteroids.clear();
         explosions.clear();
         powerUps.clear();
+        playerShip.setActivePowerUp(PowerUpType.NONE);
         playerShip.setPosition(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         playerShip.setHealth(100);
     }
