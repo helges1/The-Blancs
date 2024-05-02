@@ -51,6 +51,7 @@ public class PlayerShip extends Ship {
 				Vector2 position = getNosePositionOfShip();
 				float angle = getRotation();
 				laser = new Laser(playerLaserTexture, position, playerLaserSpeed, angle, playerLaserWidth, playerLaserHeight);
+				laser.centreAtPoint(position);
 				playerLasers.add(laser);
 				return true;
 			}
@@ -65,8 +66,11 @@ public class PlayerShip extends Ship {
 		float angle3 = getRotation() - 25;
 		Vector2 position = getNosePositionOfShip();
 		Laser laser1 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle1, playerLaserWidth, playerLaserHeight);
+		laser1.centreAtPoint(position);
 		Laser laser2 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle2, playerLaserWidth, playerLaserHeight);
+		laser2.centreAtPoint(position);
 		Laser laser3 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle3, playerLaserWidth, playerLaserHeight);
+		laser3.centreAtPoint(position);
 		playerLasers.add(laser1);
 		playerLasers.add(laser2);
 		playerLasers.add(laser3);

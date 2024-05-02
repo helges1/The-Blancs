@@ -50,6 +50,7 @@ public class BasicEnemyShip extends Ship {
                 float angle = getRotation();
                 Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed,
                 		angle, basicEnemyLaserWidth, basicEnemyLaserHeight);
+                laser.centreAtPoint(position);
                 timeSinceLaserFired = 0;
                 enemyLasers.add(laser);
                 return true;

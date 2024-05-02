@@ -28,8 +28,6 @@ public class Laser extends Sprite {
     /**
      * Constructor for Laser, which allows you to specify texture, position,
      * speed, angle, width and height of the laser.
-     * The base of the laser is centered at the given <strong>position</strong>,
-     * according to the given <strong>angle</strong>.
      * 
      * @param texture a <code>TextureRegion</code> corresponding to the texture of the laser.
      * @param position a <code>Vector2</code> representing the position the laser is to be constructed at.
@@ -44,7 +42,6 @@ public class Laser extends Sprite {
         setSize(width, height);
         setOriginCenter();
         setRotation(angle);
-        centreAtPoint(position);
 
         // Assuming the angle is correctly adjusted for your game's coordinate system,
         // and 'speed' represents the constant speed you want for the laser.
@@ -52,7 +49,7 @@ public class Laser extends Sprite {
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
     
-    public void centreAtPoint(Vector2 position/*, float angle, float width, float height*/) {
+    public void centreAtPoint(Vector2 position) {
     	float angle = getRotation();
     	float radians = (float) Math.toRadians(angle);
     	float width = getWidth() / 2;
