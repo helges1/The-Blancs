@@ -233,9 +233,12 @@ public abstract class Ship extends Sprite {
 
     public boolean fireLaser(List<Laser> lasers) {
     	if (timeSinceLaserFired >= fireRate) {
+    		timeSinceLaserFired = 0;
 	    	Laser[] firedLasers = cannon.fireCannon();
-	    	lasers.addAll(Arrays.asList(firedLasers));
-	    	return true;
+	    	if (firedLasers != null) {
+		    	lasers.addAll(Arrays.asList(firedLasers));
+		    	return true;
+	    	}
     	}
     	return false;
     }
@@ -281,7 +284,7 @@ public abstract class Ship extends Sprite {
 
     public void setActivePowerUp(PowerUpType powerUp) {
         activePowerUp = powerUp;
-        if (powerUp.equals(PowerUpType.GUN)) {
+        if (PowerUpType.GUN.equals(powerUp)) {
         	upgradeCannon();
         }
     }

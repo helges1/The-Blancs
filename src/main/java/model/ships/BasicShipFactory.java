@@ -1,5 +1,7 @@
 package model.ships;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,6 +11,8 @@ import model.GameLevel;
 import model.GameModel;
 
 public class BasicShipFactory implements ShipFactory {
+	
+	private final static Random random = new Random();
 
 	private FitViewport viewport;
 	private AtlasRegion playerShipTexture;
@@ -33,8 +37,7 @@ public class BasicShipFactory implements ShipFactory {
 	@Override
 	public Ship getEnemyShip(GameLevel gameLevel) {
 		// May spawn different types of enemies based on the current gameLevel
-		Ship enemyShip = new BasicEnemyShip(enemyShipTexture, enemyLaserTexture,
-				0, 0, viewport);
+		Ship enemyShip = getShipBasedOnLevel(gameLevel.getEnemySpawnRate());
         int randNum = MathUtils.random(0, 3);
 
         float posX = 0;
@@ -65,6 +68,23 @@ public class BasicShipFactory implements ShipFactory {
         enemyShip.setX(posX);
         enemyShip.setY(posY);
 		return enemyShip;
+	}
+	
+	private Ship getShipBasedOnLevel(float spawnRate) {
+		if (random.nextFloat(spawnRate) >= spawnRate / 2) {
+			return getStrongerShip();
+		}
+		return getBasicShip();
+	}
+
+	private Ship getBasicShip() {
+		return new BasicEnemyShip(enemyShipTexture, enemyLaserTexture,
+				0, 0, viewport);
+	}
+	
+	private Ship getStrongerShip() {
+		return new StrongerEnemyShip(enemyShipTexture, enemyLaserTexture,
+				0, 0, viewport);
 	}
 
 }

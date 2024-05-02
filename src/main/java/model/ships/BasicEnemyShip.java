@@ -44,28 +44,19 @@ public class BasicEnemyShip extends Ship {
         resetCannon(); // Set the cannon
     }
 
-    @Override
-    public boolean fireLaser(List<Laser> enemyLasers) {
-        if (timeSinceLaserFired >= basicEnemyFireRate) {
-        	if (random.nextInt(3) > 0) { // 66% chance that the ship chooses to fire laser
-	            timeSinceLaserFired = 0;
-	            Laser[] firedLasers = cannon.fireCannon();
-	            enemyLasers.addAll(Arrays.asList(firedLasers));
-	            return true;
-        	}
-        }
-        return false;
-    }
 
 	@Override
 	void resetCannon() {
 		this.cannon = () -> {
-            Vector2 position = getNosePositionOfShip();
-            float angle = getRotation();
-            Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed,
-            		angle, basicEnemyLaserWidth, basicEnemyLaserHeight, 5);
-            laser.centreAtPoint(position);
-            return new Laser[] {laser};
+			if (random.nextInt(3) > 0) {
+				Vector2 position = getNosePositionOfShip();
+	            float angle = getRotation();
+	            Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed,
+	            		angle, basicEnemyLaserWidth, basicEnemyLaserHeight, 5);
+	            laser.centreAtPoint(position);
+	            return new Laser[]{laser};
+			}
+            return null;
 		};
 	}
 
