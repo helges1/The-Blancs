@@ -1,5 +1,6 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -220,6 +221,7 @@ public class GameModel {
         }
     }
 
+
     // Helper method to update lasers
     private void updateLasers(float deltaTime) {
 
@@ -420,20 +422,34 @@ public class GameModel {
     }
 
     public void update() {
-        for (Iterator<Ship> iterator = enemyShips.iterator(); iterator.hasNext();) {
-            Ship enemyShip = iterator.next();
+        Iterator<Ship> enemyShipIterator = enemyShips.iterator();
+        while (enemyShipIterator.hasNext()) {
+            Ship enemyShip = enemyShipIterator.next();
             if (enemyShip.getBoundingRectangle().overlaps(playerShip.getBoundingRectangle())) {
+                // Damage both the player ship and the enemy ship
                 playerShip.takeDamage(5);
                 enemyShip.takeDamage(5);
+
+                // Generate explosion at the enemy ship's location
+                Explosion explosion = new Explosion(enemyShip.getBoundingRectangle(), 0.5f);
+                explosions.add(explosion);
+
+                // Remove the enemy ship if it's destroyed
                 if (enemyShip.isDestroyed()) {
-                    iterator.remove();
+                    enemyShipIterator.remove();
                 }
+
+                // Check if the player ship is destroyed and set game over if true
                 if (playerShip.isDestroyed()) {
                     gameOver = true;
                 }
             }
         }
+
+        // Update explosions
+        updateExplosions(Gdx.graphics.getDeltaTime());
     }
+
 
     public int getDestroyedEnemyShipsCount() {
         return destroyedEnemyShipsCount;
