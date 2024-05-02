@@ -290,4 +290,12 @@ public abstract class Ship extends Sprite {
         this.health = health;
     }
 
+    /**
+     * Method to let laser wait v time before firing laser after restarting the game.
+     *
+     * @param v
+     */
+    public void cooldownLaser(float v) {
+        this.timeSinceLaserFired = v;
+    }
 }

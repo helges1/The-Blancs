@@ -537,6 +537,7 @@ public class GameModel {
         explosions.clear();
         powerUps.clear();
         playerShip.setActivePowerUp(PowerUpType.NONE);
+        playerShip.cooldownLaser(0.1f);
         playerShip.setPosition(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         playerShip.setHealth(100);
     }
