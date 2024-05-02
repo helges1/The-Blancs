@@ -23,6 +23,7 @@ public class BasicEnemyShip extends Ship {
     private static final float basicEnemyHeight = 40;
 
     private static final float basicEnemyLaserSpeed = 300;
+    private static final float basicEnemyLaserDamage = 5;
     private static final float basicEnemyLaserWidth = 15;
     private static final float basicEnemyLaserHeight = 30;    
     private static final float basicEnemyFireRate = 1;
@@ -52,7 +53,7 @@ public class BasicEnemyShip extends Ship {
 				Vector2 position = getNosePositionOfShip();
 	            float angle = getRotation();
 	            Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed,
-	            		angle, basicEnemyLaserWidth, basicEnemyLaserHeight, 5);
+	            		angle, basicEnemyLaserWidth, basicEnemyLaserHeight, basicEnemyLaserDamage);
 	            laser.centreAtPoint(position);
 	            return new Laser[]{laser};
 			}

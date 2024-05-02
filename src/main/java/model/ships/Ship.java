@@ -34,6 +34,7 @@ public abstract class Ship extends Sprite {
 
     // Initialize parameters for powerups
     private boolean isShieldActivated = false;
+    private boolean isGunUpgraded = false;
     private float powerUpDuration = 20;
 
     private Vector2 velocity = new Vector2(0, 0);
@@ -107,9 +108,10 @@ public abstract class Ship extends Sprite {
             powerUpDuration -= deltaTime;
             if (powerUpDuration <= 0) {
                 if (activePowerUp.equals(PowerUpType.SHIELD)) {
-                    isShieldActivated = false;
+                	isShieldActivated = false;
                 } else if (activePowerUp.equals(PowerUpType.GUN)) {
                 	resetCannon();
+                	isGunUpgraded = false;
                 }
                 activePowerUp = null;
                 powerUpDuration = 20;
@@ -281,14 +283,13 @@ public abstract class Ship extends Sprite {
     }
 
     public void setActivePowerUp(PowerUpType powerUp) {
-    	if (PowerUpType.GUN.equals(activePowerUp) &&
-    			!powerUp.equals(PowerUpType.GUN)) {
+    	// To make sure the upgraded gun is reset when the game is reset
+    	if (powerUp == null)
     		resetCannon();
-    	}
+    	
         activePowerUp = powerUp;
-        if (PowerUpType.GUN.equals(activePowerUp)) {
+        if (PowerUpType.GUN.equals(activePowerUp))
         	upgradeCannon();
-        }
     }
 
     public PowerUpType getActivePowerUp() {

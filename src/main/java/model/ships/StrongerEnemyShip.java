@@ -21,6 +21,7 @@ public class StrongerEnemyShip extends Ship {
     private static final float strongerEnemyHeight = 40;
 
     private static final float strongerEnemyLaserSpeed = 250;
+    private static final float strongerEnemyLaserDamage = 20;
     private static final float strongerEnemyLaserWidth = 20;
     private static final float strongerEnemyLaserHeight = 35;    
     private static final float strongerEnemyFireRate = 1;
@@ -44,7 +45,7 @@ public class StrongerEnemyShip extends Ship {
 				Vector2 position = getNosePositionOfShip();
 	            float angle = getRotation();
 	            Laser laser = new Laser(strongerEnemyLaserTexture, position, strongerEnemyLaserSpeed,
-	            		angle, strongerEnemyLaserWidth, strongerEnemyLaserHeight, 20);
+	            		angle, strongerEnemyLaserWidth, strongerEnemyLaserHeight, strongerEnemyLaserDamage);
 	            laser.centreAtPoint(position);
 	            return new Laser[]{laser};
 			}
