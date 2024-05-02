@@ -198,14 +198,17 @@ public class GameModel {
 
     // Helper method to update Asteroids
     private void updateAsteroids(float deltaTime) {
-        Iterator<Asteroid> AsteroidIterator = asteroids.iterator();
-        while (AsteroidIterator.hasNext()) {
-            Asteroid Asteroid = AsteroidIterator.next();
-            Asteroid.update(deltaTime);
-            if (Asteroid.isOffScreen(WORLD_HEIGHT)) {
-                AsteroidIterator.remove(); // Remove off-screen Asteroids
-            } else if (checkAsteroidCollision(Asteroid)) {
-                AsteroidIterator.remove(); // Remove the Asteroid if hit by a laser
+        Iterator<Asteroid> asteroidIterator = asteroids.iterator();
+        while (asteroidIterator.hasNext()) {
+            Asteroid asteroid = asteroidIterator.next();
+            asteroid.update(deltaTime);
+            if (asteroid.isOffScreen(WORLD_HEIGHT)) {
+                asteroidIterator.remove(); // Remove off-screen Asteroids
+            } else {
+                if (checkAsteroidCollision(asteroid)) {
+                    // If collision with player, remove the Asteroid
+                    asteroidIterator.remove();
+                }
             }
         }
     }
@@ -253,14 +256,17 @@ public class GameModel {
                 // Check for collisions with Asteroids
                 Iterator<Asteroid> AsteroidIterator = asteroids.iterator();
                 while (AsteroidIterator.hasNext()) {
-                    Asteroid Asteroid = AsteroidIterator.next();
-                    if (checkCollision(laser, Asteroid)) {
+                    Asteroid asteroid = AsteroidIterator.next();
+                    if (checkCollision(laser, asteroid)) {
+                        // Generate explosion when a laser hits an asteroid
+                        Explosion explosion = new Explosion(asteroid.getBoundingRectangle(), 0.5f);
+                        explosions.add(explosion);
+
                         AsteroidIterator.remove(); // Remove the Asteroid if hit by a laser
                         laserIterator.remove(); // Remove the laser after hitting the Asteroid
                         break; // Break to avoid ConcurrentModificationException
                     }
                 }
-
             }
         }
 
@@ -328,45 +334,32 @@ public class GameModel {
     }
 
     // Helper method to check collision between Asteroid and player ship
-    private boolean checkAsteroidCollision(Asteroid Asteroid) {
-
-        // Initialize collision detection to false
+    private boolean checkAsteroidCollision(Asteroid asteroid) {
         boolean collisionDetected = false;
+        float asteroidCenterX = asteroid.getX() + asteroid.getWidth() / 2;
+        float asteroidCenterY = asteroid.getY() + asteroid.getHeight() / 2;
 
-        // Calculate the centers of the player ship and the asteroid
         float playerCenterX = playerShip.getX() + playerShip.getWidth() / 2;
         float playerCenterY = playerShip.getY() + playerShip.getHeight() / 2;
-        float AsteroidCenterX = Asteroid.getX() + Asteroid.getWidth() / 2;
-        float AsteroidCenterY = Asteroid.getY() + Asteroid.getHeight() / 2;
 
         // Calculate the distance between the centers
-        float distance = Vector2.dst(playerCenterX, playerCenterY, AsteroidCenterX, AsteroidCenterY);
-        float sumRadii = playerShip.getWidth() / 2 + Asteroid.getWidth() / 2;
+        float distance = Vector2.dst(playerCenterX, playerCenterY, asteroidCenterX, asteroidCenterY);
+        float sumRadii = playerShip.getWidth() / 2 + asteroid.getWidth() / 2;
 
-        // Check for collision with the player ship
+        // Collision detected if the distance is less than the sum of the radii
         if (distance < sumRadii) {
-            playerShip.takeDamage(10);
+            playerShip.takeDamage(10); // Adjust damage as necessary
             collisionDetected = true;
+
+            // Generate explosion at the collision location
+            Explosion explosion = new Explosion(asteroid.getBoundingRectangle(), 0.5f);
+            explosions.add(explosion);
+
             if (playerShip.isDestroyed()) {
                 gameOver = true;
             }
         }
 
-        // Check collisions with enemy ships
-        Iterator<Ship> shipIterator = enemyShips.iterator();
-        while (shipIterator.hasNext()) {
-            Ship enemyShip = shipIterator.next();
-            float enemyCenterX = enemyShip.getX() + enemyShip.getWidth() / 2;
-            float enemyCenterY = enemyShip.getY() + enemyShip.getHeight() / 2;
-
-            float distanceToEnemy = Vector2.dst(enemyCenterX, enemyCenterY, AsteroidCenterX, AsteroidCenterY);
-            float sumRadiiEnemy = enemyShip.getWidth() / 2 + Asteroid.getWidth() / 2;
-
-            if (distanceToEnemy < sumRadiiEnemy) {
-                shipIterator.remove(); // Remove the enemy ship if hit by an asteroid
-                collisionDetected = true;
-            }
-        }
         return collisionDetected;
     }
 
