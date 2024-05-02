@@ -2,6 +2,7 @@ package view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -21,6 +22,7 @@ public class HelpScreen implements Screen {
     private Texture background;
     private Texture exitButtonActive;
     private Texture exitButtonInactive;
+    private Music backgroundMusic; 
 
     public HelpScreen(TheBlancsGame game) {
         this.game = game;
@@ -29,6 +31,8 @@ public class HelpScreen implements Screen {
         background = new Texture("pictures/background.png");
         exitButtonActive = new Texture("pictures/exit-1.png");
         exitButtonInactive = new Texture("pictures/exit-2.png");
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/ville_seppanen-1_g.mp3"));
+        backgroundMusic.setLooping(true);
     }
     private void drawExitButton() {
         int buttonWidth = (int) (WORLD_WIDTH / 4);
@@ -60,6 +64,7 @@ public class HelpScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        backgroundMusic.play();
     }
 
     @Override
@@ -110,10 +115,13 @@ public class HelpScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {}
+    public void hide() {
+        backgroundMusic.pause();
+    }
 
     @Override
     public void dispose() {
         font.dispose();
+        backgroundMusic.dispose();
     }
 }
