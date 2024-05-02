@@ -7,11 +7,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import model.powerUps.PowerUps;
+import model.powerUps.PowerUpsFactory;
+import model.powerUps.PowerUps.PowerUpType;
 import model.ships.BasicShipFactory;
 import model.ships.Explosion;
 import model.ships.Ship;
 import model.ships.ShipFactory;
-import model.PowerUps.PowerUpType;
 
 import java.util.Iterator;
 import java.util.LinkedList;

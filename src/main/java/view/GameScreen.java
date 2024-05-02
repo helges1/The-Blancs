@@ -18,10 +18,10 @@ import controller.PlayerShipController;
 
 import model.GameModel;
 import model.Laser;
-import model.PowerUps;
 import model.ScoreManager;
 import model.TheBlancsGame;
-import model.PowerUps.PowerUpType;
+import model.powerUps.PowerUps;
+import model.powerUps.PowerUps.PowerUpType;
 import model.ships.Explosion;
 import model.ships.Ship;
 

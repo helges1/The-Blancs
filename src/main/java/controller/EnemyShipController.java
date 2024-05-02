@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.Asteroid;
 import model.GameModel;
-import model.PowerUps.PowerUpType;
+import model.powerUps.PowerUps.PowerUpType;
 import model.ships.Ship;
 
 /**

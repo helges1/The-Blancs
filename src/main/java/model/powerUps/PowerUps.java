@@ -1,4 +1,4 @@
-package model;
+package model.powerUps;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -50,7 +50,7 @@ public class PowerUps extends Sprite {
     private float xPos = 0;
     private float yPos = 0;
 
-    public PowerUps(TextureRegion powerUpTexture, float xPos, float yPos, PowerUpType powerUpType, float powerUpDuration) {
+    PowerUps(TextureRegion powerUpTexture, float xPos, float yPos, PowerUpType powerUpType, float powerUpDuration) {
         super(powerUpTexture);
         this.powerUpType = powerUpType;
         this.powerUpDuration = powerUpDuration;

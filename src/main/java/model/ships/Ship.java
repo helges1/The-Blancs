@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import model.Laser;
-import model.PowerUps.PowerUpType;
+import model.powerUps.PowerUps.PowerUpType;
 
 public abstract class Ship extends Sprite {
 
