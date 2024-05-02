@@ -13,6 +13,7 @@ public class PowerUps extends Sprite {
         BLAST("powerup-blast", "Blast Activated"),
         GUN("powerup-gun", "Gun Upgraded");
 
+        public static final PowerUpType NONE = null;
         private final String textureName;
         private final String powerUpName;
 

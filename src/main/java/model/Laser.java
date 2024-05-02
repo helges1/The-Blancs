@@ -8,11 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Laser extends Sprite {
     private Vector2 velocity;
     private Vector2 windForce;
-    // private static Sound laserSound; // Static to avoid reloading for each laser
-    //
-    // static {
-    // laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
-    // }
+    
+    private float damage;
 
     public Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
         super(texture);
@@ -37,7 +34,8 @@ public class Laser extends Sprite {
      * @param width a <code>float</code> representing the width of the laser.
      * @param height a <code>float</code> representing the height of the laser.
      */
-    public Laser(TextureRegion texture, Vector2 position, float speed, float angle, float width, float height) {
+    public Laser(TextureRegion texture, Vector2 position, float speed, float angle,
+    		float width, float height) {
         super(texture);
         setSize(width, height);
         setOriginCenter();
@@ -47,6 +45,20 @@ public class Laser extends Sprite {
         // and 'speed' represents the constant speed you want for the laser.
         float radians = (float) Math.toRadians(angle - 270);
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
+    }
+    
+    public Laser(TextureRegion texture, Vector2 position, float speed, float angle,
+    		float width, float height, float damage) {
+        super(texture);
+        setSize(width, height);
+        setOriginCenter();
+        setRotation(angle);
+
+        // Assuming the angle is correctly adjusted for your game's coordinate system,
+        // and 'speed' represents the constant speed you want for the laser.
+        float radians = (float) Math.toRadians(angle - 270);
+        velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
+        this.damage = damage;
     }
     
     public void centreAtPoint(Vector2 position) {
@@ -102,4 +114,13 @@ public class Laser extends Sprite {
     public Vector2 getVelocity() {
         return velocity;
     }
+
+	/**
+	 * @return The damage of the laser as a <code>float</code>.
+	 * Can be <code>null</code> if not initialized in the constructor.
+	 */
+	public float getDamage() {
+		return damage;
+	}
+	
 }

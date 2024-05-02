@@ -290,7 +290,7 @@ public class GameModel {
                 // Check for collisions with player ship
                 if (checkCollision(laser, playerShip)) {
                     enemyLaserIterator.remove(); // Remove the laser after hitting the ship
-                    playerShip.takeDamage(5); // Reduce player health
+                    playerShip.takeDamage(laser.getDamage()); // Reduce player health
                     if (playerShip.isDestroyed()) {
                         // Game over handling
                         gameOver = true;
@@ -536,6 +536,8 @@ public class GameModel {
         asteroids.clear();
         explosions.clear();
         powerUps.clear();
+        playerShip.setActivePowerUp(PowerUpType.NONE);
+        playerShip.cooldownLaser(0.1f);
         playerShip.setPosition(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         playerShip.setHealth(100);
     }
