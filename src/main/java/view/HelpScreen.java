@@ -1,15 +1,12 @@
 package view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 import model.GameModel;
 import model.TheBlancsGame;
 
@@ -18,7 +15,7 @@ import model.TheBlancsGame;
  * This screen provides the user with details on how to control the game's ship and interact
  * with the game environment. It includes an exit button to return to the home screen.
  */
-public class HelpScreen implements Screen {
+public class HelpScreen extends BaseScreen {
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
     private TheBlancsGame game;
@@ -35,8 +32,10 @@ public class HelpScreen implements Screen {
      * @param game The game controller which manages transitions between screens.
      */
     public HelpScreen(TheBlancsGame game) {
+        super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         this.game = game;
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        Gdx.input.setInputProcessor(stage);
         font = new BitmapFont();
         background = new Texture("pictures/background.png");
         exitButtonActive = new Texture("pictures/exit-1.png");
@@ -71,33 +70,6 @@ public class HelpScreen implements Screen {
         game.setScreenType(ScreenType.HOME_SCREEN);
     }
 
-    /**
-     * Checks if a button is hovered over by the mouse.
-     * 
-     * @param x the x-coordinate of the button.
-     * @param y the y-coordinate of the button.
-     * @param width the width of the button.
-     * @param height the height of the button.
-     * @return true if the button is hovered over, false otherwise.
-     */
-    private boolean isButtonHovered(int x, int y, int width, int height) {
-        Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        stage.getViewport().unproject(touchPos); 
-        return touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
-    }
-
-    /**
-     * Checks if a button is pressed.
-     * 
-     * @param x the x-coordinate of the button.
-     * @param y the y-coordinate of the button.
-     * @param width the width of the button.
-     * @param height the height of the button.
-     * @return true if the button is pressed, false otherwise.
-     */
-    private boolean isButtonPressed(int x, int y, int width, int height) {
-        return Gdx.input.isTouched() && isButtonHovered(x, y, width, height);
-    }
 
     /**
      * Called when this screen becomes the current screen.
@@ -158,6 +130,7 @@ public class HelpScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        Gdx.input.setInputProcessor(stage);
         stage.getCamera().position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
         stage.getCamera().update();
     }

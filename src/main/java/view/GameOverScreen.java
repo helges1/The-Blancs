@@ -1,12 +1,10 @@
 package view;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -21,7 +19,7 @@ import model.TheBlancsGame;
  * This class manages the UI elements on the game over screen, such as displaying the player's final score,
  * and rendering buttons for replaying the game or exiting. 
  */
-public class GameOverScreen implements Screen {
+public class GameOverScreen extends BaseScreen {
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
 
@@ -50,6 +48,7 @@ public class GameOverScreen implements Screen {
      * @param game The main game object that controls the screens.
      */
     public GameOverScreen(TheBlancsGame game) {
+        super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         this.game = game;
 
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
@@ -157,33 +156,6 @@ public class GameOverScreen implements Screen {
         if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
             exitButtonClicked();
         }
-    }
-
-    /**
-     * Checks if a button is currently hovered by the mouse.
-     * @param x The x-coordinate of the button.
-     * @param y The y-coordinate of the button.
-     * @param width The width of the button.
-     * @param height The height of the button.
-     * @return true if the button is hovered, false otherwise.
-     */
-    private boolean isButtonHovered(int x, int y, int width, int height) {
-        Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
-        boolean hovered = touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
-        return hovered;
-    }
-
-    /**
-     * Checks if a button is currently being pressed.
-     * @param x The x-coordinate of the button.
-     * @param y The y-coordinate of the button.
-     * @param width The width of the button.
-     * @param height The height of the button.
-     * @return true if the button is pressed, false otherwise.
-     */
-    private boolean isButtonPressed(int x, int y, int width, int height) {
-        return Gdx.input.isTouched() && isButtonHovered(x, y, width, height);
     }
 
     /**

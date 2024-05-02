@@ -1,7 +1,6 @@
 package view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.utils.viewport.Viewport;
 import model.GameModel;
@@ -26,7 +24,7 @@ import model.TheBlancsGame;
  * Represents the home screen of the game where the player can start a new game or exit.
  * This screen allows the player to enter their username and select the play or exit options.
  */
-public class HomeScreen implements Screen {
+public class HomeScreen extends BaseScreen {
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
     private Viewport viewport;
@@ -49,6 +47,7 @@ public class HomeScreen implements Screen {
      * @param game The main game object, used to manage transitions and other screens.
      */
     public HomeScreen(TheBlancsGame game) {
+        super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         this.game = game;
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
         stage = new Stage(viewport);
@@ -134,35 +133,6 @@ public class HomeScreen implements Screen {
         }
     }
 
-
-    /**
-     * Checks if a screen coordinate is within the bounds of a button.
-     * 
-     * @param x The x-coordinate of the button.
-     * @param y The y-coordinate of the button.
-     * @param width The width of the button.
-     * @param height The height of the button.
-     * @return true if the current touch position is within the button's bounds, false otherwise.
-     */
-    private boolean isButtonHovered(int x, int y, int width, int height) {
-        Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
-        return touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
-    }
-    
-    /**
-     * Checks if a button has been pressed.
-     * 
-     * @param x The x-coordinate of the button.
-     * @param y The y-coordinate of the button.
-     * @param width The width of the button.
-     * @param height The height of the button.
-     * @return true if the button is pressed, false otherwise.
-     */
-    private boolean isButtonPressed(int x, int y, int width, int height) {
-        return Gdx.input.justTouched() && isButtonHovered(x, y, width, height);
-    }
-    
     /**
      * Initializes the text field for username input.
      */

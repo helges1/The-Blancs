@@ -65,7 +65,6 @@ public class TheBlancsGame extends Game {
 	}
 
     private void updateScreen() {
-		Gdx.app.log("Game", "Updating screen to: " + activeScreen);
         switch (activeScreen) {
             case HOME_SCREEN:
                 setScreen(homeScreen);
@@ -80,7 +79,6 @@ public class TheBlancsGame extends Game {
                 setScreen(gameOverScreen);
                 break;
             default:
-			Gdx.app.log("Game", "No matching screen found");
                 break;
         }
     }
