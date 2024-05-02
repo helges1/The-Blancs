@@ -37,7 +37,7 @@ public class BasicShipFactory implements ShipFactory {
 	@Override
 	public Ship getEnemyShip(GameLevel gameLevel) {
 		// May spawn different types of enemies based on the current gameLevel
-		Ship enemyShip = getShipBasedOnLevel(gameLevel.getEnemySpawnRate());
+		Ship enemyShip = getShipBasedOnLevel(gameLevel);
         int randNum = MathUtils.random(0, 3);
 
         float posX = 0;
@@ -70,7 +70,11 @@ public class BasicShipFactory implements ShipFactory {
 		return enemyShip;
 	}
 	
-	private Ship getShipBasedOnLevel(float spawnRate) {
+	private Ship getShipBasedOnLevel(GameLevel gameLevel) {
+		float spawnRate = gameLevel.getEnemySpawnRate();
+		if (gameLevel.equals(GameLevel.LEVEL_1)) {
+			return getBasicShip();
+		}
 		if (random.nextFloat(spawnRate) >= spawnRate / 2) {
 			return getStrongerShip();
 		}
