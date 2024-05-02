@@ -283,8 +283,8 @@ public abstract class Ship extends Sprite {
     }
 
     public void setActivePowerUp(PowerUpType powerUp) {
-    	// To make sure the upgraded gun is reset when the game is reset
-    	if (powerUp == null)
+    	// To make sure the upgraded gun returns to normal when the game resets or a new powerUp is picked up.
+    	if (powerUp == null || !powerUp.equals(PowerUpType.GUN))
     		resetCannon();
     	
         activePowerUp = powerUp;
