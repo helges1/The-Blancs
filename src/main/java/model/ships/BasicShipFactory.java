@@ -17,14 +17,16 @@ public class BasicShipFactory implements ShipFactory {
 	private FitViewport viewport;
 	private AtlasRegion playerShipTexture;
 	private AtlasRegion playerLaserTexture;
-	private AtlasRegion enemyShipTexture;
+	private AtlasRegion basicEnemyShipTexture;
+	private AtlasRegion strongerEnemyShipTexture;
 	private AtlasRegion enemyLaserTexture;
 
 	public BasicShipFactory(FitViewport viewport, TextureAtlas atlas) {
 		this.viewport = viewport;
 		this.playerShipTexture = atlas.findRegion("playerShip");
 		this.playerLaserTexture = atlas.findRegion("playerLaser");
-		this.enemyShipTexture = atlas.findRegion("basicEnemyShip");
+		this.basicEnemyShipTexture = atlas.findRegion("basicEnemyShip");
+		this.strongerEnemyShipTexture = atlas.findRegion("strongerEnemyShip");
 		this.enemyLaserTexture = atlas.findRegion("enemyLaser");
 	}
 
@@ -82,12 +84,12 @@ public class BasicShipFactory implements ShipFactory {
 	}
 
 	private Ship getBasicShip() {
-		return new BasicEnemyShip(enemyShipTexture, enemyLaserTexture,
+		return new BasicEnemyShip(basicEnemyShipTexture, enemyLaserTexture,
 				0, 0, viewport);
 	}
 	
 	private Ship getStrongerShip() {
-		return new StrongerEnemyShip(enemyShipTexture, enemyLaserTexture,
+		return new StrongerEnemyShip(strongerEnemyShipTexture, enemyLaserTexture,
 				0, 0, viewport);
 	}
 
