@@ -27,7 +27,7 @@ public class BasicShipFactory implements ShipFactory {
 	@Override
 	public Ship getPlayerShip() {
 		return new PlayerShip(playerShipTexture, playerLaserTexture,
-				GameModel.WORLD_WIDTH / 2, GameModel.WORLD_WIDTH / 2, viewport);
+				GameModel.WORLD_WIDTH / 2, GameModel.WORLD_HEIGHT / 2, viewport);
 	}
 
 	@Override
