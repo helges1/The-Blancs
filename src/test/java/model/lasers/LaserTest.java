@@ -1,4 +1,4 @@
-package model;
+package model.lasers;
 import com.badlogic.gdx.graphics.Texture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
