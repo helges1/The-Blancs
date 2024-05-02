@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import model.lasers.Laser;
 import model.powerUps.PowerUps;
 import model.powerUps.PowerUpsFactory;
 import model.powerUps.PowerUps.PowerUpType;

@@ -1,5 +1,6 @@
 package model.ships;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -10,7 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import model.Laser;
+import model.lasers.Cannon;
+import model.lasers.Laser;
 import model.powerUps.PowerUps.PowerUpType;
 
 public abstract class Ship extends Sprite {
@@ -23,9 +25,12 @@ public abstract class Ship extends Sprite {
     private PowerUpType activePowerUp;
 
     // Laser
+    Cannon cannon;
+    private float fireRate;
     float timeSinceLaserFired;
 
     private Viewport viewport; // Reference to the viewport
+    
 
     // Initialize parameters for powerups
     private boolean isShieldActivated = false;
@@ -51,7 +56,7 @@ public abstract class Ship extends Sprite {
      * @param viewport      the viewport in which the ship exists (for bounding
      *                      checks in movements)
      */
-    public Ship(TextureRegion textureRegion, float x, float y, float width, float height, float speed, float health,
+    Ship(TextureRegion textureRegion, float x, float y, float width, float height, float speed, float health,
             Viewport viewport) {
         super(textureRegion); // Use the provided TextureRegion
 
@@ -75,23 +80,58 @@ public abstract class Ship extends Sprite {
      * @param width      a float rep. the width of the ship.
      * @param height     a float rep. the height of the ship.
      * @param speed      a float rep. the speed of the ship.
-     * @param laserSpeed a float rep. the speed of the laser.
+     * @param health     a float rep. the ship's health
      * @param fireRate   a float rep. the rate at which the ship can fire lasers.
      * @param viewport   a FitViewport. The Viewport that should see the ship (? how
      *                   viewport works??)
      */
     Ship(TextureRegion texture, float x, float y, float width, float height, float speed,
-            float health, FitViewport viewport) {
+            float health, float fireRate, FitViewport viewport) {
 
         super(texture);
 
         this.speed = speed;
         this.timeSinceLaserFired = 0;
         this.health = health;
+        this.fireRate = fireRate;
         setSize(width, height);
         setPosition(x, y);
         this.setViewport(viewport);
         setOriginCenter();
+    }
+    
+    public void update(float deltaTime) {
+        this.timeSinceLaserFired += deltaTime;
+
+        // PowerUp timer
+        if (activePowerUp != null) {
+            powerUpDuration -= deltaTime;
+            if (powerUpDuration <= 0) {
+                if (activePowerUp.equals(PowerUpType.SHIELD)) {
+                    isShieldActivated = false;
+                } else if (activePowerUp.equals(PowerUpType.GUN)) {
+//                    isGunUpgraded = false;
+                	resetCannon();
+                }
+                activePowerUp = null;
+                powerUpDuration = 20;
+            }
+        }
+
+        // This is for enemy ships when they get blasted
+        if (!velocity.isZero()) {
+            float newX = getX() + velocity.x * deltaTime;
+            float newY = getY() + velocity.y * deltaTime;
+            setPosition(newX, newY);
+
+            // Slow down the ship
+            velocity.scl(0.98f); // Slow down the ship by 2% each frame
+
+            // If velocity is very small, set it to zero
+            if (velocity.len2() < 0.01f) {
+                velocity.setZero();
+            }
+        }
     }
 
     public void moveUp(float deltaTime) {
@@ -157,30 +197,17 @@ public abstract class Ship extends Sprite {
     public void rotateShip(float angle) {
         setRotation(angle);
     }
-
-    // verdiene kan endres om det ønskes bedre plassering av laser
+    
+    
     Vector2 getNosePositionOfShip() {
         float shipRotation = getRotation();
 
         float radians = (float) Math.toRadians(shipRotation);
-
-//        float laserCenterOffsetX = getWidth() * 0f;
-//        float laserCenterOffsetY = getHeight() * 1.2f;
-//
-//        float rotatedOffsetX = laserCenterOffsetX * MathUtils.cos(radians)
-//                - laserCenterOffsetY * MathUtils.sin(radians);
-//        float rotatedOffsetY = laserCenterOffsetX * MathUtils.sin(radians)
-//                + laserCenterOffsetY * MathUtils.cos(radians);
-//
-//        float noseX = getX() + rotatedOffsetX + 2;
-//        float noseY = getY() + rotatedOffsetY - 6;
-//        
-//        float noseX = getX() + (getWidth() / 2) * MathUtils.sin(radians) + getHeight() * MathUtils.cos(radians);
-//        float noseY = getY() + (getWidth() / 2) * MathUtils.cos(radians) + getHeight() * MathUtils.sin(radians);
         float width = getWidth() / 2;
         float height = getHeight();
         float noseX = getX();
         float noseY = getY();
+        
         if (shipRotation >= 0 && shipRotation <= 90) {
         	noseX += width*MathUtils.cos(radians);
         	noseY += height*MathUtils.cos(radians) + width*MathUtils.sin(radians);
@@ -204,7 +231,14 @@ public abstract class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
-    abstract public boolean fireLaser(List<Laser> lasers);
+    public boolean fireLaser(List<Laser> lasers) {
+    	if (timeSinceLaserFired >= fireRate) {
+	    	Laser[] firedLasers = cannon.fireCannon();
+	    	lasers.addAll(Arrays.asList(firedLasers));
+	    	return true;
+    	}
+    	return false;
+    }
 
     public void setViewport(FitViewport viewport) {
         this.viewport = viewport;
@@ -219,38 +253,17 @@ public abstract class Ship extends Sprite {
         this.velocity.add(force);
     }
 
-    public void update(float deltaTime) {
-        this.timeSinceLaserFired += deltaTime;
-
-        // PowerUp timer
-        if (activePowerUp != null) {
-            powerUpDuration -= deltaTime;
-            if (powerUpDuration <= 0) {
-                if (activePowerUp.equals(PowerUpType.SHIELD)) {
-                    isShieldActivated = false;
-                } else if (activePowerUp.equals(PowerUpType.GUN)) {
-                    isGunUpgraded = false;
-                }
-                activePowerUp = null;
-                powerUpDuration = 20;
-            }
-        }
-
-        // This is for enemy ships when they get blasted
-        if (!velocity.isZero()) {
-            float newX = getX() + velocity.x * deltaTime;
-            float newY = getY() + velocity.y * deltaTime;
-            setPosition(newX, newY);
-
-            // Slow down the ship
-            velocity.scl(0.98f); // Slow down the ship by 2% each frame
-
-            // If velocity is very small, set it to zero
-            if (velocity.len2() < 0.01f) {
-                velocity.setZero();
-            }
-        }
-    }
+   
+    
+    /**
+     * Reset the standard cannon the ship uses.
+     */
+    abstract void resetCannon();
+    
+    /**
+     * Upgrade the cannon to a more powerful version.
+     */
+    abstract void upgradeCannon();
 
     public float getHealth() {
         return health;
@@ -268,6 +281,9 @@ public abstract class Ship extends Sprite {
 
     public void setActivePowerUp(PowerUpType powerUp) {
         activePowerUp = powerUp;
+        if (powerUp.equals(PowerUpType.GUN)) {
+        	upgradeCannon();
+        }
     }
 
     public PowerUpType getActivePowerUp() {

@@ -1,13 +1,14 @@
 package model.ships;
 
 import java.util.Random;
+import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import model.Laser;
+import model.lasers.Laser;
 
 public class BasicEnemyShip extends Ship {
 
@@ -37,25 +38,40 @@ public class BasicEnemyShip extends Ship {
     		float x, float y, FitViewport viewport) {
 
         super(basicEnemyShipTexture, x, y, basicEnemyWidth, basicEnemyHeight,
-        		basicEnemySpeed, basicEnemyHealth, viewport);
+        		basicEnemySpeed, basicEnemyHealth, basicEnemyFireRate, viewport);
         
         this.basicEnemyLaserTexture = basicEnemyLaserTexture;
+        resetCannon(); // Set the cannon
     }
 
     @Override
     public boolean fireLaser(List<Laser> enemyLasers) {
         if (timeSinceLaserFired >= basicEnemyFireRate) {
-            if (random.nextInt(3) > 0) { // 66% chance that the ship chooses to fire laser
-                Vector2 position = getNosePositionOfShip();
-                float angle = getRotation();
-                Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed,
-                		angle, basicEnemyLaserWidth, basicEnemyLaserHeight, 5);
-                laser.centreAtPoint(position);
-                timeSinceLaserFired = 0;
-                enemyLasers.add(laser);
-                return true;
-            }
+        	if (random.nextInt(3) > 0) { // 66% chance that the ship chooses to fire laser
+	            timeSinceLaserFired = 0;
+	            Laser[] firedLasers = cannon.fireCannon();
+	            enemyLasers.addAll(Arrays.asList(firedLasers));
+	            return true;
+        	}
         }
         return false;
     }
+
+	@Override
+	void resetCannon() {
+		this.cannon = () -> {
+            Vector2 position = getNosePositionOfShip();
+            float angle = getRotation();
+            Laser laser = new Laser(basicEnemyLaserTexture, position, basicEnemyLaserSpeed,
+            		angle, basicEnemyLaserWidth, basicEnemyLaserHeight, 5);
+            laser.centreAtPoint(position);
+            return new Laser[] {laser};
+		};
+	}
+
+	@Override
+	void upgradeCannon() {
+		//Pass - the basic enemy cannon upgrade its cannon.
+	}
+		
 }

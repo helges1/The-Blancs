@@ -1,4 +1,4 @@
-package model;
+package model.lasers;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
