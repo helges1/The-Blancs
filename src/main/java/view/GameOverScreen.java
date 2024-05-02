@@ -152,11 +152,9 @@ public class GameOverScreen implements Screen {
 
 
         if (isButtonPressed(centerX, playButtonY, buttonWidth, buttonHeight)) {
-            Gdx.app.log("GameOverScreen", "Play button pressed");
             playButtonClicked();
         }
         if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
-            Gdx.app.log("GameOverScreen", "Exit button pressed");
             exitButtonClicked();
         }
     }
@@ -252,7 +250,6 @@ public class GameOverScreen implements Screen {
      * Called to dispose of resources when the game is exiting completely.
      */
     public void disposeResourcesForExit() {
-        // This method is called only when the game is completely exiting.
         if (!resourcesDisposed) {
             font.dispose();
             background.dispose();

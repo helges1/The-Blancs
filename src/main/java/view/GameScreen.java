@@ -102,9 +102,6 @@ public class GameScreen implements Screen {
 		shapeRenderer = new ShapeRenderer();
 		this.viewport = viewport;
 
-		// If Ship needs the viewport, set it here after creation
-		// gameModel.getShip().setViewport(viewport); // You would need to add a
-		// setViewport method to your Ship class
 
 		// HUD Initialization
 		font = new BitmapFont();
