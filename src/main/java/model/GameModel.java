@@ -238,12 +238,14 @@ public class GameModel {
                 while (enemyShipIterator.hasNext()) {
                     Ship enemyShip = enemyShipIterator.next();
                     if (checkCollision(laser, enemyShip)) {
-                        Explosion explosion = new Explosion(enemyShip.getBoundingRectangle(), 0.5f);
-                        explosions.add(explosion);
-                        enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
+                    	enemyShip.takeDamage(laser.getDamage());
+                    	if (enemyShip.isDestroyed()) {
+                    		Explosion explosion = new Explosion(enemyShip.getBoundingRectangle(), 0.5f);
+                            explosions.add(explosion);
+                            enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
+                            destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
+                    	}
                         laserIterator.remove(); // Remove the laser after hitting the ship
-
-                        destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
                         break; // Break to avoid ConcurrentModificationException
                     }
                 }

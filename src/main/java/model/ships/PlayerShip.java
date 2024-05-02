@@ -21,6 +21,7 @@ public class PlayerShip extends Ship {
 	private static final float playerHeight = 40;
 	
 	private static final float playerLaserSpeed = 400;
+	private static final float playerLaserDamage = 10;
 	private static final float playerLaserWidth = 20;
 	private static final float playerLaserHeight = 30;
 	private static final float playerFireRate = 0.3f;
@@ -56,7 +57,7 @@ public class PlayerShip extends Ship {
 			Vector2 position = getNosePositionOfShip();
 			float angle = getRotation();
 			Laser laser = new Laser(playerLaserTexture, position, playerLaserSpeed,
-					angle, playerLaserWidth, playerLaserHeight);
+					angle, playerLaserWidth, playerLaserHeight, playerLaserDamage);
 			laser.centreAtPoint(position);
 			return new Laser[]{laser};
 		};
@@ -71,11 +72,14 @@ public class PlayerShip extends Ship {
 			float angle3 = getRotation() - 25;
 			Vector2 position = getNosePositionOfShip();
 			
-			Laser laser1 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle1, playerLaserWidth, playerLaserHeight);
+			Laser laser1 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle1,
+					playerLaserWidth, playerLaserHeight, playerLaserDamage);
 			laser1.centreAtPoint(position);
-			Laser laser2 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle2, playerLaserWidth, playerLaserHeight);
+			Laser laser2 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle2,
+					playerLaserWidth, playerLaserHeight, playerLaserDamage);
 			laser2.centreAtPoint(position);
-			Laser laser3 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle3, playerLaserWidth, playerLaserHeight);
+			Laser laser3 = new Laser(playerLaserTexture, position, playerLaserSpeed, angle3,
+					playerLaserWidth, playerLaserHeight, playerLaserDamage);
 			laser3.centreAtPoint(position);
 			
 			firedLasers[0] = laser1;

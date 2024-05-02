@@ -1,12 +1,10 @@
 package model.ships;
 
-import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import model.lasers.Laser;
 
@@ -16,7 +14,7 @@ public class StrongerEnemyShip extends Ship {
 
     public final TextureRegion strongerEnemyLaserTexture;
 
-    private static final float strongerEnemyHealth = 10;
+    private static final float strongerEnemyHealth = 20;
     private static final float strongerEnemySpeed = 50;
 
     private static final float strongerEnemyWidth = 40;
@@ -57,7 +55,6 @@ public class StrongerEnemyShip extends Ship {
 	@Override
 	void upgradeCannon() {
 		// TODO Auto-generated method stub
-
 	}
 
 }
