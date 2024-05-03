@@ -131,7 +131,7 @@ public class HelpScreen extends BaseScreen {
         font.draw(game.batch, "Game Controls:", centerX - 50, headerY);
 
         font.getData().setScale(1.5f); // Smaller scale for the control instructions
-        font.draw(game.batch, "Arrow Keys: Move Ship", centerX, helpTextY);
+        font.draw(game.batch, "Arrow Keys/WASD: Move Ship", centerX, helpTextY);
         font.draw(game.batch, "Mouse: Aim Ship", centerX, helpTextY - 50);
         font.draw(game.batch, "Space/Mouse Click: Fire Lasers", centerX, helpTextY - 100);
     }
