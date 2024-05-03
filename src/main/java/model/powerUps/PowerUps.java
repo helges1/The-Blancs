@@ -55,7 +55,6 @@ public class PowerUps extends Sprite {
 
     private final float size = 100;
     private float powerUpDuration;
-    private boolean isCollected = false;
     private PowerUpType powerUpType;
     private float xPos = 0;
     private float yPos = 0;
@@ -83,19 +82,6 @@ public class PowerUps extends Sprite {
      */
     public PowerUpType getPowerUpType() {
         return powerUpType;
-    }
-    /**
-     * Checks if the PowerUp has been collected.
-     * @return True if the PowerUp has been collected, false otherwise.
-     */
-    public boolean isCollected() {
-        return isCollected;
-    }
-    /**
-     * Set the PowerUp as collected.
-     */
-    public void setCollected(boolean collected) {
-        isCollected = collected;
     }
     /**
      * Updates the powerUpDuration of the PowerUp.
