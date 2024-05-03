@@ -16,14 +16,21 @@ import model.TheBlancsGame;
  * with the game environment. It includes an exit button to return to the home screen.
  */
 public class HelpScreen extends BaseScreen {
+    // Constants for the world width and height
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
+
+    // Variables for the help screen
     private TheBlancsGame game;
     private Stage stage;
     private BitmapFont font;
+
+    // Textures for UI elements
     private Texture background;
     private Texture exitButtonActive;
     private Texture exitButtonInactive;
+
+    // Music for the help screen
     private Music backgroundMusic;
 
     /**
@@ -32,10 +39,15 @@ public class HelpScreen extends BaseScreen {
      * @param game The game controller which manages transitions between screens.
      */
     public HelpScreen(TheBlancsGame game) {
+        // Call the superclass constructor with the game and a new FitViewport
         super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        // Set the game object
         this.game = game;
+        // Create a new stage for the help screen
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        // Set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
+        // Create a new font for the help screen
         font = new BitmapFont();
         background = new Texture("pictures/background.png");
         exitButtonActive = new Texture("pictures/exit-1.png");
@@ -66,7 +78,8 @@ public class HelpScreen extends BaseScreen {
      * Handles the action to be taken when the exit button is clicked.
      * Transitions the screen to the home screen of the game.
      */
-    private void exitButtonClicked() {
+    @Override
+    protected void exitButtonClicked() {
         game.setScreenType(ScreenType.HOME_SCREEN);
     }
 

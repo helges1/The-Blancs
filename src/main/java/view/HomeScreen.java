@@ -25,14 +25,19 @@ import model.TheBlancsGame;
  * This screen allows the player to enter their username and select the play or exit options.
  */
 public class HomeScreen extends BaseScreen {
+    // Constants for the world width and height
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
+    // Variables for the home screen
     private Viewport viewport;
     private TheBlancsGame game;
     private Stage stage;
     private TextField userNameField;
-    private Music backgroundMusic;
 
+    // Music for the home screen
+    private Music backgroundMusic;
+    
+    // Textures for UI elements
     Texture playButtonActive;
     Texture playButtonInactive;
     Texture exitButtonActive;
@@ -47,10 +52,15 @@ public class HomeScreen extends BaseScreen {
      * @param game The main game object, used to manage transitions and other screens.
      */
     public HomeScreen(TheBlancsGame game) {
+        // Call the superclass constructor with the game and a new FitViewport
         super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        // Set the game object
         this.game = game;
+        // Create a new viewport for the home screen
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
+        // Create a new stage for the home screen
         stage = new Stage(viewport);
+        // Set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
         initTextures();
         initTextField();
@@ -181,19 +191,15 @@ public class HomeScreen extends BaseScreen {
     /**
      * Handles the logic when the play button is clicked, transitioning to the main game screen.
      */
-    private void playButtonClicked() {
+    @Override
+    protected void playButtonClicked() {
         Gdx.input.setInputProcessor(game.getPlayerController());
         this.dispose();
         game.setUserName(getUserName());
         game.setScreenType(ScreenType.GAME_SCREEN);
     }
     
-    /**
-     * Handles the logic when the exit button is clicked, exiting the application.
-     */
-    private void exitButtonClicked() {
-        Gdx.app.exit();
-    }
+    
     private void helpButtonClicked() {
         game.setScreenType(ScreenType.HELP_SCREEN);
     }
@@ -205,9 +211,6 @@ public class HomeScreen extends BaseScreen {
     @Override
     public void show() {
         backgroundMusic.play();
-
-
-    
     }
 
     /**

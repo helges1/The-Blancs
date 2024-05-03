@@ -20,18 +20,20 @@ import model.TheBlancsGame;
  * and rendering buttons for replaying the game or exiting. 
  */
 public class GameOverScreen extends BaseScreen {
+    // Constants for the world width and height
     private static final float WORLD_WIDTH = GameModel.WORLD_WIDTH;
     private static final float WORLD_HEIGHT = GameModel.WORLD_HEIGHT;
 
+    // Variables for the game over screen
     private Viewport viewport;
-
     private TheBlancsGame game;
     private Stage stage;
     private String scoreText = "Score: 0";
     private BitmapFont font;
     private BitmapFont buttonFont;
     private boolean resourcesDisposed = false;
-
+    
+    // Textures for UI elements
     Texture background;
     Texture newGameButtonActive;
     Texture newGameButtonInactive;
@@ -40,7 +42,7 @@ public class GameOverScreen extends BaseScreen {
     Texture blankButtonActive;
     Texture blankButtonInactive;
 
-
+    // Music for the game over screen
     private Music backgroundMusic;
 
     /**
@@ -48,9 +50,11 @@ public class GameOverScreen extends BaseScreen {
      * @param game The main game object that controls the screens.
      */
     public GameOverScreen(TheBlancsGame game) {
+        // Call the superclass constructor with the game and a new FitViewport
         super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        // Set the game object
         this.game = game;
-
+        // Create a new viewport for the game over screen
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
         // Create a stage for the game over screen
         stage = new Stage(viewport);
@@ -161,7 +165,8 @@ public class GameOverScreen extends BaseScreen {
     /**
      * Logic to execute when the play button is clicked.
      */
-    private void playButtonClicked() {
+    @Override
+    protected void playButtonClicked() {
         Gdx.input.setInputProcessor(game.getPlayerController());
         game.getGameModel().resetGameState();
         game.setScreenType(ScreenType.GAME_SCREEN);
@@ -170,7 +175,8 @@ public class GameOverScreen extends BaseScreen {
     /**
      * Logic to execute when the exit button is clicked.
      */
-    private void exitButtonClicked() {
+    @Override
+    protected void exitButtonClicked() {
         this.disposeResourcesForExit();
         Gdx.app.exit();
     }
