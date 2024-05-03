@@ -15,20 +15,39 @@ public class Laser extends Sprite {
     private Vector2 velocity;
     private Vector2 windForce;
     private float damage;
+    
+    /**
+     * A complete constructor for a <code>Laser</code> where you specify all its
+     * properties.
+     * 
+     * @param texture a <code>TextureRegion</code> corresponding to the texture of the laser.
+     * @param position a <code>Vector2</code>: the position the laser is to be constructed at.
+     * @param speed a <code>float</code>: the speed at which the laser can travel.
+     * @param angle a <code>float</code>: the angle of the laser in degrees.
+     * The laser faces north (up) at 0 degrees.
+     * @param width a <code>float</code>: the width of the laser.
+     * @param height a <code>float</code>: the height of the laser. 
+     * @param damage a <code>float</code>: the amount of damage the laser can deal.
+     */
+    Laser(TextureRegion texture, Vector2 position, float speed, float angle,
+    		float width, float height, float damage) {
+        this(texture, position, speed, angle, width, height);
+        this.damage = damage;
+    }
 
     /**
      * Constructor for Laser, which allows you to specify texture, position,
      * speed, angle, width and height of the laser.
      * 
      * @param texture a <code>TextureRegion</code> corresponding to the texture of the laser.
-     * @param position a <code>Vector2</code> representing the position the laser is to be constructed at.
-     * @param speed a <code>float</code> representing the speed at which the laser can travel.
-     * @param angle a <code>float</code> representing the angle of the laser in degrees.
+     * @param position a <code>Vector2</code>: the position the laser is to be constructed at.
+     * @param speed a <code>float</code>: the speed at which the laser can travel.
+     * @param angle a <code>float</code>: the angle of the laser in degrees.
      * The laser faces north (up) at 0 degrees.
-     * @param width a <code>float</code> representing the width of the laser.
-     * @param height a <code>float</code> representing the height of the laser.
+     * @param width a <code>float</code>: the width of the laser.
+     * @param height a <code>float</code>: the height of the laser.
      */
-    Laser(TextureRegion texture, Vector2 position, float speed, float angle,
+    private Laser(TextureRegion texture, Vector2 position, float speed, float angle,
     		float width, float height) {
         super(texture);
         setSize(width, height);
@@ -39,33 +58,6 @@ public class Laser extends Sprite {
         // and 'speed' represents the constant speed you want for the laser.
         float radians = (float) Math.toRadians(angle - 270);
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
-    }
-    
-    /**
-     * A complete constructor for a <code>Laser</code> where you specify all its
-     * properties.
-     * 
-     * @param texture a <code>TextureRegion</code> corresponding to the texture of the laser.
-     * @param position a <code>Vector2</code> representing the position the laser is to be constructed at.
-     * @param speed a <code>float</code> representing the speed at which the laser can travel.
-     * @param angle a <code>float</code> representing the angle of the laser in degrees.
-     * The laser faces north (up) at 0 degrees.
-     * @param width a <code>float</code> representing the width of the laser.
-     * @param height a <code>float</code> representing the height of the laser. 
-     * @param damage a <code>float</code> representing the amount of damage the laser can deal.
-     */
-    Laser(TextureRegion texture, Vector2 position, float speed, float angle,
-    		float width, float height, float damage) {
-        super(texture);
-        setSize(width, height);
-        setOriginCenter();
-        setRotation(angle);
-
-        // Assuming the angle is correctly adjusted for your game's coordinate system,
-        // and 'speed' represents the constant speed you want for the laser.
-        float radians = (float) Math.toRadians(angle - 270);
-        velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
-        this.damage = damage;
     }
     
     /**
@@ -82,6 +74,12 @@ public class Laser extends Sprite {
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
     
+    /**
+     * Position this <code>Laser</code> with its base centred at the given
+     * <strong>position</strong>, corresponding the laser's angle.
+     *  
+     * @param position a <code>Vector2</code>: the position at which to centre the laser.
+     */
     public void centreAtPoint(Vector2 position) {
     	float angle = getRotation();
     	float radians = (float) Math.toRadians(angle);
@@ -112,10 +110,22 @@ public class Laser extends Sprite {
     	setPosition(xPos, yPos);
     }
 
+    /**
+     * Apply a force to this <code>Laser</code>.
+     * (Even though there's no wind in space)
+     * 
+     * @param windForce a <code>Vector2</code>: the force with which to affect the laser.
+     */
     public void setWindForce(Vector2 windForce) {
         this.windForce = windForce;
     }
 
+    /**
+     * This method will move the laser according the amount of time that has passed,
+     * based on its velocity.
+     * 
+     * @param deltaTime a <code>float</code>: the amount of time that has passed in seconds.
+     */
     public void update(float deltaTime) {
         // Apply wind force to the velocity
         if (windForce != null) velocity.add(windForce.x * deltaTime, windForce.y * deltaTime);
@@ -125,11 +135,6 @@ public class Laser extends Sprite {
 
     public boolean isOffScreen(float worldHeight) {
         return getY() > worldHeight;
-    }
-
-    public static void disposeSound() {
-        // Static method to dispose the sound resource when the game is exiting
-        // laserSound.dispose();
     }
     
     public Vector2 getVelocity() {
