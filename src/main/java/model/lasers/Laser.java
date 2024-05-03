@@ -7,22 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * This class is used to represent a laser, fired from a laser cannon.
+ */
 public class Laser extends Sprite {
+	
     private Vector2 velocity;
     private Vector2 windForce;
-    
     private float damage;
-
-    Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
-        super(texture);
-        setPosition(position.x, position.y);
-        setRotation(angle);
-
-        // Assuming the angle is correctly adjusted for your game's coordinate system,
-        // and 'speed' represents the constant speed you want for the laser.
-        float radians = (float) Math.toRadians(angle - 270);
-        velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
-    }
 
     /**
      * Constructor for Laser, which allows you to specify texture, position,
@@ -49,6 +41,19 @@ public class Laser extends Sprite {
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
     
+    /**
+     * A complete constructor for a <code>Laser</code> where you specify all its
+     * properties.
+     * 
+     * @param texture a <code>TextureRegion</code> corresponding to the texture of the laser.
+     * @param position a <code>Vector2</code> representing the position the laser is to be constructed at.
+     * @param speed a <code>float</code> representing the speed at which the laser can travel.
+     * @param angle a <code>float</code> representing the angle of the laser in degrees.
+     * The laser faces north (up) at 0 degrees.
+     * @param width a <code>float</code> representing the width of the laser.
+     * @param height a <code>float</code> representing the height of the laser. 
+     * @param damage a <code>float</code> representing the amount of damage the laser can deal.
+     */
     Laser(TextureRegion texture, Vector2 position, float speed, float angle,
     		float width, float height, float damage) {
         super(texture);
@@ -61,6 +66,20 @@ public class Laser extends Sprite {
         float radians = (float) Math.toRadians(angle - 270);
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
         this.damage = damage;
+    }
+    
+    /**
+     * This constructor is used exclusively for testing.
+     */
+    Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
+        super(texture);
+        setPosition(position.x, position.y);
+        setRotation(angle);
+
+        // Assuming the angle is correctly adjusted for your game's coordinate system,
+        // and 'speed' represents the constant speed you want for the laser.
+        float radians = (float) Math.toRadians(angle - 270);
+        velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
     
     public void centreAtPoint(Vector2 position) {
@@ -143,7 +162,5 @@ public class Laser extends Sprite {
 				&& Objects.equals(velocity, other.velocity)
 				&& Objects.equals(getX(), other.getX()) && Objects.equals(getY(), other.getY());
 	}
-	
-	
 	
 }
