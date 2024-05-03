@@ -136,6 +136,7 @@ public class TheBlancsGame extends Game {
 		this.userName = userName;
 	}
 
+
 	/**
 	 * This method is used to get the game model of the game.
 	 * @return The game model of the game
@@ -144,5 +145,12 @@ public class TheBlancsGame extends Game {
 		return gameModel;
 	}
 
+	/**
+	 * This method is used to get the username for testing purposes.
+	 * @return The username
+	 */
+	public String getUserName() {
+		return userName;
+	}
 
 }

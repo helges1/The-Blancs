@@ -21,7 +21,7 @@ public class TheBlancsGameTest {
     public void testSetUserName() {
         String userName = "TestUser";
         theBlancsGame.setUserName(userName);
-        assertEquals(userName, theBlancsGame.getGameModel().getUserName());
+        assertEquals(userName, theBlancsGame.getUserName());
     }
 
     @Test
@@ -30,4 +30,5 @@ public class TheBlancsGameTest {
         theBlancsGame.setScreenType(screenType);
         assertEquals(screenType, theBlancsGame.getScreenType());
     }
+
 }
