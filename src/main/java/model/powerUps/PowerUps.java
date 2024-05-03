@@ -43,7 +43,10 @@ public class PowerUps extends Sprite {
         public float getHeight() {
             return 100;
         }
-
+        /**
+         * Get a random PowerUpType.
+         * @return A random PowerUpType.
+         */
         public static PowerUpType getRandomPowerUpType() {
             PowerUpType[] powerUpTypes = PowerUpType.values();
             return powerUpTypes[MathUtils.random.nextInt(powerUpTypes.length)];
@@ -57,6 +60,14 @@ public class PowerUps extends Sprite {
     private float xPos = 0;
     private float yPos = 0;
 
+    /**
+     * Constructor for the PowerUps class.
+     * @param powerUpTexture The texture of the PowerUp.
+     * @param xPos The x-coordinate of the PowerUp.
+     * @param yPos The y-coordinate of the PowerUp.
+     * @param powerUpType The type of the PowerUp.
+     * @param powerUpDuration The duration of the PowerUp.
+     */
     PowerUps(TextureRegion powerUpTexture, float xPos, float yPos, PowerUpType powerUpType, float powerUpDuration) {
         super(powerUpTexture);
         this.powerUpType = powerUpType;
@@ -66,27 +77,43 @@ public class PowerUps extends Sprite {
         this.setPosition(xPos, yPos);
         this.setSize(size, size);
     }
-
+    /**
+     * Get the type of the PowerUp.
+     * @return The type of the PowerUp.
+     */
     public PowerUpType getPowerUpType() {
         return powerUpType;
     }
-
+    /**
+     * Checks if the PowerUp has been collected.
+     * @return True if the PowerUp has been collected, false otherwise.
+     */
     public boolean isCollected() {
         return isCollected;
     }
-
+    /**
+     * Set the PowerUp as collected.
+     */
     public void setCollected(boolean collected) {
         isCollected = collected;
     }
-
+    /**
+     * Updates the powerUpDuration of the PowerUp.
+     */
     public void update(float deltaTime) {
         powerUpDuration -= deltaTime;
     }
-
+    /**
+     * Checks if the PowerUp has expired.
+     * @return True if the PowerUp has expired, false otherwise.
+     */
     public boolean isExpired() {
         return powerUpDuration <= 0;
     }
-
+    /**
+     * Draws the PowerUp.
+     * @param batch The SpriteBatch used to draw the PowerUp.
+     */
     public void draw(SpriteBatch batch) {
         batch.draw(this, xPos, yPos);
     }
