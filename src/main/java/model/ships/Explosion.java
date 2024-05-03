@@ -16,7 +16,12 @@ public class Explosion {
     private Rectangle boundingBox;
 
     private TextureRegion texture;
-
+    /**
+     * Create a new explosion animation.
+     * @param explosionTexture
+     * @param boundingBox
+     * @param totalAnimationTime
+     */
     public Explosion(TextureRegion explosionTexture, Rectangle boundingBox, float totalAnimationTime) {
         this.texture = explosionTexture;
         // Create a bounding box that is twice the size of the original bounding box
@@ -43,13 +48,19 @@ public class Explosion {
     public void update(float deltaTime) {
         explosionTimer += deltaTime;
     }
-
+    /**
+     * Draw the explosion animation.
+     * @param batch The sprite batch to draw the explosion animation.
+     */
     public void draw(SpriteBatch batch) {
         if (!explosionAnimation.isAnimationFinished(explosionTimer)) {
             batch.draw(explosionAnimation.getKeyFrame(explosionTimer), boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         }
     }
-
+    /**
+     * Check if the explosion animation has finished.
+     * @return True if the explosion animation has finished, false otherwise.
+     */
     public boolean isFinished() {
         return explosionAnimation.isAnimationFinished(explosionTimer);
     }

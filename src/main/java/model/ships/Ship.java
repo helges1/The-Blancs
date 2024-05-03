@@ -174,7 +174,10 @@ public abstract class Ship extends Sprite {
             }
         }
     }
-
+    /**
+     * Moves the ship up by a certain amount of time.
+     * @param deltaTime
+     */
     public void moveUp(float deltaTime) {
         float newY = getY() + speed * deltaTime;
         if (newY + getHeight() > viewport.getWorldHeight()) { // Check upper bound against viewport's world height
@@ -182,7 +185,10 @@ public abstract class Ship extends Sprite {
         }
         setPosition(getX(), newY);
     }
-
+    /**
+     * Moves the ship down by a certain amount of time.
+     * @param deltaTime
+     */
     public void moveDown(float deltaTime) {
         float newY = getY() - speed * deltaTime;
         if (newY < 0) { // Check lower bound
@@ -190,7 +196,10 @@ public abstract class Ship extends Sprite {
         }
         setPosition(getX(), newY);
     }
-
+    /**
+     * Moves the ship to the left by a certain amount of time.
+     * @param deltaTime
+     */
     public void moveLeft(float deltaTime) {
         float newX = getX() - speed * deltaTime;
         if (newX < 0) { // Check left bound
@@ -198,7 +207,10 @@ public abstract class Ship extends Sprite {
         }
         setPosition(newX, getY());
     }
-
+    /**
+     * Moves the ship to the right by a certain amount of time.
+     * @param deltaTime
+     */
     public void moveRight(float deltaTime) {
         float newX = getX() + speed * deltaTime;
         if (newX + getWidth() > viewport.getWorldWidth()) { // Check right bound against viewport's world width
@@ -206,7 +218,10 @@ public abstract class Ship extends Sprite {
         }
         setPosition(newX, getY());
     }
-
+    /**
+     * Moves the ship based on the movement position.
+     * @param movementPosition
+     */
     public void moveShip(Vector2 movementPosition) {
         float newX = getX() + speed * movementPosition.x * Gdx.graphics.getDeltaTime();
         float newY = getY() + speed * movementPosition.y * Gdx.graphics.getDeltaTime();
@@ -225,7 +240,10 @@ public abstract class Ship extends Sprite {
 
         setPosition(newX, newY);
     }
-
+    /**
+     * Rotates the ship towards a certain position.
+     * @param rotateTowards
+     */
     public void rotateShip(Vector2 rotateTowards) {
         Vector2 shipPosition = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
         Vector2 direction = rotateTowards.sub(shipPosition);
@@ -234,12 +252,17 @@ public abstract class Ship extends Sprite {
         setOriginCenter();
         setRotation(angle - 90);
     }
-
+    /**
+     * Rotates the ship by a certain angle.
+     * @param angle
+     */
     public void rotateShip(float angle) {
         setRotation(angle);
     }
-    
-    
+    /**
+     * Gets the position of the ship's nose.
+     * @return a Vector2 rep. the position of the ship's nose.
+     */
     Vector2 getNosePositionOfShip() {
         float shipRotation = getRotation();
 
@@ -319,17 +342,26 @@ public abstract class Ship extends Sprite {
     public float getHealth() {
         return health;
     }
-
+    /**
+     * Decreases the health of the ship by a certain amount.
+     * If the ship has a shield power up, the ship will not take damage.
+     * @param damage
+     */
     public void takeDamage(float damage) {
         if (activePowerUp != PowerUpType.SHIELD) {
             health -= damage;
         }
     }
-
+    /**
+     * Increases the health of the ship by 20.
+     */
     public void addHealth() {
         health += 20;
     }
-
+    /**
+     * Sets the active power up of the ship.
+     * @param powerUp
+     */
     public void setActivePowerUp(PowerUpType powerUp) {
     	// To make sure the upgraded gun returns to normal when the game resets or a new powerUp is picked up.
     	if (powerUp == null || !powerUp.equals(PowerUpType.GUN))
@@ -339,19 +371,30 @@ public abstract class Ship extends Sprite {
         if (PowerUpType.GUN.equals(activePowerUp))
         	upgradeCannon();
     }
-
+    /**
+     * Gets the active power up of the ship.
+     * @return a PowerUpType rep. the active power up of the ship.
+     */
     public PowerUpType getActivePowerUp() {
         return activePowerUp;
     }
-
+    /**
+     * Gets the power up timer of the ship.
+     * @return a float rep. the power up timer of the ship.
+     */
     public float getPowerUpTimer() {
         return powerUpDuration;
     }
-
+    /**
+     * Resets the power up timer of the ship.
+     * Sets the power up timer to 20.
+     */
     public void resetPowerUpTimer() {
         powerUpDuration = 20;
     }
-
+    /**
+     * Set the health of the ship.
+     */
     public void setHealth(int health) {
         this.health = health;
     }

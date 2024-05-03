@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import model.GameLevel;
 import model.GameModel;
 
+/**
+ * A factory class that creates different types of ships.
+ */
 public class BasicShipFactory implements ShipFactory {
 	
 	private final static Random random = new Random();
@@ -21,6 +24,11 @@ public class BasicShipFactory implements ShipFactory {
 	private AtlasRegion strongerEnemyShipTexture;
 	private AtlasRegion enemyLaserTexture;
 
+	/**
+	 * Creates a new BasicShipFactory.
+	 * @param viewport The viewport to use.
+	 * @param atlas The texture atlas to use.
+	 */
 	public BasicShipFactory(FitViewport viewport, TextureAtlas atlas) {
 		this.viewport = viewport;
 		this.playerShipTexture = atlas.findRegion("playerShip");
@@ -29,13 +37,20 @@ public class BasicShipFactory implements ShipFactory {
 		this.strongerEnemyShipTexture = atlas.findRegion("strongerEnemyShip");
 		this.enemyLaserTexture = atlas.findRegion("enemyLaser");
 	}
-
+	/**
+	 * Gets a new player ship.
+	 * @return A new player ship.
+	 */
 	@Override
 	public Ship getPlayerShip() {
 		return new PlayerShip(playerShipTexture, playerLaserTexture,
 				GameModel.WORLD_WIDTH / 2, GameModel.WORLD_HEIGHT / 2, viewport);
 	}
-
+	/**
+	 * Returns a new enemy ship.
+	 * @param gameLevel The current game level.
+	 * @return A new enemy ship.
+	 */
 	@Override
 	public Ship getEnemyShip(GameLevel gameLevel) {
 		// May spawn different types of enemies based on the current gameLevel
