@@ -144,5 +144,12 @@ public class TheBlancsGame extends Game {
 		return gameModel;
 	}
 
+	/**
+	 * This method is used to get the user name
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
 
 }
