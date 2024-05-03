@@ -11,7 +11,7 @@
 
 
 ## Kjøring 
-- Spillet kjøres ved å åpne filen 'TheBlancs.jar' 
+- Spillet kjøres ved å åpne filen 'TheBlancs.jar' [Klikk her for å gå til nedlasting](https://git.app.uib.no/Michal.Zborowski/the-blancs/-/blob/main/TheBlancs.jar?ref_type=heads).
 
 - Spillet krever at du har Java JDK 17 og maven installert. 
 
