@@ -30,5 +30,7 @@ public class BasicPowerUpsFactory implements PowerUpsFactory {
         TextureRegion powerUpTexture = atlas.findRegion(powerUpType.getTextureName());
         return new PowerUps(powerUpTexture, xPos, yPos, powerUpType, powerUpDuration);
     }
+
+    
     
 }
