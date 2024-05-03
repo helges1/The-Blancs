@@ -71,3 +71,8 @@ Fremover skal vi også ha fokus på å gjøre så mye som mulig "test-bart", og 
 Oppmøte: Michal og Sebastian
 
 Sjekket over hva som gjenstår og hva som bør endres på med tanke på tilbakemeldingene. Har startet å løse kjente bugs.
+
+## 2. mai
+Oppmøte: Michal, Lasse, Balder og Sebastian
+
+Så på hva som gjenstår og hva som bør endres på med tanke på tilbakemeldingene. Begynt å lage tester, og ferdigstille spillet.
