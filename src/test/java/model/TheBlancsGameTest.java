@@ -29,6 +29,18 @@ public class TheBlancsGameTest {
         ScreenType screenType = ScreenType.GAME_SCREEN;
         theBlancsGame.setScreenType(screenType);
         assertEquals(screenType, theBlancsGame.getScreenType());
+
+        screenType = ScreenType.HOME_SCREEN;
+        theBlancsGame.setScreenType(screenType);
+        assertEquals(screenType, theBlancsGame.getScreenType());
+
+        screenType = ScreenType.GAME_OVER_SCREEN;
+        theBlancsGame.setScreenType(screenType);
+        assertEquals(screenType, theBlancsGame.getScreenType());
+
+        screenType = ScreenType.HELP_SCREEN;
+        theBlancsGame.setScreenType(screenType);
+        assertEquals(screenType, theBlancsGame.getScreenType());
     }
 
     @Test
