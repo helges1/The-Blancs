@@ -215,7 +215,6 @@ public class GameModel {
                 AsteroidIterator.remove(); // Remove off-screen Asteroids
             } else if (checkAsteroidCollision(Asteroid)) {
                 asteroidExplosion(Asteroid);
-                // AsteroidIterator.remove(); // Remove the Asteroid if hit by a laser
             }
         }
     }
@@ -260,7 +259,6 @@ public class GameModel {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
                         asteroidExplosion(asteroid);
-                        // asteroidIterator.remove(); // Remove the asteroid if hit by a laser
                         enemyLaserIterator.remove(); // Remove the laser after hitting the asteroid
                         break; // Break to avoid ConcurrentModificationException
                     }
@@ -286,7 +284,6 @@ public class GameModel {
                         enemyShip.takeDamage(laser.getDamage());
                         if (enemyShip.isDestroyed()) {
                             enemyShipExplosion(enemyShip);
-                            // enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
                             destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
                         }
                         laserIterator.remove(); // Remove the laser after hitting the ship
@@ -300,7 +297,6 @@ public class GameModel {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
                         asteroidExplosion(asteroid);
-                        // asteroidIterator.remove(); // Remove the asteroid if hit by a laser
                         laserIterator.remove(); // Remove the laser after hitting the asteroid
                         break; // Break to avoid ConcurrentModificationException
                     }
@@ -442,7 +438,6 @@ public class GameModel {
                 enemyShip.takeDamage(5);
                 if (enemyShip.isDestroyed()) {
                     enemyShipExplosion(enemyShip);
-                    // iterator.remove();
                 }
                 if (playerShip.isDestroyed()) {
                     gameOver = true;

@@ -125,18 +125,18 @@ public class GameModelTest {
 
 
 
-//    @Test
-//    public void testAsteroidExplosion() {
-//        Ship asteroid = mock(Ship.class);
-//        Rectangle boundingRect = new Rectangle(10, 10, 50, 50);
-//        when(asteroid.getBoundingRectangle()).thenReturn(boundingRect);
-//        model.getAsteroids().add(asteroid);  // Assuming getAsteroids() provides access to the list
-//
-//        assertEquals(0, model.getExplosions().size(), "There should be no explosions initially.");
-//        model.asteroidExplosion(asteroid);
-//        assertTrue(model.getAsteroids().isEmpty(), "The asteroid should be removed from the list after explosion.");
-//        assertEquals(1, model.getExplosions().size(), "There should be one explosion after the asteroid explodes.");
-//    }
+    @Test
+    public void testAsteroidExplosion() {
+        Asteroid asteroid = mock(Asteroid.class);
+        Rectangle boundingRect = new Rectangle(10, 10, 50, 50);
+        when(asteroid.getBoundingRectangle()).thenReturn(boundingRect);
+        model.getAsteroids().add(asteroid);
+
+        assertEquals(0, model.getExplosions().size(), "There should be no explosions initially.");
+        model.asteroidExplosion(asteroid);
+        assertTrue(model.getAsteroids().isEmpty(), "The asteroid should be removed from the list after explosion.");
+        assertEquals(1, model.getExplosions().size(), "There should be one explosion after the asteroid explodes.");
+    }
 
     @AfterEach
     public void tearDown() {
