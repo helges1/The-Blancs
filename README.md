@@ -11,7 +11,7 @@
 
 
 ## Kjøring 
-- Spillet kjøres i main.java filen som ligger i main/java/main mappen.
+- Spillet kjøres ved å åpne filen 'TheBlancs.jar' 
 
 - Spillet krever at du har Java JDK 17 og maven installert. 
 
