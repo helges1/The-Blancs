@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-
-/*
-    * This class is responsible for creating an explosion animation when an enemy ship is destroyed.
-
+/**
+ * This class is responsible for creating an explosion animation when an enemy ship is destroyed.
  */
 public class Explosion {
 
@@ -38,11 +36,15 @@ public class Explosion {
         explosionTimer = 0;
     }
 
-    public void update (float deltaTime) {
+    /**
+     * Progress the animation according to the amount of time that has passed.
+     * @param deltaTime the amount of time passed in seconds.
+     */
+    public void update(float deltaTime) {
         explosionTimer += deltaTime;
     }
 
-    public void draw (SpriteBatch batch) {
+    public void draw(SpriteBatch batch) {
         if (!explosionAnimation.isAnimationFinished(explosionTimer)) {
             batch.draw(explosionAnimation.getKeyFrame(explosionTimer), boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         }

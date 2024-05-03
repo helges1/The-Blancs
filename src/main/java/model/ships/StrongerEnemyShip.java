@@ -24,7 +24,16 @@ public class StrongerEnemyShip extends Ship {
     private static final float strongerEnemyLaserHeight = 35;    
     private static final float strongerEnemyFireRate = 1;
 
-
+    /**
+     * Constructor for a stronger enemy ship.
+     * Must be given its own and its laser's textures as arguments.
+     * 
+     * @param strongerEnemyShipTexture
+     * @param strongerEnemyLaserTexture
+     * @param x        float: the x position at which the ship should spawn.
+     * @param y        float: the y position at which the ship should spawn.
+     * @param viewport FitViewport: the viewport of the game.
+     */
 	StrongerEnemyShip(TextureRegion strongerEnemyShipTexture, TextureRegion strongerEnemyLaserTexture,
 			float x, float y, FitViewport viewport) {
 		

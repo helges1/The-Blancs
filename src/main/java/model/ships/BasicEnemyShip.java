@@ -26,7 +26,10 @@ public class BasicEnemyShip extends Ship {
 
     /**
      * Constructor for a basic enemy ship.
+     * Must be given its own and its laser's textures as arguments.
      * 
+     * @param basicEnemyShipTexture
+     * @param basicEnemyLaserTexture
      * @param x        float: the x position at which the ship should spawn.
      * @param y        float: the y position at which the ship should spawn.
      * @param viewport FitViewport: the viewport of the game.

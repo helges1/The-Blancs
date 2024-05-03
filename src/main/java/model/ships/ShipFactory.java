@@ -2,12 +2,15 @@ package model.ships;
 
 import model.GameLevel;
 
+/**
+ * A factory for Ships.
+ */
 public interface ShipFactory {
 	
 	
 	/**Generate a playerShip.
 	 * 
-	 * @return a <code>Ship</code>
+	 * @return a <code>Ship</code> representing the player.
 	 */
 	Ship getPlayerShip();
 	
