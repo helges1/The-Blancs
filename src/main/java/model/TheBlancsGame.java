@@ -136,6 +136,7 @@ public class TheBlancsGame extends Game {
 		this.userName = userName;
 	}
 
+
 	/**
 	 * This method is used to get the game model of the game.
 	 * @return The game model of the game

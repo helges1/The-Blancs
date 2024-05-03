@@ -21,7 +21,7 @@ public class TheBlancsGameTest {
     public void testSetUserName() {
         String userName = "TestUser";
         theBlancsGame.setUserName(userName);
-        assertEquals(userName,theBlancsGame.getUserName());
+        assertEquals(userName, theBlancsGame.getUserName());
     }
 
     @Test
