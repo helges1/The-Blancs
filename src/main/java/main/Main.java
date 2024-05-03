@@ -31,7 +31,7 @@ public class Main extends Game {
 		config.setForegroundFPS(60);
 		config.setTitle("TheBlancs");
 		config.setWindowedMode(1200, 900);
-		config.setWindowIcon("pictures/playerShip.png");
+		config.setWindowIcon("pictures/game-icon.png");
 		new Lwjgl3Application(new TheBlancsGame(), config);
 	}
 

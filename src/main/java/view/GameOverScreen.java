@@ -1,10 +1,12 @@
 package view;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -34,13 +36,13 @@ public class GameOverScreen extends BaseScreen {
     private boolean resourcesDisposed = false;
     
     // Textures for UI elements
-    Texture background;
-    Texture newGameButtonActive;
-    Texture newGameButtonInactive;
-    Texture exitButtonActive;
-    Texture exitButtonInactive;
-    Texture blankButtonActive;
-    Texture blankButtonInactive;
+    TextureRegion background;
+    TextureRegion newGameButtonActive;
+    TextureRegion newGameButtonInactive;
+    TextureRegion exitButtonActive;
+    TextureRegion exitButtonInactive;
+    TextureRegion blankButtonActive;
+    TextureRegion blankButtonInactive;
 
     // Music for the game over screen
     private Music backgroundMusic;
@@ -48,8 +50,9 @@ public class GameOverScreen extends BaseScreen {
     /**
      * Constructor to initialize the game over screen.
      * @param game The main game object that controls the screens.
+     * @param atlas 
      */
-    public GameOverScreen(TheBlancsGame game) {
+    public GameOverScreen(TheBlancsGame game, TextureAtlas atlas) {
         // Call the superclass constructor with the game and a new FitViewport
         super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         // Set the game object
@@ -68,13 +71,13 @@ public class GameOverScreen extends BaseScreen {
         this.buttonFont.getData().setScale(1);
 
         // Load textures
-        background = new Texture("pictures/background.png");
-        newGameButtonActive = new Texture("pictures/start-1.png");
-        newGameButtonInactive = new Texture("pictures/start-2.png");
-        exitButtonActive = new Texture("pictures/exit-1.png");
-        exitButtonInactive = new Texture("pictures/exit-2.png");
-        blankButtonActive = new Texture("pictures/blank-1.png");
-        blankButtonInactive = new Texture("pictures/blank-2.png");
+        background = atlas.findRegion("background");
+        newGameButtonActive = atlas.findRegion("start-1");
+        newGameButtonInactive = atlas.findRegion("start-2");
+        exitButtonActive = atlas.findRegion("exit-1");
+        exitButtonInactive = atlas.findRegion("exit-2");
+        blankButtonActive = atlas.findRegion("blank-1");
+        blankButtonInactive = atlas.findRegion("blank-2");
 
         // Load background music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/GameOverMusic.ogg"));
@@ -142,8 +145,8 @@ public class GameOverScreen extends BaseScreen {
         int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button
 
         // Draws the hover effect for the buttons based on the mouse position
-        Texture currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? blankButtonActive : blankButtonInactive;
-        Texture currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        TextureRegion currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? blankButtonActive : blankButtonInactive;
+        TextureRegion currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
         game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
 
@@ -230,11 +233,6 @@ public class GameOverScreen extends BaseScreen {
     public void disposeResourcesForExit() {
         if (!resourcesDisposed) {
             font.dispose();
-            background.dispose();
-            newGameButtonActive.dispose();
-            newGameButtonInactive.dispose();
-            exitButtonActive.dispose();
-            exitButtonInactive.dispose();
             backgroundMusic.dispose();
             resourcesDisposed = true;
         }

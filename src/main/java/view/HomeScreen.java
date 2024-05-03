@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -38,20 +39,21 @@ public class HomeScreen extends BaseScreen {
     private Music backgroundMusic;
     
     // Textures for UI elements
-    Texture playButtonActive;
-    Texture playButtonInactive;
-    Texture exitButtonActive;
-    Texture exitButtonInactive;
-    Texture helpButtonActive;
-    Texture helpButtonInactive;
-    Texture background;
+    TextureRegion playButtonActive;
+    TextureRegion playButtonInactive;
+    TextureRegion exitButtonActive;
+    TextureRegion exitButtonInactive;
+    TextureRegion helpButtonActive;
+    TextureRegion helpButtonInactive;
+    TextureRegion background;
     
     /**
      * Constructs the HomeScreen with the main game context.
      * 
      * @param game The main game object, used to manage transitions and other screens.
+     * @param atlas 
      */
-    public HomeScreen(TheBlancsGame game) {
+    public HomeScreen(TheBlancsGame game, TextureAtlas atlas) {
         // Call the superclass constructor with the game and a new FitViewport
         super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         // Set the game object
@@ -62,23 +64,24 @@ public class HomeScreen extends BaseScreen {
         stage = new Stage(viewport);
         // Set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
-        initTextures();
+        initTextures(atlas);
         initTextField();
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/ville_seppanen-1_g.mp3"));
         backgroundMusic.setLooping(true);
     }
-    
-    /**
+
+	/**
      * Initializes textures for UI elements such as buttons and background.
+     * @param atlas 
      */
-    private void initTextures() {
-        playButtonActive = new Texture("pictures/start-1.png");
-        playButtonInactive = new Texture("pictures/start-2.png");
-        exitButtonActive = new Texture("pictures/exit-1.png");
-        exitButtonInactive = new Texture("pictures/exit-2.png");
-        helpButtonActive = new Texture("pictures/help-1.png");
-        helpButtonInactive = new Texture("pictures/help-2.png");
-        background = new Texture("pictures/background.png");
+    private void initTextures(TextureAtlas atlas) {
+        playButtonActive = atlas.findRegion("start-1");
+        playButtonInactive = atlas.findRegion("start-2");
+        exitButtonActive = atlas.findRegion("exit-1");
+        exitButtonInactive = atlas.findRegion("exit-2");
+        helpButtonActive = atlas.findRegion("help-1");
+        helpButtonInactive = atlas.findRegion("help-2");
+        background = atlas.findRegion("background");
     }
 
     /**
@@ -125,9 +128,9 @@ public class HomeScreen extends BaseScreen {
         int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button
         int helpButtonY = exitButtonY - buttonHeight - buttonSpacing;  // position below the exit button
 
-        Texture currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? playButtonActive : playButtonInactive;
-        Texture currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
-        Texture currentHelpButton = isButtonHovered(centerX, helpButtonY, buttonWidth, buttonHeight) ? helpButtonActive : helpButtonInactive;
+        TextureRegion currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? playButtonActive : playButtonInactive;
+        TextureRegion currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        TextureRegion currentHelpButton = isButtonHovered(centerX, helpButtonY, buttonWidth, buttonHeight) ? helpButtonActive : helpButtonInactive;
         game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentHelpButton, centerX, helpButtonY, buttonWidth, buttonHeight);
@@ -252,11 +255,6 @@ public class HomeScreen extends BaseScreen {
      */
     @Override
     public void dispose() {
-        playButtonActive.dispose();
-        playButtonInactive.dispose();
-        exitButtonActive.dispose();
-        exitButtonInactive.dispose();
-        background.dispose();
         backgroundMusic.dispose();
     }
     

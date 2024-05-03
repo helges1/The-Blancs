@@ -3,8 +3,9 @@ package view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import model.GameModel;
@@ -26,9 +27,9 @@ public class HelpScreen extends BaseScreen {
     private BitmapFont font;
 
     // Textures for UI elements
-    private Texture background;
-    private Texture exitButtonActive;
-    private Texture exitButtonInactive;
+    private TextureRegion background;
+    private TextureRegion exitButtonActive;
+    private TextureRegion exitButtonInactive;
 
     // Music for the help screen
     private Music backgroundMusic;
@@ -37,8 +38,9 @@ public class HelpScreen extends BaseScreen {
      * Constructs a new HelpScreen object.
      * 
      * @param game The game controller which manages transitions between screens.
+     * @param atlas
      */
-    public HelpScreen(TheBlancsGame game) {
+    public HelpScreen(TheBlancsGame game, TextureAtlas atlas) {
         // Call the superclass constructor with the game and a new FitViewport
         super(game, new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         // Set the game object
@@ -49,9 +51,9 @@ public class HelpScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         // Create a new font for the help screen
         font = new BitmapFont();
-        background = new Texture("pictures/background.png");
-        exitButtonActive = new Texture("pictures/exit-1.png");
-        exitButtonInactive = new Texture("pictures/exit-2.png");
+        background = atlas.findRegion("background");
+        exitButtonActive = atlas.findRegion("exit-1");
+        exitButtonInactive = atlas.findRegion("exit-2");
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/ville_seppanen-1_g.mp3"));
         backgroundMusic.setLooping(true);
     }
@@ -67,7 +69,7 @@ public class HelpScreen extends BaseScreen {
         int baseY = (int) (WORLD_HEIGHT / 2 - buttonHeight / 2 + WORLD_HEIGHT * -0.10);
         int exitButtonY = (int) (baseY * 0.7);
 
-        Texture currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        TextureRegion currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
         if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
             exitButtonClicked();

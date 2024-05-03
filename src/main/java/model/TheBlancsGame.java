@@ -54,9 +54,9 @@ public class TheBlancsGame extends Game {
         
         // Screens
 		gameScreen = new GameScreen(gameModel, playerShipController, enemyShipController, batch, camera, viewport);
-		homeScreen = new HomeScreen(this);
-		gameOverScreen = new GameOverScreen(this);
-		helpScreen = new HelpScreen(this);
+		homeScreen = new HomeScreen(this, atlas);
+		gameOverScreen = new GameOverScreen(this, atlas);
+		helpScreen = new HelpScreen(this, atlas);
 		
 		
         updateScreen();

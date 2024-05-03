@@ -1,6 +1,7 @@
 package model;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -68,7 +69,8 @@ public class GameModel {
 
     // Textures
     private final TextureAtlas atlas;
-    private TextureRegion asteroidTexture;
+    private final TextureRegion asteroidTexture;
+    private final TextureRegion explosionTexture;
 
     // Sounds
     private final Sound laserSound;
@@ -89,6 +91,7 @@ public class GameModel {
 
         this.atlas = atlas;
         this.asteroidTexture = atlas.findRegion("asteroid1");
+        this.explosionTexture = atlas.findRegion("explosion");
         this.shipFactory = new BasicShipFactory(viewport, atlas);
         this.powerUpsFactory = new PowerUpsFactory(atlas);
 
@@ -211,7 +214,7 @@ public class GameModel {
             if (Asteroid.isOffScreen(WORLD_HEIGHT)) {
                 AsteroidIterator.remove(); // Remove off-screen Asteroids
             } else if (checkAsteroidCollision(Asteroid)) {
-                Explosion explosion = new Explosion(Asteroid.getBoundingRectangle(), 0.5f);
+                Explosion explosion = new Explosion(explosionTexture, Asteroid.getBoundingRectangle(), 0.5f);
                 explosions.add(explosion);
                 AsteroidIterator.remove(); // Remove the Asteroid if hit by a laser
             }
@@ -257,7 +260,7 @@ public class GameModel {
                 while (asteroidIterator.hasNext()) {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
-                        Explosion explosion = new Explosion(asteroid.getBoundingRectangle(), 0.5f);
+                        Explosion explosion = new Explosion(atlas.findRegion("explioion"), asteroid.getBoundingRectangle(), 0.5f);
                         explosions.add(explosion);
                         asteroidIterator.remove(); // Remove the asteroid if hit by a laser
                         enemyLaserIterator.remove(); // Remove the laser after hitting the asteroid
@@ -284,7 +287,7 @@ public class GameModel {
                     if (checkCollision(laser, enemyShip)) {
                         enemyShip.takeDamage(laser.getDamage());
                         if (enemyShip.isDestroyed()) {
-                            Explosion explosion = new Explosion(enemyShip.getBoundingRectangle(), 0.5f);
+                            Explosion explosion = new Explosion(explosionTexture, enemyShip.getBoundingRectangle(), 0.5f);
                             explosions.add(explosion);
                             enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
                             destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
@@ -299,7 +302,7 @@ public class GameModel {
                 while (asteroidIterator.hasNext()) {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
-                        Explosion explosion = new Explosion(asteroid.getBoundingRectangle(), 0.5f);
+                        Explosion explosion = new Explosion(explosionTexture, asteroid.getBoundingRectangle(), 0.5f);
                         explosions.add(explosion);
                         asteroidIterator.remove(); // Remove the asteroid if hit by a laser
                         laserIterator.remove(); // Remove the laser after hitting the asteroid
@@ -442,7 +445,7 @@ public class GameModel {
                 playerShip.takeDamage(5);
                 enemyShip.takeDamage(5);
                 if (enemyShip.isDestroyed()) {
-                    Explosion explosion = new Explosion(enemyShip.getBoundingRectangle(), 0.5f);
+                    Explosion explosion = new Explosion(explosionTexture, enemyShip.getBoundingRectangle(), 0.5f);
                     explosions.add(explosion);
                     iterator.remove();
                 }
@@ -632,6 +635,11 @@ public class GameModel {
     public TextureRegion getPowerUpTexture(PowerUpType type) {
         return atlas.findRegion(type.getTextureName());
     }
+    
+    public TextureRegion getAirBlastTexture() {
+    	return atlas.findRegion("air-blast");
+    }
+    
     /**
      * Method to reset the game state
      * Used when the player restarts the game
@@ -652,5 +660,13 @@ public class GameModel {
         playerShip.setPosition(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         playerShip.setHealth(100);
     }
+
+	public TextureRegion getBackgroundTexture() {
+		return atlas.findRegion("background");
+	}
+
+	public TextureRegion getShieldTexture() {
+		return atlas.findRegion("shield");
+	}
 
 }

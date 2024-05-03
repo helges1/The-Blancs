@@ -36,8 +36,8 @@ public class GameScreen implements Screen {
 	private GameModel gameModel;
 	private PlayerShipController playerShipController;
 	private EnemyShipController enemyShipController;
-	private Texture background;
-	private Texture shieldTexture;
+	private TextureRegion background;
+	private TextureRegion shieldTexture;
 	private FitViewport viewport; 
 	private OrthographicCamera camera; 
 	private TheBlancsGame game;
@@ -89,11 +89,11 @@ public class GameScreen implements Screen {
 		this.enemyShipController = enemyShipController;
 		
 		// Load the blast frames
-		createBlastFrames();
+		createBlastFrames(gameModel.getAirBlastTexture());
 		
 		// Load the background and shield textures
-		background = new Texture("pictures/background.png");
-		shieldTexture = new Texture("pictures/shield.png");
+		background = gameModel.getBackgroundTexture();
+		shieldTexture = gameModel.getShieldTexture();
 
 		// Load the background music
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/throughSpace.ogg"));
@@ -240,13 +240,13 @@ public class GameScreen implements Screen {
 
 		// Scroll the background downwards by decreasing the offset
 		backgroundOffset -= backgroundScrollSpeed * delta;
-		if (backgroundOffset <= -background.getHeight()) {
+		if (backgroundOffset <= -background.getRegionHeight()) {
 			backgroundOffset = 0;
 		}
 
 		// Draw the background twice to cover the entire screen and loop
-		float backgroundScale = viewport.getWorldWidth() / background.getWidth();
-		float backgroundScaledHeight = background.getHeight() * backgroundScale;
+		float backgroundScale = viewport.getWorldWidth() / background.getRegionWidth();
+		float backgroundScaledHeight = background.getRegionHeight() * backgroundScale;
 
 		float backgroundY = backgroundOffset * backgroundScale;
 		batch.draw(background, 0, backgroundY, viewport.getWorldWidth(), backgroundScaledHeight);
@@ -336,9 +336,9 @@ public class GameScreen implements Screen {
     /**
      * Creates frames for the blast animation from a texture sheet.
      */
-	private void createBlastFrames() {
+	private void createBlastFrames(TextureRegion blastTextureSheet) {
 		// Load the sprite sheet for the blast
-		Texture blastTextureSheet = new Texture("pictures/air-blast.png");
+//		Texture blastTextureSheet = new Texture("pictures/air-blast.png");
 
 		final int FRAME_SIZE = 200; // Size of one frame
 		final int FRAMES_PER_ROW = 5; // Number of frames per row
@@ -396,7 +396,7 @@ public class GameScreen implements Screen {
      */
 	@Override
 	public void dispose() {
-		background.dispose();
+//		background.dispose();
 		batch.dispose();
 		shapeRenderer.dispose();
 		backgroundMusic.dispose();
