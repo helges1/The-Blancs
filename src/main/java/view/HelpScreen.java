@@ -82,7 +82,12 @@ public class HelpScreen extends BaseScreen {
      */
     @Override
     protected void exitButtonClicked() {
-
+        // make sure that the buttons on home screen are not clicked immediately
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         game.setScreenType(ScreenType.HOME_SCREEN);
     }
     
