@@ -43,6 +43,14 @@ public class TheBlancsGameTest {
         assertEquals(screenType, theBlancsGame.getScreenType());
     }
 
+
+    @Test
+    public void testGetUserName() {
+        String userName = "TestUser";
+        theBlancsGame.setUserName(userName);
+        assertEquals(userName, theBlancsGame.getUserName());
+    }
+
     @Test
     public void testGetGameModel() {
         GameModel gameModel = theBlancsGame.getGameModel();
