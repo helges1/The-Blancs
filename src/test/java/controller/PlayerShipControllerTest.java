@@ -94,4 +94,79 @@ public class PlayerShipControllerTest {
         verify(model).firePlayerLaser();
     }
 
+    @Test
+    public void testNoRepeatedFireWithoutRelease() {
+        shipController.keyDown(Input.Keys.SPACE);
+        shipController.update(1.0f);
+        shipController.update(1.0f);
+        verify(model, times(1)).firePlayerLaser(); // Laser should only be fired once
+    }
+
+    @Test
+    public void testFireAgainAfterSpaceRelease() {
+        shipController.keyDown(Input.Keys.SPACE);
+        shipController.update(1.0f);
+        shipController.keyUp(Input.Keys.SPACE);
+        shipController.keyDown(Input.Keys.SPACE);
+        shipController.update(1.0f);
+        verify(model, times(2)).firePlayerLaser(); // Verify laser is fired twice after key is released and pressed again
+    }
+
+    @Test
+    public void testNoFireOnMouseReleaseWithoutPress() {
+        shipController.touchUp(100, 150, 0, Input.Buttons.LEFT);
+        shipController.update(1.0f);
+        verify(model, never()).firePlayerLaser();
+    }
+
+    @Test
+    public void testFireOnceOnMousePressedAndReleased() {
+        shipController.touchDown(100, 150, 0, Input.Buttons.LEFT);
+        shipController.update(1.0f);
+        shipController.touchUp(100, 150, 0, Input.Buttons.LEFT);
+        shipController.update(1.0f);
+        verify(model).firePlayerLaser(); // Verify laser is fired once
+    }
+
+    @Test
+    public void testStopMovingOnKeyUpReleased() {
+        shipController.keyDown(Input.Keys.UP);
+        shipController.keyUp(Input.Keys.UP);
+        shipController.keyDown(Input.Keys.W);
+        shipController.keyUp(Input.Keys.W);
+        shipController.update(1.0f);
+        verify(ship, never()).moveShip(any(Vector2.class));
+    }
+
+    @Test
+    public void testStopMovingOnKeyDownReleased() {
+        shipController.keyDown(Input.Keys.DOWN);
+        shipController.keyUp(Input.Keys.DOWN);
+        shipController.keyDown(Input.Keys.S);
+        shipController.keyUp(Input.Keys.S);
+        shipController.update(1.0f);
+        verify(ship, never()).moveShip(any(Vector2.class));
+    }
+
+    @Test
+    public void testStopMovingOnKeyLeftReleased() {
+        shipController.keyDown(Input.Keys.LEFT);
+        shipController.keyUp(Input.Keys.LEFT);
+        shipController.keyDown(Input.Keys.A);
+        shipController.keyUp(Input.Keys.A);
+        shipController.update(1.0f);
+        verify(ship, never()).moveShip(any(Vector2.class));
+    }
+
+    @Test
+    public void testStopMovingOnKeyRightReleased() {
+        shipController.keyDown(Input.Keys.RIGHT);
+        shipController.keyUp(Input.Keys.RIGHT);
+        shipController.keyDown(Input.Keys.D);
+        shipController.keyUp(Input.Keys.D);
+        shipController.update(1.0f);
+        verify(ship, never()).moveShip(any(Vector2.class));
+    }
+    
+
 }

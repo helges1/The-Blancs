@@ -82,7 +82,7 @@ public class HelpScreen extends BaseScreen {
      */
     @Override
     protected void exitButtonClicked() {
- 
+
         game.setScreenType(ScreenType.HOME_SCREEN);
     }
     
