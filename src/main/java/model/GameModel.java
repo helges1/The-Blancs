@@ -214,8 +214,7 @@ public class GameModel {
             if (Asteroid.isOffScreen(WORLD_HEIGHT)) {
                 AsteroidIterator.remove(); // Remove off-screen Asteroids
             } else if (checkAsteroidCollision(Asteroid)) {
-                Explosion explosion = new Explosion(explosionTexture, Asteroid.getBoundingRectangle(), 0.5f);
-                explosions.add(explosion);
+                asteroidExplosion(Asteroid);
                 AsteroidIterator.remove(); // Remove the Asteroid if hit by a laser
             }
         }
@@ -260,8 +259,7 @@ public class GameModel {
                 while (asteroidIterator.hasNext()) {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
-                        Explosion explosion = new Explosion(explosionTexture, asteroid.getBoundingRectangle(), 0.5f);
-                        explosions.add(explosion);
+                        asteroidExplosion(asteroid);
                         asteroidIterator.remove(); // Remove the asteroid if hit by a laser
                         enemyLaserIterator.remove(); // Remove the laser after hitting the asteroid
                         break; // Break to avoid ConcurrentModificationException
@@ -287,8 +285,7 @@ public class GameModel {
                     if (checkCollision(laser, enemyShip)) {
                         enemyShip.takeDamage(laser.getDamage());
                         if (enemyShip.isDestroyed()) {
-                            Explosion explosion = new Explosion(explosionTexture, enemyShip.getBoundingRectangle(), 0.5f);
-                            explosions.add(explosion);
+                            enemyShipExplosion(enemyShip);
                             enemyShipIterator.remove(); // Remove the enemy ship if hit by a laser
                             destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
                         }
@@ -302,8 +299,7 @@ public class GameModel {
                 while (asteroidIterator.hasNext()) {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
-                        Explosion explosion = new Explosion(explosionTexture, asteroid.getBoundingRectangle(), 0.5f);
-                        explosions.add(explosion);
+                        asteroidExplosion(asteroid);
                         asteroidIterator.remove(); // Remove the asteroid if hit by a laser
                         laserIterator.remove(); // Remove the laser after hitting the asteroid
                         break; // Break to avoid ConcurrentModificationException
@@ -445,8 +441,7 @@ public class GameModel {
                 playerShip.takeDamage(5);
                 enemyShip.takeDamage(5);
                 if (enemyShip.isDestroyed()) {
-                    Explosion explosion = new Explosion(explosionTexture, enemyShip.getBoundingRectangle(), 0.5f);
-                    explosions.add(explosion);
+                    enemyShipExplosion(enemyShip);
                     iterator.remove();
                 }
                 if (playerShip.isDestroyed()) {
@@ -638,6 +633,26 @@ public class GameModel {
     
     public TextureRegion getAirBlastTexture() {
     	return atlas.findRegion("air-blast");
+    }
+
+    /**
+     * Method to handle the explosion of an enemy ship
+     *
+     * @param enemyShip The enemy ship that exploded
+     */
+    public void enemyShipExplosion(Ship enemyShip) {
+        Explosion explosion = new Explosion(explosionTexture, enemyShip.getBoundingRectangle(), 0.5f);
+        explosions.add(explosion);
+    }
+
+    /**
+     * Method to handle the explosion of an asteroid
+     *
+     * @param asteroid The asteroid that exploded
+     */
+    public void asteroidExplosion(Asteroid asteroid) {
+        Explosion explosion = new Explosion(explosionTexture, asteroid.getBoundingRectangle(), 0.5f);
+        explosions.add(explosion);
     }
     
     /**
