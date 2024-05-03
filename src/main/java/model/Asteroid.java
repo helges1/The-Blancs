@@ -12,26 +12,6 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Asteroid extends Sprite {
 
-    private static TextureFactory textureFactory = new LibGDXTextureFactory();
-
-    public static void setTextureFactory(TextureFactory factory) {
-        textureFactory = factory;
-    }
-
-    public enum AsteroidType {
-        Asteroid1("src/main/resources/pictures/asteroid1.png");
-
-        private final Texture AsteroidTexture;
-
-        AsteroidType(String texturePath) {
-            this.AsteroidTexture = textureFactory.create(texturePath);
-        }
-
-        public Texture getAsteroidTexture() {
-            return AsteroidTexture;
-        }
-    }
-
     private Animation<TextureRegion> asteroidAnimation;
     private float animationTimer;
     private final float frameDuration = 0.3f;  // Duration each frame is shown
@@ -122,20 +102,4 @@ public class Asteroid extends Sprite {
         return this.getY() + this.getHeight() < 0;
     }
 
-    /**
-     * A texture factory interface and a factory class for creating textures.
-     */
-    public interface TextureFactory {
-        Texture create(String path);
-    }
-
-    /**
-     * A factory class for creating textures using LibGDX.
-     */
-    public static class LibGDXTextureFactory implements TextureFactory {
-        @Override
-        public Texture create(String path) {
-            return new Texture(path);
-        }
-    }
 }
