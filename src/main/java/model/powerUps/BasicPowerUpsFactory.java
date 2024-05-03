@@ -31,6 +31,11 @@ public class BasicPowerUpsFactory implements PowerUpsFactory {
         return new PowerUps(powerUpTexture, xPos, yPos, powerUpType, powerUpDuration);
     }
 
+    @Override
+    public PowerUpType getRandomPowerUpType() {
+        return PowerUpType.getRandomPowerUpType();
+    }
+
     
     
 }

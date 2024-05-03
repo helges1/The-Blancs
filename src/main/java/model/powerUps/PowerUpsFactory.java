@@ -13,4 +13,12 @@ public interface PowerUpsFactory {
 	 */
 	PowerUps createPowerUp(float powerUpDuration);
 
+	/**
+	 * Get a random PowerUpType.
+	 * 
+	 * @return a random <code>PowerUpType</code>.
+	 */
+	PowerUps.PowerUpType getRandomPowerUpType();
+	
+
 }
