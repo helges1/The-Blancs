@@ -21,13 +21,18 @@ public abstract class Ship extends Sprite {
 
     private float health;
 
-    // Powerups
+    // PowerUps
     private PowerUpType activePowerUp;
 
     // Laser
-    Cannon cannon;
+    private TextureRegion laserTexture;
+    private float laserSpeed;
+	private float laserDamage;
+	private float laserWidth;
+	private float laserHeight;
     private float fireRate;
     float timeSinceLaserFired;
+    Cannon cannon;
 
     private Viewport viewport; // Reference to the viewport
     
@@ -100,7 +105,20 @@ public abstract class Ship extends Sprite {
         setOriginCenter();
     }
     
-    public void update(float deltaTime) {
+    Ship(TextureRegion shipTexture, TextureRegion laserTexture, float x, float y, float width,
+			float height, float speed, float health, float fireRate,
+			float laserSpeed, float laserDamage, float laserWidth, float laserHeight,
+			FitViewport viewport) {
+    	
+		this(shipTexture, x, y, width, height, speed, health, fireRate, viewport);
+		this.laserTexture = laserTexture;
+		this.laserSpeed = laserSpeed;
+		this.laserDamage = laserDamage;
+		this.laserWidth = laserWidth;
+		this.laserHeight = laserHeight;
+	}
+
+	public void update(float deltaTime) {
         this.timeSinceLaserFired += deltaTime;
 
         // PowerUp timer
@@ -234,7 +252,10 @@ public abstract class Ship extends Sprite {
     public boolean fireLaser(List<Laser> lasers) {
     	if (timeSinceLaserFired >= fireRate) {
     		timeSinceLaserFired = 0;
-	    	Laser[] firedLasers = cannon.fireCannon();
+    		Vector2 position = getNosePositionOfShip();
+    		float angle = getRotation();
+	    	Laser[] firedLasers = cannon.fireCannon(laserTexture, position, laserSpeed,
+	    			laserDamage, angle, laserWidth, laserHeight);
 	    	if (firedLasers != null) {
 		    	lasers.addAll(Arrays.asList(firedLasers));
 		    	return true;

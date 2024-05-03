@@ -1,18 +1,16 @@
 package model.ships;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import model.lasers.Laser;
+import model.lasers.Cannons;
 
+/**
+ * A Slightly stronger type of enemy ship.
+ * It has 20 hp, and does 20 damage.
+ * Extends <code>Ship</code>.
+ */
 public class StrongerEnemyShip extends Ship {
-	
-	public static final Random random = new Random();
-
-    public final TextureRegion strongerEnemyLaserTexture;
 
     private static final float strongerEnemyHealth = 20;
     private static final float strongerEnemySpeed = 50;
@@ -27,35 +25,25 @@ public class StrongerEnemyShip extends Ship {
     private static final float strongerEnemyFireRate = 1;
 
 
-	public StrongerEnemyShip(TextureRegion strongerEnemyShipTexture, TextureRegion strongerEnemyLaserTexture,
+	StrongerEnemyShip(TextureRegion strongerEnemyShipTexture, TextureRegion strongerEnemyLaserTexture,
 			float x, float y, FitViewport viewport) {
 		
-		super(strongerEnemyShipTexture, x, y, strongerEnemyWidth, strongerEnemyHeight,
-				strongerEnemySpeed, strongerEnemyHealth, strongerEnemyFireRate, viewport);
+		super(strongerEnemyShipTexture, strongerEnemyLaserTexture, x, y, strongerEnemyWidth, strongerEnemyHeight,
+				strongerEnemySpeed, strongerEnemyHealth, strongerEnemyFireRate, strongerEnemyLaserSpeed,
+				strongerEnemyLaserDamage, strongerEnemyLaserWidth, strongerEnemyLaserHeight, viewport);
 		
-		this.strongerEnemyLaserTexture = strongerEnemyLaserTexture;
 		resetCannon();
 	}
 	
 
 	@Override
 	void resetCannon() {
-		this.cannon = () -> {
-			if (random.nextInt(2) >= 0) {
-				Vector2 position = getNosePositionOfShip();
-	            float angle = getRotation();
-	            Laser laser = new Laser(strongerEnemyLaserTexture, position, strongerEnemyLaserSpeed,
-	            		angle, strongerEnemyLaserWidth, strongerEnemyLaserHeight, strongerEnemyLaserDamage);
-	            laser.centreAtPoint(position);
-	            return new Laser[]{laser};
-			}
-			return null;
-		};
+		this.cannon = Cannons::basicEnemyCannon;
 	}
 
 	@Override
 	void upgradeCannon() {
-		// TODO Auto-generated method stub
+		// Pass: No upgrade capabilities
 	}
 
 }

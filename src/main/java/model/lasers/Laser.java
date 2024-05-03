@@ -11,7 +11,7 @@ public class Laser extends Sprite {
     
     private float damage;
 
-    public Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
+    Laser(TextureRegion texture, Vector2 position, float speed, float angle) {
         super(texture);
         setPosition(position.x, position.y);
         setRotation(angle);
@@ -34,7 +34,7 @@ public class Laser extends Sprite {
      * @param width a <code>float</code> representing the width of the laser.
      * @param height a <code>float</code> representing the height of the laser.
      */
-    public Laser(TextureRegion texture, Vector2 position, float speed, float angle,
+    Laser(TextureRegion texture, Vector2 position, float speed, float angle,
     		float width, float height) {
         super(texture);
         setSize(width, height);
@@ -47,7 +47,7 @@ public class Laser extends Sprite {
         velocity = new Vector2((float) Math.cos(radians) * speed, (float) Math.sin(radians) * speed);
     }
     
-    public Laser(TextureRegion texture, Vector2 position, float speed, float angle,
+    Laser(TextureRegion texture, Vector2 position, float speed, float angle,
     		float width, float height, float damage) {
         super(texture);
         setSize(width, height);
