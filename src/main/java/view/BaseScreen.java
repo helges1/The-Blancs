@@ -32,9 +32,10 @@ public abstract class BaseScreen implements Screen {
      * @param y The y-coordinate of the button.
      * @param width The width of the button.
      * @param height The height of the button.
+     * @param stage The stage to check for input.
      * @return True if the button is hovered, false otherwise.
      */
-    protected boolean isButtonHovered(int x, int y, int width, int height) {
+    protected boolean isButtonHovered(Stage stage, int x, int y, int width, int height) {
         Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         stage.getViewport().unproject(touchPos); // Converts the screen touch to game world coordinates
         return touchPos.x >= x && touchPos.x <= x + width && touchPos.y >= y && touchPos.y <= y + height;
@@ -47,10 +48,11 @@ public abstract class BaseScreen implements Screen {
      * @param y The y-coordinate of the button.
      * @param width The width of the button.
      * @param height The height of the button.
+     * @param stage The stage to check for input.
      * @return True if the button is pressed, false otherwise.
      */
-    protected boolean isButtonPressed(int x, int y, int width, int height) {
-        return Gdx.input.isTouched() && isButtonHovered(x, y, width, height);
+    protected boolean isButtonPressed(Stage stage,int x, int y, int width, int height) {
+        return Gdx.input.isTouched() && isButtonHovered(stage, x, y, width, height);
     }
 
     /**

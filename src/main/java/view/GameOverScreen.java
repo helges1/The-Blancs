@@ -145,8 +145,8 @@ public class GameOverScreen extends BaseScreen {
         int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button
 
         // Draws the hover effect for the buttons based on the mouse position
-        TextureRegion currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? blankButtonActive : blankButtonInactive;
-        TextureRegion currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        TextureRegion currentPlayButton = isButtonHovered(this.stage, centerX, playButtonY, buttonWidth, buttonHeight) ? blankButtonActive : blankButtonInactive;
+        TextureRegion currentExitButton = isButtonHovered(this.stage, centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
         game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
 
@@ -157,10 +157,10 @@ public class GameOverScreen extends BaseScreen {
         buttonFont.draw(game.batch, "Play Again", textX, textY);
 
 
-        if (isButtonPressed(centerX, playButtonY, buttonWidth, buttonHeight)) {
+        if (isButtonPressed(this.stage, centerX, playButtonY, buttonWidth, buttonHeight)) {
             playButtonClicked();
         }
-        if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
+        if (isButtonPressed(this.stage, centerX, exitButtonY, buttonWidth, buttonHeight)) {
             exitButtonClicked();
         }
     }

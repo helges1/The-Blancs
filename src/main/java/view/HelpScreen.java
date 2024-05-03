@@ -69,9 +69,9 @@ public class HelpScreen extends BaseScreen {
         int baseY = (int) (WORLD_HEIGHT / 2 - buttonHeight / 2 + WORLD_HEIGHT * -0.10);
         int exitButtonY = (int) (baseY * 0.7);
 
-        TextureRegion currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        TextureRegion currentExitButton = isButtonHovered(this.stage, centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
-        if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
+        if (isButtonPressed(this.stage, centerX, exitButtonY, buttonWidth, buttonHeight)) {
             exitButtonClicked();
         }
     }
@@ -84,7 +84,7 @@ public class HelpScreen extends BaseScreen {
     protected void exitButtonClicked() {
         game.setScreenType(ScreenType.HOME_SCREEN);
     }
-
+    
 
     /**
      * Called when this screen becomes the current screen.

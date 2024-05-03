@@ -128,20 +128,20 @@ public class HomeScreen extends BaseScreen {
         int exitButtonY = playButtonY - buttonHeight - buttonSpacing;  // position below the play button
         int helpButtonY = exitButtonY - buttonHeight - buttonSpacing;  // position below the exit button
 
-        TextureRegion currentPlayButton = isButtonHovered(centerX, playButtonY, buttonWidth, buttonHeight) ? playButtonActive : playButtonInactive;
-        TextureRegion currentExitButton = isButtonHovered(centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
-        TextureRegion currentHelpButton = isButtonHovered(centerX, helpButtonY, buttonWidth, buttonHeight) ? helpButtonActive : helpButtonInactive;
+        TextureRegion currentPlayButton = isButtonHovered(this.stage, centerX, playButtonY, buttonWidth, buttonHeight) ? playButtonActive : playButtonInactive;
+        TextureRegion currentExitButton = isButtonHovered(this.stage, centerX, exitButtonY, buttonWidth, buttonHeight) ? exitButtonActive : exitButtonInactive;
+        TextureRegion currentHelpButton = isButtonHovered(this.stage, centerX, helpButtonY, buttonWidth, buttonHeight) ? helpButtonActive : helpButtonInactive;
         game.batch.draw(currentPlayButton, centerX, playButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentExitButton, centerX, exitButtonY, buttonWidth, buttonHeight);
         game.batch.draw(currentHelpButton, centerX, helpButtonY, buttonWidth, buttonHeight);
 
-        if (isButtonPressed(centerX, playButtonY, buttonWidth, buttonHeight)) {
+        if (isButtonPressed(this.stage, centerX, playButtonY, buttonWidth, buttonHeight)) {
             playButtonClicked();
         }
-        if (isButtonPressed(centerX, exitButtonY, buttonWidth, buttonHeight)) {
+        if (isButtonPressed(this.stage, centerX, exitButtonY, buttonWidth, buttonHeight)) {
             exitButtonClicked();
         }
-        if (isButtonPressed(centerX, helpButtonY, buttonWidth, buttonHeight)) {
+        if (isButtonPressed(this.stage, centerX, helpButtonY, buttonWidth, buttonHeight)) {
             helpButtonClicked();
         }
     }
@@ -190,7 +190,7 @@ public class HomeScreen extends BaseScreen {
         });
     }
 
-
+    
     /**
      * Handles the logic when the play button is clicked, transitioning to the main game screen.
      */
