@@ -171,20 +171,20 @@ public class ScoreManager {
     /*
      * Reset the high score to 0
      */
-    public static void resetHighScore() {
-        // Obtain the Preferences instance for your high score file
-        Preferences prefs = Gdx.app.getPreferences(PREFS_NAME);
-    
-        // Clear all data from the preferences
-        prefs.clear();
-    
-        // Immediately write the changes to storage
-        prefs.flush();
-    
-        // Optionally, reset local static variables to their default states
-        highScore = 0;
-        highScoreUser = "";
-    }
+//    public static void resetHighScore() {
+//        // Obtain the Preferences instance for your high score file
+//        Preferences prefs = Gdx.app.getPreferences(PREFS_NAME);
+//
+//        // Clear all data from the preferences
+//        prefs.clear();
+//
+//        // Immediately write the changes to storage
+//        prefs.flush();
+//
+//        // Optionally, reset local static variables to their default states
+//        highScore = 0;
+//        highScoreUser = "";
+//    }
     
 
 
