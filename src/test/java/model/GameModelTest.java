@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import model.lasers.Laser;
 import model.ships.Ship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -155,7 +156,33 @@ public class GameModelTest {
         assertEquals(0, model.getScore(), "Score should be reset to 0 after game reset.");
     }
 
+    @Test
+    public void testLevelUp() {
+        int initialLevel = model.getCurrentLevel().getLevelNumber();
+        // switch after 300 points
+        model.destroyedEnemyShipsCount = 30;
+        model.updateModel(1);
+        assertEquals(initialLevel + 1, model.getCurrentLevel().getLevelNumber(), "Level should increase by 1.");
+    }
 
+    @Test
+    public void testPlayerShipHit() {
+        Ship playerShip = model.getPlayerShip();
+        playerShip.setHealth(10);
+        model.getPlayerLasers().add(mock(Laser.class));
+        when(model.getPlayerLasers().get(0).getBoundingRectangle()).thenReturn(new Rectangle(0, 0, 10, 10));
+        model.updateModel(1);
+        assertEquals(10, playerShip.getHealth(), "Player ship should lose 5 health points after being hit.");
+    }
+
+    @Test
+    public void testUpdateModel() {
+        model.updateModel(1);
+        verify(laserSound, times(0)).play(); // No lasers fired yet
+        model.firePlayerLaser();
+        model.updateModel(1);
+        verify(laserSound, times(1)).play(); // Player laser fired
+    }
    
     @AfterEach
     public void tearDown() {

@@ -101,4 +101,24 @@ public enum GameLevel {
                 return LEVEL_1;
         }
     }
+
+    /**
+     * Gets the level number. used for testing purposes.
+     *
+     * @return The level number.
+     */
+    public int getLevelNumber() {
+        switch (this) {
+            case LEVEL_1:
+                return 1;
+            case LEVEL_2:
+                return 2;
+            case LEVEL_3:
+                return 3;
+            case LEVEL_4:
+                return 4;
+            default:
+                return 1;
+        }
+    }
 }
