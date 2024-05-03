@@ -82,12 +82,7 @@ public class HelpScreen extends BaseScreen {
      */
     @Override
     protected void exitButtonClicked() {
-        // wait 100ms before transitioning to prevent accidental double clicks (easy fix)
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+ 
         game.setScreenType(ScreenType.HOME_SCREEN);
     }
     
