@@ -1,5 +1,6 @@
 package model;
 
+import controller.PlayerShipController;
 import view.ScreenType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,4 +57,11 @@ public class TheBlancsGameTest {
         GameModel gameModel = theBlancsGame.getGameModel();
         assertEquals(gameModel, theBlancsGame.getGameModel());
     }
+
+    @Test
+    public void testGetPlayerController() {
+        PlayerShipController playerShipController = theBlancsGame.getPlayerController();
+        assertEquals(playerShipController, theBlancsGame.getPlayerController());
+    }
+    
 }
