@@ -1,5 +1,5 @@
 # Rapport – innlevering 4
-**Team:** *The Blancs (Gruppe 2)* – *Medlemer: Michal, Lasse, Sebastian, Balder og Stian*
+**Team:** *The Blancs (Gruppe 8)* – *Medlemer: Michal, Lasse, Sebastian, Balder og Stian*
 
 # Prosjektrapport
 - Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?
@@ -45,7 +45,7 @@ Fram mot denne siste innleveringen har vi prioritert å få dekket alle kravene 
 # Produkt og kode 
 - Som nevnt tidligere har vi fikset ulike bugs i spillet, laget fabrikker/abstract factory og implementert flere tester til spillet. 
 - Hvordan programmet kjøres er beskrevet i README.md.
-- Prosjektet er nå testet og fungerer på Linux, Windows og OS X. 
+- Prosjektet er nå testet og fungerer på Linux(Ubuntu), Windows og MacOS. 
 - UML diagrammet vårt ligger i mappen doc/UML.
 
 
