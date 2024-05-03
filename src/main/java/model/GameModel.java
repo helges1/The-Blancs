@@ -675,4 +675,5 @@ public class GameModel {
 		return atlas.findRegion("shield");
 	}
 
+
 }

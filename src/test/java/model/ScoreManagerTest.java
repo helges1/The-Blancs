@@ -19,7 +19,7 @@ public class ScoreManagerTest {
     void testLoadHighScore() {
         // Manually load the high score at the start of the game and verify that it is displayed correctly.
         // Start the game.
-        // Verify that the high score and user name displayed match the previously saved high score and user name.
+        // Verify that the high score and username displayed match the previously saved high score and user name.
     }
 
     @Test
