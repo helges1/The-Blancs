@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-import model.Asteroid;
 import model.GameModel;
 import model.powerUps.PowerUps.PowerUpType;
 import model.ships.Ship;
@@ -14,7 +13,6 @@ import model.ships.Ship;
  */
 public class EnemyShipController {
     private LinkedList<Ship> enemyShips;
-    private LinkedList<Asteroid> asteroids;
     private Ship playerShip;
     private float timeSinceLastShot = 0;
     private GameModel gameModel;
@@ -26,7 +24,6 @@ public class EnemyShipController {
     public EnemyShipController(GameModel gameModel) {
         this.enemyShips = gameModel.getEnemyShips();
         this.playerShip = gameModel.getPlayerShip();
-        this.asteroids = gameModel.getAsteroids();
         this.gameModel = gameModel;
     }
 
