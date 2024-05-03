@@ -453,7 +453,7 @@ public class GameModel {
      * Resets the number of destroyed enemy ships. 
      * Used to update the score without counting the same ship multiple times
      */
-    public void resetDestroyedEnemyShipsCount() {
+    private void resetDestroyedEnemyShipsCount() {
         destroyedEnemyShipsCount = 0;
     }
 
@@ -473,7 +473,7 @@ public class GameModel {
      * 
      * @return True if a collision is detected, false otherwise
      */
-    public boolean checkCollision(Laser laser, Ship ship) {
+    private boolean checkCollision(Laser laser, Ship ship) {
         return laser.getBoundingRectangle().overlaps(ship.getBoundingRectangle());
     }
 
@@ -484,7 +484,7 @@ public class GameModel {
      * 
      * @return True if a collision is detected, false otherwise
      */
-    public boolean checkCollision(Laser laser, Asteroid Asteroid) {
+    private boolean checkCollision(Laser laser, Asteroid Asteroid) {
         // Calculate the center position of the asteroid
         float AsteroidCenterX = Asteroid.getX() + Asteroid.getWidth() / 2;
         float AsteroidCenterY = Asteroid.getY() + Asteroid.getHeight() / 2;
@@ -629,7 +629,7 @@ public class GameModel {
      *
      * @param enemyShip The enemy ship that exploded
      */
-    public void enemyShipExplosion(Ship enemyShip) {
+    void enemyShipExplosion(Ship enemyShip) {
         Explosion explosion = new Explosion(explosionTexture, enemyShip.getBoundingRectangle(), 0.5f);
         explosions.add(explosion);
         enemyShips.remove(enemyShip);
@@ -640,7 +640,7 @@ public class GameModel {
      *
      * @param asteroid The asteroid that exploded
      */
-    public void asteroidExplosion(Asteroid asteroid) {
+    void asteroidExplosion(Asteroid asteroid) {
         Explosion explosion = new Explosion(explosionTexture, asteroid.getBoundingRectangle(), 0.5f);
         explosions.add(explosion);
         asteroids.remove(asteroid);
