@@ -85,4 +85,13 @@ public class PlayerShipControllerTest {
         shipController.update(1.0f);
         verify(ship).rotateShip(new Vector2(100, 150));
     }
+
+    @Test
+    public void testFireLaserOnSpacePressed() {
+        // Verify that the ship fires a laser when the space key is pressed
+        shipController.keyDown(Input.Keys.SPACE);
+        shipController.update(1.0f);
+        verify(model).firePlayerLaser();
+    }
+
 }
