@@ -58,3 +58,6 @@ https://opengameart.org/content/animated-circular-air-blast-effect - Arthor: Jul
 `src/main/resources/music/throughSpace.ogg`  https://opengameart.org/content/through-space - Author: maxstack (CC-BY-3.0) 
 
 `src/main/resources/music/ville_seppanen-1_g.mp3`  https://opengameart.org/content/space-ambient - Author - Osmic (CC-BY-3.0) 
+
+
+`src/main/resources/pictures/TheBlancsAtlas.png` Background picture https://opengameart.org/content/starfield-alpha-4k - Arthor: darklighter_designs 2017 (CC-BY-3.0) 
