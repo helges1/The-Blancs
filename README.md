@@ -25,8 +25,6 @@ Testene finner du i 'src/test/java' og der kan du kjøre testene til spillet vå
 
 
 ## Kjente feil
-- GameOverScreen fungerer ikke skikkelig enda 
-- Et par tester som feiler grunnet endring i kode
 
 ## Credits
 `src/main/resources/pictures/TheBlancsTextureAtlas.png(enemyLaser)`  
