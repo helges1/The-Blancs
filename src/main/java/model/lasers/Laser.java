@@ -140,7 +140,8 @@ public class Laser extends Sprite {
 			return false;
 		Laser other = (Laser) obj;
 		return Float.floatToIntBits(damage) == Float.floatToIntBits(other.damage)
-				&& Objects.equals(velocity, other.velocity);
+				&& Objects.equals(velocity, other.velocity)
+				&& Objects.equals(getX(), other.getX()) && Objects.equals(getY(), other.getY());
 	}
 	
 	
