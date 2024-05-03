@@ -260,7 +260,7 @@ public class GameModel {
                 while (asteroidIterator.hasNext()) {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
-                        Explosion explosion = new Explosion(atlas.findRegion("explioion"), asteroid.getBoundingRectangle(), 0.5f);
+                        Explosion explosion = new Explosion(explosionTexture, asteroid.getBoundingRectangle(), 0.5f);
                         explosions.add(explosion);
                         asteroidIterator.remove(); // Remove the asteroid if hit by a laser
                         enemyLaserIterator.remove(); // Remove the laser after hitting the asteroid
