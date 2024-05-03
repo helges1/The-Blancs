@@ -18,7 +18,7 @@
 - Last ned spillet gjennom en zip fil eller at du cloner den med din egen ssh key. 
  
 - For å kjøre spillet gjennon en IDE som VSC eller eclipse trenger du å klone fra git. 
-Derette må du navigere deg til 'src/main/java/main/main.java' for å kjøre programmet.
+Derette må du navigere deg til 'src/main/java/main/Main.java' for å kjøre programmet.
 
 - Tester kan kjøres i test mappen vår, og er satt opp med lik struktur som kodemappene våre. 
 Testene finner du i 'src/test/java' og der kan du kjøre testene til spillet vårt. 
