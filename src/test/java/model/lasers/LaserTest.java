@@ -2,6 +2,7 @@ package model.lasers;
 import com.badlogic.gdx.graphics.Texture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -99,8 +100,29 @@ public class LaserTest {
 
             assertEquals(expectedX, laser.getX(), 0.01, "X position should be correct for angle " + angle);
             assertEquals(expectedY, laser.getY(), 0.01, "Y position should be correct for angle " + angle);
+        }
     }
-}
+    
+    @Test
+    public void testHashCodeAndEquals() {
+    	MockitoAnnotations.openMocks(this);
+        when(texture.getWidth()).thenReturn(100);
+        when(texture.getHeight()).thenReturn(100);
+
+        // Create a real TextureRegion backed by a mocked Texture
+        TextureRegion textureRegion = new TextureRegion(texture);
+
+        Vector2 position = new Vector2(100, 100);
+        float speed = 200;
+        float angle = 90;  
+
+        // Initialize the laser with a texture, position, speed, and angle
+        Laser otherLaser = new Laser(textureRegion, position, speed, angle);
+        assertEquals(laser, otherLaser);
+        
+        otherLaser = new Laser(textureRegion, position, speed, 20);
+        assertNotEquals(laser, otherLaser);
+    }
 
     
 }

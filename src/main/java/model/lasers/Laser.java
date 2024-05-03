@@ -1,5 +1,7 @@
 package model.lasers;
 
+import java.util.Objects;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -122,5 +124,25 @@ public class Laser extends Sprite {
 	public float getDamage() {
 		return damage;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(damage, velocity);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Laser other = (Laser) obj;
+		return Float.floatToIntBits(damage) == Float.floatToIntBits(other.damage)
+				&& Objects.equals(velocity, other.velocity);
+	}
+	
+	
 	
 }
