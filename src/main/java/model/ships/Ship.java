@@ -15,6 +15,9 @@ import model.lasers.Cannon;
 import model.lasers.Laser;
 import model.powerUps.PowerUps.PowerUpType;
 
+/**
+ * This class is used to represent a ship flying through outer space!
+ */
 public abstract class Ship extends Sprite {
 
     public final float speed; // 200
@@ -36,15 +39,10 @@ public abstract class Ship extends Sprite {
 
     private Viewport viewport; // Reference to the viewport
     
-
     // Initialize parameters for powerups
-    private boolean isShieldActivated = false;
-    private boolean isGunUpgraded = false;
     private float powerUpDuration = 20;
 
     private Vector2 velocity = new Vector2(0, 0);
-
-    // private GameModel gameModel; // Reference to the gameModel
 
     /**
      * Constructor to create a ship instance, suitable for both production and
@@ -74,6 +72,38 @@ public abstract class Ship extends Sprite {
         setPosition(x, y);
         setOriginCenter(); // Set origin to center for rotation
     }
+    
+    /**
+     * Constructor for the Ship class, where also all the information about its laser
+     * must be given as arguments.
+     * 
+     * @param shipTexture
+     * @param laserTexture
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param speed
+     * @param health
+     * @param fireRate
+     * @param laserSpeed
+     * @param laserDamage
+     * @param laserWidth
+     * @param laserHeight
+     * @param viewport
+     */
+    Ship(TextureRegion shipTexture, TextureRegion laserTexture, float x, float y, float width,
+			float height, float speed, float health, float fireRate,
+			float laserSpeed, float laserDamage, float laserWidth, float laserHeight,
+			FitViewport viewport) {
+    	
+		this(shipTexture, x, y, width, height, speed, health, fireRate, viewport);
+		this.laserTexture = laserTexture;
+		this.laserSpeed = laserSpeed;
+		this.laserDamage = laserDamage;
+		this.laserWidth = laserWidth;
+		this.laserHeight = laserHeight;
+	}
 
     /**
      * A very general constructor for the Ship class. EveryThing about the ship must
@@ -101,23 +131,18 @@ public abstract class Ship extends Sprite {
         this.fireRate = fireRate;
         setSize(width, height);
         setPosition(x, y);
-        this.setViewport(viewport);
+        this.viewport = viewport;
         setOriginCenter();
     }
     
-    Ship(TextureRegion shipTexture, TextureRegion laserTexture, float x, float y, float width,
-			float height, float speed, float health, float fireRate,
-			float laserSpeed, float laserDamage, float laserWidth, float laserHeight,
-			FitViewport viewport) {
-    	
-		this(shipTexture, x, y, width, height, speed, health, fireRate, viewport);
-		this.laserTexture = laserTexture;
-		this.laserSpeed = laserSpeed;
-		this.laserDamage = laserDamage;
-		this.laserWidth = laserWidth;
-		this.laserHeight = laserHeight;
-	}
+    
 
+	/**
+	 * Update the ship based on the amount of time that has passed.
+	 * This can affect the ships fire rate, power up duration, and position.
+	 * 
+	 * @param deltaTime the amount of time that has passed in seconds.
+	 */
 	public void update(float deltaTime) {
         this.timeSinceLaserFired += deltaTime;
 
@@ -126,10 +151,8 @@ public abstract class Ship extends Sprite {
             powerUpDuration -= deltaTime;
             if (powerUpDuration <= 0) {
                 if (activePowerUp.equals(PowerUpType.SHIELD)) {
-                	isShieldActivated = false;
                 } else if (activePowerUp.equals(PowerUpType.GUN)) {
-                	resetCannon();
-                	isGunUpgraded = false;
+                	resetCannon();;
                 }
                 activePowerUp = null;
                 powerUpDuration = 20;
@@ -249,6 +272,12 @@ public abstract class Ship extends Sprite {
         return new Vector2(noseX, noseY);
     }
 
+    /**
+     * Fire the ships cannons.
+     * 
+     * @param lasers a <code>List<Laser></code>: the resulting lasers will be added to this list.
+     * @return true if any lasers were fired, false otherwise.
+     */
     public boolean fireLaser(List<Laser> lasers) {
     	if (timeSinceLaserFired >= fireRate) {
     		timeSinceLaserFired = 0;
@@ -264,19 +293,17 @@ public abstract class Ship extends Sprite {
     	return false;
     }
 
-    public void setViewport(FitViewport viewport) {
-        this.viewport = viewport;
-
-    }
-
     public boolean isDestroyed() {
         return health <= 0;
     }
 
+    /**
+     * Apply force to the ship, affecting its velocity and movement.
+     * @param force
+     */
     public void applyBlastForce(Vector2 force) {
         this.velocity.add(force);
     }
-
    
     
     /**
@@ -323,10 +350,6 @@ public abstract class Ship extends Sprite {
 
     public void resetPowerUpTimer() {
         powerUpDuration = 20;
-    }
-
-    public Vector2 getVelocity() {
-        return velocity;
     }
 
     public void setHealth(int health) {
