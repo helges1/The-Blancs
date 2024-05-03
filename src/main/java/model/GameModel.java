@@ -1,7 +1,6 @@
 package model;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -10,8 +9,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import model.lasers.Laser;
 import model.powerUps.PowerUps;
-import model.powerUps.PowerUpsFactory;
+import model.powerUps.BasicPowerUpsFactory;
 import model.powerUps.PowerUps.PowerUpType;
+import model.powerUps.PowerUpsFactory;
 import model.ships.BasicShipFactory;
 import model.ships.Explosion;
 import model.ships.Ship;
@@ -93,7 +93,7 @@ public class GameModel {
         this.asteroidTexture = atlas.findRegion("asteroid1");
         this.explosionTexture = atlas.findRegion("explosion");
         this.shipFactory = new BasicShipFactory(viewport, atlas);
-        this.powerUpsFactory = new PowerUpsFactory(atlas);
+        this.powerUpsFactory = new BasicPowerUpsFactory(atlas);
 
         // Initialize level
         this.currentLevel = GameLevel.LEVEL_1;

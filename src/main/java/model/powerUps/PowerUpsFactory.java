@@ -1,26 +1,16 @@
 package model.powerUps;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+/**
+ * Implement to create a factory for PowerUps.
+ */
+public interface PowerUpsFactory {
+	
+	/**
+	 * Create a power up.
+	 * 
+	 * @param powerUpDuration how long the PowerUp should last.
+	 * @return a <code>PowerUps</code> object.
+	 */
+	PowerUps createPowerUp(float powerUpDuration);
 
-import com.badlogic.gdx.math.MathUtils;
-
-import model.GameModel;
-import model.powerUps.PowerUps.PowerUpType;
-
-public class PowerUpsFactory {
-
-    private TextureAtlas atlas;
-
-    public PowerUpsFactory(TextureAtlas atlas) {
-        this.atlas = atlas;
-    }
-
-    public PowerUps createPowerUp(float powerUpDuration) {
-        PowerUpType powerUpType = PowerUpType.getRandomPowerUpType();
-        float xPos = MathUtils.random(0, GameModel.WORLD_WIDTH - powerUpType.getWidth());
-        float yPos = MathUtils.random(0, GameModel.WORLD_HEIGHT - powerUpType.getHeight());
-        TextureRegion powerUpTexture = atlas.findRegion(powerUpType.getTextureName());
-        return new PowerUps(powerUpTexture, xPos, yPos, powerUpType, powerUpDuration);
-    }
 }

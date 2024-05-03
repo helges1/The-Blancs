@@ -5,8 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
+/**
+ * This class is used to represent PowerUps that can be acquired in the game.
+ */
 public class PowerUps extends Sprite {
 
+    /**
+     * An enum containing the different types of PowerUps.
+     */
     public enum PowerUpType {
         SHIELD("powerup-shield", "Shield Activated"),
         LIFE("powerup-life", "Extra Life"),
