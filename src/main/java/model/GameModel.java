@@ -20,6 +20,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Represents the model of the game. This class contains all the game objects and
+ * the logic for updating the game state.
+ */
 public class GameModel {
 
     // Initialize player ship
@@ -117,7 +121,10 @@ public class GameModel {
         this.viewport = viewport;
     }
 
-    // Method to update the game model
+    /**
+     * Updates the game model based on the time passed since the last update.
+     * @param deltaTime the time passed since the last update.
+     */
     public void updateModel(float deltaTime) {
         // Update score
         updateScore();
@@ -399,7 +406,9 @@ public class GameModel {
         playerShip.resetPowerUpTimer();
     }
 
-    // Method to fire a laser from the player ship
+    /**
+     * Method to fire a laser from the player ship
+     */
     public void firePlayerLaser() {
         if (playerShip.getActivePowerUp() == PowerUpType.GUN) {
             // If the player ship's gun is upgraded, shoot bursts of lasers
@@ -415,12 +424,17 @@ public class GameModel {
         }
     }
 
-    // Method to fire a laser from a single enemy
+    /**
+     * Method to fire a laser from an enemy ship
+     */
     public void fireEnemyLaser(Ship enemyShip) {
         if (enemyShip.fireLaser(enemyLasers))
             laserSound.play();
     }
-
+    
+    /**
+     * Method to update the game state
+     */
     public void update() {
         for (Iterator<Ship> iterator = enemyShips.iterator(); iterator.hasNext();) {
             Ship enemyShip = iterator.next();
@@ -439,22 +453,50 @@ public class GameModel {
         }
     }
 
+    /**
+     * Gets the number of destroyed enemy ships. Used for scoring
+     * 
+     * @return The number of destroyed enemy ships
+     */
     public int getDestroyedEnemyShipsCount() {
         return destroyedEnemyShipsCount;
     }
 
+    /**
+     * Resets the number of destroyed enemy ships. 
+     * Used to update the score without counting the same ship multiple times
+     */
     public void resetDestroyedEnemyShipsCount() {
         destroyedEnemyShipsCount = 0;
     }
 
+    /**
+     * Gets the enemy ships list
+     * 
+     * @return The list of enemy ships
+     */
     public LinkedList<Ship> getEnemyShips() {
         return enemyShips;
     }
 
+    /**
+     * Checks for collision between a laser and a ship
+     * @param laser The laser object
+     * @param ship The ship object
+     * 
+     * @return True if a collision is detected, false otherwise
+     */
     public boolean checkCollision(Laser laser, Ship ship) {
         return laser.getBoundingRectangle().overlaps(ship.getBoundingRectangle());
     }
 
+    /**
+     * Checks for collision between a laser and an asteroid
+     * @param laser The laser object
+     * @param Asteroid The asteroid object
+     * 
+     * @return True if a collision is detected, false otherwise
+     */
     public boolean checkCollision(Laser laser, Asteroid Asteroid) {
         // Calculate the center position of the asteroid
         float AsteroidCenterX = Asteroid.getX() + Asteroid.getWidth() / 2;
@@ -477,59 +519,123 @@ public class GameModel {
         return Math.abs(distance - AsteroidRadius) <= threshold;
     }
 
-
+    /**
+     * Getter method for the player ship
+     * 
+     * @return The player ship
+     */
     public Ship getPlayerShip() {
         return playerShip;
     }
 
+    /**
+     * Getter method for viewport
+     * 
+     * @return The viewport
+     */
     public FitViewport getViewport() {
         return viewport;
     }
 
+    /**
+     * Getter method for the player lasers list
+     * 
+     * @return The list of player lasers
+     */
     public LinkedList<Laser> getPlayerLasers() {
         return playerLasers;
     }
 
+    /**
+     * Getter method for the enemy lasers list
+     * 
+     * @return The list of enemy lasers
+     */
     public LinkedList<Laser> getEnemyLasers() {
         return enemyLasers;
     }
 
+    /**
+     * Getter method for the power-ups list
+     * 
+     * @return The list of power-ups
+     */
     public LinkedList<PowerUps> getPowerUps() {
         return powerUps;
     }
 
+    /**
+     * Getter method for the asteroids list
+     * 
+     * @return The list of asteroids
+     */
     public LinkedList<Asteroid> getAsteroids() {
         return asteroids;
     }
 
+    /**
+     * Getter method for the explosions list
+     * 
+     * @return The list of explosions
+     */
     public LinkedList<Explosion> getExplosions() {
         return explosions;
     }
 
+    /**
+     * Getter method for the score
+     * 
+     * @return The username of the player
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * Setter method for the user name
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    /**
+     * checks if the game is over
+     */
     public boolean isGameOver() {
         return gameOver;
     }
 
+    /**
+     * Getter method for the current game level
+     * 
+     * @return The current game level
+     */
     public GameLevel getCurrentLevel() {
         return currentLevel;
     }
 
+    /**
+     * Getter method for the score
+     * 
+     * @return The current score
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Getter method for the power-up texture
+     * 
+     * @param type The type of power-up
+     * @return The texture region of the power-up
+     */
     public TextureRegion getPowerUpTexture(PowerUpType type) {
         return atlas.findRegion(type.getTextureName());
     }
-
+    /**
+     * Method to reset the game state
+     * Used when the player restarts the game
+     */
     public void resetGameState() {
         gameOver = false;
         score = 0;

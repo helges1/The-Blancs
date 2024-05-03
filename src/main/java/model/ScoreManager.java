@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 import com.badlogic.gdx.files.FileHandle;
 import java.io.InputStream;
 
+/**
+ * Manages the high score of the game, saving and loading it from the preferences and online.
+ */
 public class ScoreManager {
 
     // Class to store high score and user
@@ -31,7 +34,8 @@ public class ScoreManager {
     private static final String PANTRY_BASE_URL = "https://getpantry.cloud/apiv1/pantry/";
     private static String PANTRY_ID;
     private static final String BASKET_NAME = "highScoreBasket";
-
+    
+    // Load the pantry ID from the config file
     static {
         try {
             FileHandle fileHandle = Gdx.files.internal("config.properties");
@@ -47,7 +51,9 @@ public class ScoreManager {
         }
     }
 
-    // Load high score from preferences and then from Pantry
+    /** Loads the high score from the preferences file.
+     *  If the high score is updated online, it will be updated here.
+     * */
     public static void loadHighScore() {
         Preferences prefs = Gdx.app.getPreferences(PREFS_NAME);
         highScore = prefs.getInteger(HIGH_SCORE_KEY, 0);
@@ -57,7 +63,9 @@ public class ScoreManager {
         loadHighScoreOnline();
     }
 
-    // Called when a new potential high score is achieved
+    /** 
+     * Loads the high score from the online pantry. 
+     * */
     public static void setHighScore(int newScore, String userName) {
         if (newScore > highScore) {
             highScore = newScore;
@@ -143,16 +151,26 @@ public class ScoreManager {
         }).start();
     }
 
-
+    /*
+     * Get the high score
+     * 
+     * @return the high score
+     */
     public static int getHighScore() {
         return highScore;
     }
-
+    /*
+     * Get the user who achieved the high score
+     * 
+     * @return the user who achieved the high score
+     */
     public static String getHighScoreUser() {
         return highScoreUser;
     }
 
-    // Reset high score to 0 locally
+    /*
+     * Reset the high score to 0
+     */
     public static void resetHighScore() {
         // Obtain the Preferences instance for your high score file
         Preferences prefs = Gdx.app.getPreferences(PREFS_NAME);

@@ -18,6 +18,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import controller.EnemyShipController;
 import controller.PlayerShipController;
 
+/*
+ * TheBlancsGame class is the main class of the game. It extends the Game class from the libGDX library.
+ * It is responsible for creating the game model, screens, and controllers, and updating the active screen.
+ */
 public class TheBlancsGame extends Game {
 	
 	private GameModel gameModel;
@@ -31,17 +35,11 @@ public class TheBlancsGame extends Game {
 	private PlayerShipController playerShipController;
 	private int finalScore = 0;
 
-
 	@Override
 	public void create() {
 		OrthographicCamera camera = new OrthographicCamera(); // Initialize the camera
 		FitViewport viewport = new FitViewport(GameModel.WORLD_WIDTH, GameModel.WORLD_HEIGHT, camera);
 		batch = new SpriteBatch();
-		//Textures
-//		Texture playerShip = new Texture("pictures/playerShip.png"); 
-//		Texture playerLaser = new Texture("pictures/playerLaser.png"); 
-//		Texture enemyShip = new Texture("pictures/basicEnemyShip.png"); 
-//		Texture enemyLaser = new Texture("pictures/enemyLaser.png");
 		TextureAtlas atlas = new TextureAtlas("pictures/TheBlancsTextureAtlas.atlas");
 		Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser1.mp3"));
 		
@@ -103,6 +101,10 @@ public class TheBlancsGame extends Game {
 		gameScreen.dispose();
 	}
 
+	/*
+	 * This method is used to set the active screen of the game.
+	 * @param screenType The screen type to set as the active screen
+	 */
 	public void setScreenType(ScreenType screenType) {
 		this.activeScreen = screenType;
 		if (userName != null) {
@@ -110,20 +112,34 @@ public class TheBlancsGame extends Game {
 		}
         updateScreen();
 	}
-    
 
+	/**
+	 * This method is used to get the active screen of the game.
+	 * @return The active screen of the game
+	 */
 	public ScreenType getScreenType() {
 		return activeScreen;
 	}
 
+	/**
+	 * This method is used to get the player controller of the game.
+	 * @return The player controller of the game
+	 */
 	public PlayerShipController getPlayerController() {
 		return playerShipController;
 	}
 
+	/**
+	 * This method is used to set the user name
+	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
+	/**
+	 * This method is used to get the game model of the game.
+	 * @return The game model of the game
+	 */
 	public GameModel getGameModel() {
 		return gameModel;
 	}

@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Represents an asteroid in the game. Asteroids move downwards and can be destroyed by the player's bullets.
+ */
 public class Asteroid extends Sprite {
 
     private static TextureFactory textureFactory = new LibGDXTextureFactory();
@@ -34,6 +37,14 @@ public class Asteroid extends Sprite {
     private final float frameDuration = 0.3f;  // Duration each frame is shown
     private Vector2 velocity;
 
+    /**
+     * Creates a new asteroid with the specified texture, starting x position, velocity, and size.
+     *
+     * @param asteroidTexture The texture of the asteroid.
+     * @param xStartPos The starting x position of the asteroid.
+     * @param velocity The velocity of the asteroid.
+     * @param AsteroidSize The size of the asteroid.
+     */
     public Asteroid(TextureRegion asteroidTexture, float xStartPos, Vector2 velocity, float AsteroidSize) {
         super(asteroidTexture);
         this.velocity = velocity;
@@ -75,6 +86,11 @@ public class Asteroid extends Sprite {
         return AsteroidFrames;
     }
 
+    /**
+     * Updates the asteroid's position and animation.
+     *
+     * @param deltaTime The time since the last frame in seconds.
+     */
     public void update(float deltaTime) {
         animationTimer += deltaTime;
         TextureRegion currentFrame = asteroidAnimation.getKeyFrame(animationTimer, true); // true for looping
@@ -87,19 +103,35 @@ public class Asteroid extends Sprite {
         this.translate(velocity.x * deltaTime, velocity.y * deltaTime);
     }
 
+    /**
+     * Draws the asteroid.
+     *
+     * @param batch The batch to draw the asteroid on.
+     */
     public void draw(Batch batch) {
         super.draw(batch);
     }
 
+    /**
+     * Returns whether the asteroid is off the screen.
+     *
+     * @param worldHeight The height of the world.
+     * @return Whether the asteroid is off the screen.
+     */
     public boolean isOffScreen(float worldHeight) {
         return this.getY() + this.getHeight() < 0;
     }
 
-    // Texture factory classes and interface
+    /**
+     * A texture factory interface and a factory class for creating textures.
+     */
     public interface TextureFactory {
         Texture create(String path);
     }
 
+    /**
+     * A factory class for creating textures using LibGDX.
+     */
     public static class LibGDXTextureFactory implements TextureFactory {
         @Override
         public Texture create(String path) {
