@@ -138,6 +138,25 @@ public class GameModelTest {
         assertEquals(1, model.getExplosions().size(), "There should be one explosion after the asteroid explodes.");
     }
 
+    @Test
+    public void testScoreIncrement() {
+        int initialScore = model.getScore();
+        model.destroyedEnemyShipsCount = 3;  
+        model.updateModel(1);  
+        assertEquals(initialScore + 30, model.getScore(), "Score should increase by 30 points.");
+    }
+
+    @Test
+    public void testScoreReset() {
+        model.destroyedEnemyShipsCount = 3;  
+        model.updateModel(1);  
+        model.resetGameState();
+        model.updateModel(1);  
+        assertEquals(0, model.getScore(), "Score should be reset to 0 after game reset.");
+    }
+
+
+   
     @AfterEach
     public void tearDown() {
         // Clean up or reset states if necessary after each test
