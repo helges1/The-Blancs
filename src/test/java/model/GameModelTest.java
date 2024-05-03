@@ -4,7 +4,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import model.ships.Ship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -39,6 +41,7 @@ public class GameModelTest {
         mockAtlasRegion("basicEnemyShip", 3184, 3881, 82, 84);
         mockAtlasRegion("enemyLaser", 3266, 3928, 13, 37);
         mockAtlasRegion("playerLaser", 3184, 3825, 36, 56);
+        mockAtlasRegion("explosion", 2160, 3060, 1024, 1024);
 
         // Create the GameModel instance
         model = new GameModel(atlas, laserSound, viewport, userName);
@@ -106,6 +109,34 @@ public class GameModelTest {
     	model.firePlayerLaser();
     	assertEquals(3, model.getPlayerLasers().size(), "The list of player lasers should contain 3 lasers.");
     }
+
+    @Test
+    public void testEnemyShipExplosion() {
+        Ship enemyShip = mock(Ship.class);
+        Rectangle boundingRect = new Rectangle(10, 10, 50, 50);
+        when(enemyShip.getBoundingRectangle()).thenReturn(boundingRect);
+        model.getEnemyShips().add(enemyShip);  // Assuming getEnemyShips() provides access to the list
+
+        assertEquals(0, model.getExplosions().size(), "There should be no explosions initially.");
+        model.enemyShipExplosion(enemyShip);
+        assertTrue(model.getEnemyShips().isEmpty(), "The enemy ship should be removed from the list after explosion.");
+        assertEquals(1, model.getExplosions().size(), "There should be one explosion after the enemy ship explodes.");
+    }
+
+
+
+//    @Test
+//    public void testAsteroidExplosion() {
+//        Ship asteroid = mock(Ship.class);
+//        Rectangle boundingRect = new Rectangle(10, 10, 50, 50);
+//        when(asteroid.getBoundingRectangle()).thenReturn(boundingRect);
+//        model.getAsteroids().add(asteroid);  // Assuming getAsteroids() provides access to the list
+//
+//        assertEquals(0, model.getExplosions().size(), "There should be no explosions initially.");
+//        model.asteroidExplosion(asteroid);
+//        assertTrue(model.getAsteroids().isEmpty(), "The asteroid should be removed from the list after explosion.");
+//        assertEquals(1, model.getExplosions().size(), "There should be one explosion after the asteroid explodes.");
+//    }
 
     @AfterEach
     public void tearDown() {
