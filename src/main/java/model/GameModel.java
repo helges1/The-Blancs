@@ -445,15 +445,7 @@ public class GameModel {
             }
         }
     }
-
-    /**
-     * Gets the number of destroyed enemy ships. Used for scoring
-     * 
-     * @return The number of destroyed enemy ships
-     */
-    public int getDestroyedEnemyShipsCount() {
-        return destroyedEnemyShipsCount;
-    }
+    
 
     /**
      * Resets the number of destroyed enemy ships. 
