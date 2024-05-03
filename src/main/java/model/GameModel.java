@@ -56,7 +56,7 @@ public class GameModel {
     private float timeSinceEnemySpawn;
 
     // Keep track of destroyed enemy ships
-    private int destroyedEnemyShipsCount = 0;
+    int destroyedEnemyShipsCount = 0;
 
     // Game over boolean
     private boolean gameOver = false;
@@ -384,7 +384,7 @@ public class GameModel {
     }
 
     // Helper method to handle power-up collection
-    private void powerUpCollected(PowerUps powerUp) {
+    void powerUpCollected(PowerUps powerUp) {
         powerUps.remove(powerUp); // Remove the power-up after collecting
         switch (powerUp.getPowerUpType()) {
             case LIFE:
