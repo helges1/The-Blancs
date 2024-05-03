@@ -176,6 +176,8 @@ public class GameModel {
             spawnAsteroids();
             timeSinceAsteroidSpawn = 0;
         }
+        
+        updateGameState();
     }
 
     // Helper method to update ships
@@ -430,7 +432,7 @@ public class GameModel {
     /**
      * Method to update the game state
      */
-    public void update() {
+    private void updateGameState() {
         for (Iterator<Ship> iterator = enemyShips.iterator(); iterator.hasNext();) {
             Ship enemyShip = iterator.next();
             if (enemyShip.getBoundingRectangle().overlaps(playerShip.getBoundingRectangle())) {

@@ -304,9 +304,6 @@ public class GameScreen implements Screen {
 		// Draw the ship
 		gameModel.getPlayerShip().draw(batch);
 
-		// Update the game model
-		gameModel.update();
-
 		batch.end();
 
 		// Draw the HUD
