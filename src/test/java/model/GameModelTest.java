@@ -120,7 +120,8 @@ public class GameModelTest {
 
         assertEquals(0, model.getExplosions().size(), "There should be no explosions initially.");
         model.enemyShipExplosion(enemyShip);
-        assertTrue(model.getEnemyShips().isEmpty(), "The enemy ship should be removed from the list after explosion.");
+//        assertTrue(model.getEnemyShips().isEmpty(), "The enemy ship should be removed from the list after explosion.");
+//		enemyShipExplosion no longer removes the ship from the enemyShips list.
         assertEquals(1, model.getExplosions().size(), "There should be one explosion after the enemy ship explodes.");
     }
 
@@ -135,7 +136,8 @@ public class GameModelTest {
 
         assertEquals(0, model.getExplosions().size(), "There should be no explosions initially.");
         model.asteroidExplosion(asteroid);
-        assertTrue(model.getAsteroids().isEmpty(), "The asteroid should be removed from the list after explosion.");
+//        assertTrue(model.getAsteroids().isEmpty(), "The asteroid should be removed from the list after explosion.");
+//		asteroidShipExplosion no longer removes the asteroid from the asteroids list.
         assertEquals(1, model.getExplosions().size(), "There should be one explosion after the asteroid explodes.");
     }
 
