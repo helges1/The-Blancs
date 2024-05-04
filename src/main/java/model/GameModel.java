@@ -216,6 +216,7 @@ public class GameModel {
             if (Asteroid.isOffScreen(WORLD_HEIGHT)) {
                 AsteroidIterator.remove(); // Remove off-screen Asteroids
             } else if (checkAsteroidCollision(Asteroid)) {
+            	AsteroidIterator.remove();
                 asteroidExplosion(Asteroid);
             }
         }
@@ -260,6 +261,7 @@ public class GameModel {
                 while (asteroidIterator.hasNext()) {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
+                    	asteroidIterator.remove();
                         asteroidExplosion(asteroid);
                         enemyLaserIterator.remove(); // Remove the laser after hitting the asteroid
                         break; // Break to avoid ConcurrentModificationException
@@ -285,6 +287,7 @@ public class GameModel {
                     if (checkCollision(laser, enemyShip)) {
                         enemyShip.takeDamage(laser.getDamage());
                         if (enemyShip.isDestroyed()) {
+                        	enemyShipIterator.remove();
                             enemyShipExplosion(enemyShip);
                             destroyedEnemyShipsCount++; // Increment the count of destroyed enemy ships
                         }
@@ -298,6 +301,7 @@ public class GameModel {
                 while (asteroidIterator.hasNext()) {
                     Asteroid asteroid = asteroidIterator.next();
                     if (checkCollision(laser, asteroid)) {
+                    	asteroidIterator.remove();
                         asteroidExplosion(asteroid);
                         laserIterator.remove(); // Remove the laser after hitting the asteroid
                         break; // Break to avoid ConcurrentModificationException
@@ -433,12 +437,14 @@ public class GameModel {
      * Method to update the game state
      */
     private void updateGameState() {
-        for (Iterator<Ship> iterator = enemyShips.iterator(); iterator.hasNext();) {
+    	Iterator<Ship> iterator = enemyShips.iterator();
+        while (iterator.hasNext()) {
             Ship enemyShip = iterator.next();
             if (enemyShip.getBoundingRectangle().overlaps(playerShip.getBoundingRectangle())) {
-                playerShip.takeDamage(5);
-                enemyShip.takeDamage(5);
+                playerShip.takeDamage(10);
+                enemyShip.takeDamage(10);
                 if (enemyShip.isDestroyed()) {
+                	iterator.remove();
                     enemyShipExplosion(enemyShip);
                 }
                 if (playerShip.isDestroyed()) {
@@ -632,7 +638,6 @@ public class GameModel {
     void enemyShipExplosion(Ship enemyShip) {
         Explosion explosion = new Explosion(explosionTexture, enemyShip.getBoundingRectangle(), 0.5f);
         explosions.add(explosion);
-        enemyShips.remove(enemyShip);
     }
 
     /**
@@ -643,7 +648,6 @@ public class GameModel {
     void asteroidExplosion(Asteroid asteroid) {
         Explosion explosion = new Explosion(explosionTexture, asteroid.getBoundingRectangle(), 0.5f);
         explosions.add(explosion);
-        asteroids.remove(asteroid);
     }
     
     /**
