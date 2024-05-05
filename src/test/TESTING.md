@@ -3,7 +3,7 @@ Manual tests are written inside individual test files. They are written in the f
 
 ## Manual tests:
 Under you will find links to each manual test files:
-- [test/java/main/MainTest.java](../test/java/main/MainTest.java) - semi manual test
+- [test/java/main/MainTest.java](../test/java/main/MainTest.java) - semi manual test. Can be run locally to increase test coverage. More information in the file.
 - [test/java/model/ScoreManagerTest.java](../test/java/model/ScoreManagerTest.java)
 - [test/java/view/GameOverScreenTest.java](../test/java/view/GameOverScreenTest.java)
 - [test/java/view/GameScreenTest.java](../test/java/view/GameScreenTest.java)
