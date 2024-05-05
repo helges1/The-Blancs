@@ -22,7 +22,7 @@ I noen tilfeller vil det være nok å dobbeltklikke på filen for å kjøre spil
 Derette må du navigere deg til 'src/main/java/main/Main.java' for å kjøre programmet.
 
 - Tester kan kjøres i test mappen vår, og er satt opp med lik struktur som kodemappene våre. 
-Testene finner du i 'src/test/java' og der kan du kjøre testene til spillet vårt. 
+Testene finner du i 'src/test/java' og der kan du kjøre testene til spillet vårt. Noen av testene er manuelle og oversikten over disse finner du i [src/test/TESTING.md](src/test/TESTING.md)
 
 
 ## Kjente feil
