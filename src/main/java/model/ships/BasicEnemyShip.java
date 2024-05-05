@@ -12,17 +12,17 @@ import model.lasers.Cannons;
  */
 public class BasicEnemyShip extends Ship {
 
-    private static final float basicEnemyHealth = 10;
-    private static final float basicEnemySpeed = 50;
+    static final float basicEnemyHealth = 10;
+    static final float basicEnemySpeed = 50;
 
-    private static final float basicEnemyWidth = 40;
-    private static final float basicEnemyHeight = 40;
+    static final float basicEnemyWidth = 40;
+    static final float basicEnemyHeight = 40;
 
-    private static final float basicEnemyLaserSpeed = 300;
-    private static final float basicEnemyLaserDamage = 5;
-    private static final float basicEnemyLaserWidth = 15;
-    private static final float basicEnemyLaserHeight = 30;    
-    private static final float basicEnemyFireRate = 1;
+    static final float basicEnemyLaserSpeed = 300;
+    static final float basicEnemyLaserDamage = 5;
+    static final float basicEnemyLaserWidth = 15;
+    static final float basicEnemyLaserHeight = 30;    
+    static final float basicEnemyFireRate = 1;
 
     /**
      * Constructor for a basic enemy ship.

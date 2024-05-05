@@ -10,16 +10,16 @@ import model.lasers.Cannons;
  */
 public class PlayerShip extends Ship {
 	
-	private static final float playerHealth = 100;
-	private static final float playerSpeed = 200;
-	private static final float playerWhidth = 40;
-	private static final float playerHeight = 40;
+	static final float playerHealth = 100;
+	static final float playerSpeed = 200;
+	static final float playerWhidth = 40;
+	static final float playerHeight = 40;
 	
-	private static final float playerLaserSpeed = 400;
-	private static final float playerLaserDamage = 10;
-	private static final float playerLaserWidth = 20;
-	private static final float playerLaserHeight = 30;
-	private static final float playerFireRate = 0.3f;
+	static final float playerLaserSpeed = 400;
+	static final float playerLaserDamage = 10;
+	static final float playerLaserWidth = 20;
+	static final float playerLaserHeight = 30;
+	static final float playerFireRate = 0.3f;
 
 	/**
 	 * Creates Ship according to how its defined in the PlayerShip-class.

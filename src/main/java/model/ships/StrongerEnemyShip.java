@@ -12,17 +12,17 @@ import model.lasers.Cannons;
  */
 public class StrongerEnemyShip extends Ship {
 
-    private static final float strongerEnemyHealth = 20;
-    private static final float strongerEnemySpeed = 50;
+    static final float strongerEnemyHealth = 20;
+    static final float strongerEnemySpeed = 50;
 
-    private static final float strongerEnemyWidth = 40;
-    private static final float strongerEnemyHeight = 40;
+    static final float strongerEnemyWidth = 40;
+    static final float strongerEnemyHeight = 40;
 
-    private static final float strongerEnemyLaserSpeed = 250;
-    private static final float strongerEnemyLaserDamage = 20;
-    private static final float strongerEnemyLaserWidth = 20;
-    private static final float strongerEnemyLaserHeight = 35;    
-    private static final float strongerEnemyFireRate = 1;
+    static final float strongerEnemyLaserSpeed = 250;
+    static final float strongerEnemyLaserDamage = 20;
+    static final float strongerEnemyLaserWidth = 20;
+    static final float strongerEnemyLaserHeight = 35;    
+    static final float strongerEnemyFireRate = 1;
 
     /**
      * Constructor for a stronger enemy ship.
