@@ -7,7 +7,9 @@ public class MainTest {
 
    @Test
    void testMain() {
-        //assertDoesNotThrow(() -> Main.main(new String[]{})); // commented out because it fails pipeline test on GitLab
+       //assertDoesNotThrow(() -> Main.main(new String[]{})); // commented out because it fails pipeline test on GitLab
+       //NB:The line above CAN be uncommented and the test will pass locally, and also increase the test coverage of the project
+
        // manual test for main:
             // 1. Run the game.
             // 2. Verify that the game window opens correctly.
