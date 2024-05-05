@@ -133,10 +133,17 @@ public class Laser extends Sprite {
         setPosition(getX() + velocity.x * deltaTime, getY() + velocity.y * deltaTime);
     }
 
+	/**
+	 * This method will check if the laser is off the screen.
+	 *
+	 * @param worldHeight a <code>float</code>: the height of the world.
+	 * @return a <code>boolean</code>: true if the laser is off the screen, false otherwise.
+	 */
     public boolean isOffScreen(float worldHeight) {
         return getY() > worldHeight;
     }
-    
+
+
     public Vector2 getVelocity() {
         return velocity;
     }
@@ -148,6 +155,7 @@ public class Laser extends Sprite {
 	public float getDamage() {
 		return damage;
 	}
+
 
 	@Override
 	public int hashCode() {

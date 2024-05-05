@@ -28,7 +28,10 @@ public class PlayerShipController implements InputProcessor {
         this.ship = model.getPlayerShip();
     }
 
-    // Update the ship's movement and firing based on input
+    /**
+     * Updates the player ship in the game.
+     * @param deltaTime
+     */
     public void update(float deltaTime) {
         Vector2 movementPosition = new Vector2(0, 0);
         // Movement updates
@@ -57,8 +60,10 @@ public class PlayerShipController implements InputProcessor {
         }
     }
 
-    /*
-     * InputProcessor methods for controlling key down events. 
+    /**
+     * InputProcessor method for handling key down events.
+     * @param keycode
+     * @return boolean value
      */
     @Override
     public boolean keyDown(int keycode) {
@@ -85,8 +90,10 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
-    /*
+    /**
      * InputProcessor method for handling key up events.
+     * @param keycode
+     * @return boolean value
      */
     @Override
     public boolean keyUp(int keycode) {
@@ -113,8 +120,11 @@ public class PlayerShipController implements InputProcessor {
 
     }
 
-    /*
+    /**
      * InputProcessor method for handling mouse movement events.
+     * @param screenX
+     * @param screenY
+     * @return boolean value
      */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
@@ -123,17 +133,23 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
-    /*
-     * InputProcessor methods for handling mouse button events.
-     * 
+    /**
+     * InputProcessor method for handling key typed events.
+     * @param character
+     * @return boolean value
      */
     @Override
     public boolean keyTyped(char character) {
         return false;
     }
 
-    /*
-     * InputProcessor methods for handling mouse button events.
+    /**
+     * InputProcessor method for handling touch down events.
+     * @param screenX
+     * @param screenY
+     * @param pointer
+     * @param button
+     * @return boolean value
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -144,8 +160,13 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
-    /*
-     * InputProcessor methods for handling mouse button events.
+    /**
+     * InputProcessor method for handling touch up events.
+     * @param screenX
+     * @param screenY
+     * @param pointer
+     * @param button
+     * @return boolean value
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -156,24 +177,35 @@ public class PlayerShipController implements InputProcessor {
         return true;
     }
 
-    /*
-     * @ return false
+    /**
+     * InputProcessor method for handling touch drag events.
+     * @param screenX
+     * @param screenY
+     * @param pointer
+     * @return boolean value
      */
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
-    /*
-     * @ return false
+    /**
+     * InputProcessor method for handling touch drag events.
+     * @param screenX
+     * @param screenY
+     * @param pointer
+     * @return boolean value
      */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
-    /*
-     * @ return false
+    /**
+     * InputProcessor method for handling scrolled events.
+     * @param amountX
+     * @param amountY
+     * @return
      */
     @Override
     public boolean scrolled(float amountX, float amountY) {

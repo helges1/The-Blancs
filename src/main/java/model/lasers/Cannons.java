@@ -12,7 +12,18 @@ import com.badlogic.gdx.math.Vector2;
 public class Cannons {
 	
 	private static final Random random = new Random();
-	
+
+	/**
+	 * Creates a basic player cannon that fires a single laser.
+	 * @param laserTexture
+	 * @param position
+	 * @param laserSpeed
+	 * @param laserDamage
+	 * @param angle
+	 * @param laserWidth
+	 * @param laserHeight
+	 * @return a Laser[] containing a single Laser object.
+	 */
 	public static Laser[] basicPlayerCannon(TextureRegion laserTexture, Vector2 position, float laserSpeed, float laserDamage,
 			float angle, float laserWidth, float laserHeight) {
 		
@@ -21,7 +32,18 @@ public class Cannons {
 		laser.centreAtPoint(position);
 		return new Laser[]{laser};
 	}
-	
+
+	/**
+	 * Creates an upgraded player cannon that fires three lasers.
+	 * @param laserTexture
+	 * @param position
+	 * @param laserSpeed
+	 * @param laserDamage
+	 * @param angle
+	 * @param laserWidth
+	 * @param laserHeight
+	 * @return a Laser[] containing three Laser objects.
+	 */
 	public static Laser[] upgradedPlayerCannon(TextureRegion laserTexture, Vector2 position, float laserSpeed, float laserDamage,
 			float angle, float laserWidth, float laserHeight) {
 		
@@ -45,7 +67,18 @@ public class Cannons {
 		firedLasers[2] = laser3;
 		return firedLasers;
 	}
-	
+
+	/**
+	 * Creates a basic enemy cannon that fires a single laser.
+	 * @param laserTexture
+	 * @param position
+	 * @param laserSpeed
+	 * @param laserDamage
+	 * @param angle
+	 * @param laserWidth
+	 * @param laserHeight
+	 * @return a Laser[] containing a single Laser object.
+	 */
 	public static Laser[] basicEnemyCannon(TextureRegion laserTexture, Vector2 position, float laserSpeed, float laserDamage,
 			float angle, float laserWidth, float laserHeight) {
 		

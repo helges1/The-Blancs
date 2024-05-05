@@ -25,7 +25,10 @@ public class Main extends Game {
 	 */
 
 
-
+	/**
+	 * The main method of the application. It creates a new Lwjgl3ApplicationConfiguration object and sets the configuration for the application.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);

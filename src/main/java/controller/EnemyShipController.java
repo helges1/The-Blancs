@@ -86,7 +86,7 @@ public class EnemyShipController {
     /**
      * Applies the blast effect to the enemy ship.
      * @param enemyShip The enemy ship to apply the blast effect to.
-     * @param distanceToPlayer The distance from the enemy ship to the player ship.
+     * @param deltaTime The time passed since the last frame.
      */
     private void applyBlastEffect(Ship enemyShip, float deltaTime) {
 

@@ -22,6 +22,11 @@ public class BasicPowerUpsFactory implements PowerUpsFactory {
         this.atlas = atlas;
     }
 
+    /**
+     *  Creates a PowerUp with a random PowerUpType at a random position.
+     * @param powerUpDuration how long the PowerUp should last.
+     * @return a PowerUp with a random PowerUpType at a random position.
+     */
     @Override
     public PowerUps createPowerUp(float powerUpDuration) {
         PowerUpType powerUpType = PowerUpType.getRandomPowerUpType();
@@ -30,6 +35,7 @@ public class BasicPowerUpsFactory implements PowerUpsFactory {
         TextureRegion powerUpTexture = atlas.findRegion(powerUpType.getTextureName());
         return new PowerUps(powerUpTexture, xPos, yPos, powerUpType, powerUpDuration);
     }
+
 
     @Override
     public PowerUpType getRandomPowerUpType() {

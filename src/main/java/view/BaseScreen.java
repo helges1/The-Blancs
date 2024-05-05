@@ -17,6 +17,12 @@ public abstract class BaseScreen implements Screen {
     protected Viewport viewport;
     protected Stage stage;
 
+    /**
+     * Constructs a new BaseScreen object with the specified game and viewport.
+     *
+     * @param game The game controller which manages transitions between screens.
+     * @param viewport The viewport for the screen.
+     */
     public BaseScreen(TheBlancsGame game, Viewport viewport) {
         // Set the game and viewport variables
         this.game = game;
