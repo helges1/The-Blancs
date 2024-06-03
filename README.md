@@ -1,4 +1,4 @@
-# INF112 Prosject - *The Blancs: Far From Home*
+# INF112 Project - *The Blancs: Far From Home*
 
 * Team: *The Blancs* (Gruppe 8): *Stian Bekkeheien, Lasse Holt, Balder Benjamin Weidenhiller Hopp-Haugstvedt, Sebastian Helgesen, Michal Zborowski*
 
